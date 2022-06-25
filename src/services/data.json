@@ -1,0 +1,62 @@
+{
+    "about":{
+       
+    },
+    "packages":[
+       {
+          "title":"Exotic Kerala Package",
+          "duration":"7 Nights / 8 Days",
+          "shortDescription":"Destinations Covered : Cochin-Munnar-Thekkady-Alleppey-Kovalam",
+          "packageName":"exotic-kerala",
+          "image":"package14.jpg"
+       },
+       {
+          "title":"Kerala Back water Tour",
+          "duration":"2 Nights / 3 Days",
+          "shortDescription":"Destinations Covered: Kumarakom-Alleppey",
+          "packageName":"kerala-backwater",
+          "image":"package2.jpg"
+       },
+       {
+          "title":"Memorising Munnar",
+          "duration":"2 Nights / 3 Days",
+          "shortDescription":"Destinations Covered: Cochin-Munnar",
+          "packageName":"moemorising-munnar",
+          "image":"package1.jpg"
+       },
+       {
+          "title":"Simple Kerala Package",
+          "duration":"4 Nights / 5 Days",
+          "shortDescription":"Destinations Covered : Cochin-Munnar-Thekkady-Alleppey",
+          "packageName":"simple-kerala",
+          "image":"package4.jpg"
+       },
+       {
+          "title":"Wayanad Wild",
+          "duration":"2 Nights / 3 Days",
+          "shortDescription":"Destinations Covered : Wayanad",
+          "packageName":"wayanad-wild",
+          "image":"package5.jpg"
+       },
+       {
+          "title":"Amazing Kerala Package",
+          "duration":"5 Nights / 6 Days",
+          "shortDescription":"Destinations Covered : Cochin-Munnar-Thekkady-Alleppey-Kovalam",
+          "packageName":"amazing-kerala",
+          "image":"package6.jpg"
+       },
+       {
+          "title":"Best Kerala Package",
+          "duration":"6 Nights / 7 Days ",
+          "shortDescription":"Destinations Covered : Cochin-Munnar-Thekkady-Alleppey-Kovalam ",
+          "packageName":"best-kerala",
+          "image":"package7.jpg"
+       }
+    ],
+    "mission":{
+       "content":"<p>Our mission is to provide Quality and excellence to our customers promptly and exclusively.</p><p>Traveling with StoryBook stands for inspiration, for often surprising, touching encounters. Guided by the philosophy of 'traveling to yourself and others', StoryBook invites you to get to know the most impressive regions of the Indian subcontinent and the most beautiful destinations in Kerala</p><p>Kerala is renowned for some of its unique cultural and geographical characteristics. The practices and traditions handed down from generation to generation, alongside some of the natural wonders that we have been blessed with, have attracted people to this land for centuries. From the ancient healthcare system of Ayurveda to our picturesque hill stations and diverse wildlife, we provide you with links to access a wide range of our specialities. We believe it is our duty to share these gifts with the rest of the world.</p><p>We are people who are well-versed in the fun and rigors of travelling. Storybook came together to help other people plan and book their dream vacations.</p>"
+    },
+    "contact":{
+       
+    }
+ }
