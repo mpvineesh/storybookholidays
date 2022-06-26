@@ -17,6 +17,11 @@ import Story from './pages/story'
 import Packages from './pages/packages'
 import PackageInfo from './pages/package-info'
 import Destinations from './pages/destinations';
+import BackWaters from './places/backwaters'
+import Arts from './places/arts'
+import Theyyam from './places/theyyam'
+import Kerala from './places/kerala'
+import Ayurveda from './places/ayurveda'
 
 class AppRoutes extends React.Component {
     constructor(props) {
@@ -38,6 +43,11 @@ class AppRoutes extends React.Component {
                 <Route exact path="/mission" component={Mission} />
                 <Route path="/vision" component={Vision} />
                 <Route path="/our-story" component={Story} />
+                <Route path="/backwaters" component={BackWaters} />
+                <Route path="/theyyam" component={Theyyam} />
+                <Route path="/ayurveda" component={Ayurveda} />
+                <Route path="/kerala" component={Kerala} />
+                <Route path="/arts" component={Arts} />
                 </Suspense>
             </Switch>
         </Router>

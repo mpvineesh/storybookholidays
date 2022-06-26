@@ -10,7 +10,7 @@
       <meta name="robots" content="follow, index"/>
       <title>Story Book Holidays</title>
       <base href="/">
-      <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,700" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,700" rel="stylesheet">
       <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
       <link rel="stylesheet" href="/assets/css/animate.min.css">
       <link rel="stylesheet" href="/assets/css/style.css">
@@ -48,20 +48,24 @@
           s = $("#email").val(),
           n = $("#subject").val(),
           l = $("#message").val();
-       $("#sendMail").attr("value", "Sendinging Message..."), $.ajax({
-          type: "POST",
-          url: "./send.php",
-          data: {
-             from: s,
-             message: l,
-             subject: n,
-             name: a
-          }
-       }).done((function (e) {
-          $("#sendMail").attr("value", "Send Message"), $("#name").val(""), $("#email").val(""), $("#subject").val(""), $("#message").val(""), $("#email-success").fadeIn(1e3), setTimeout((function () {
-             $("#email-success").fadeOut(1e3)
-          }), 5e3)
-       }))
+          if(a && a.length > 0 && l && l.length > 0 && s && s.length > 0 && n && n.length > 0) {
+            $("#sendMail").attr("value", "Sendinging Message..."), $.ajax({
+               type: "POST",
+               url: "./send.php",
+               data: {
+                  from: s,
+                  message: l,
+                  subject: n,
+                  name: a
+               }
+            }).done((function (e) {
+               $("#sendMail").attr("value", "Send Message"), $("#name").val(""), $("#email").val(""), $("#subject").val(""), $("#message").val(""), $("#email-success").fadeIn(1e3), setTimeout((function () {
+                  $("#email-success").fadeOut(1e3)
+               }), 5e3)
+            }))
+         } else {
+            alert("Please enter all fields")
+         }
     }))
  })) 
  </script>

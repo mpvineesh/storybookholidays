@@ -25,11 +25,11 @@ function Contact() {
 								</ul>
 
 								<form method="POST" class="contact-form">
-									<input type="text" id="name"  placeholder="Your Name..."/>
-									<input type="text" id="subject" placeholder="Story Book Holidays..."/>
-									<input type="text" id="email" placeholder="Email"/>
-									<textarea name=""  id="message" placeholder="Message..."></textarea>
-									<input type="button" id="sendMail" class="button" value="Send Message"/>
+									<input type="text" required id="name"  placeholder="Your Name..."/>
+									<input type="text" required id="subject" placeholder="Story Book Holidays..."/>
+									<input type="text" required id="email" placeholder="Email"/>
+									<textarea name=""  required id="message" placeholder="Message..."></textarea>
+									<input type="button" required id="sendMail" class="button" value="Send Message"/>
 								</form>
 							</div>
 							<div class="col-md-7 col-md-push-1 wow fadeInRight">

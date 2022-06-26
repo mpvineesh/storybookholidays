@@ -16,11 +16,11 @@ function Footer() {
 								<div class="widget">
 									<h3 class="widget-title">Helpful Links</h3>
 									<ul class="list-arrow">
-										<li><a target="_blank" href="https://en.wikipedia.org/wiki/Tourism_in_Kerala#Backwaters">Backwaters</a></li>
-										<li><a target="_blank" href="https://en.wikipedia.org/wiki/Tourism_in_Kerala#Hill_stations">Hill Stations</a></li>
-										<li><a target="_blank" href="https://en.wikipedia.org/wiki/Tourism_in_Kerala#Wildlife">Wildlife</a></li>
-										<li><a target="_blank" href="https://en.wikipedia.org/wiki/Tourism_in_Kerala#Lighthouses">Lighthouses</a></li>
-										<li><a target="_blank" href="https://en.wikipedia.org/wiki/Tourism_in_Kerala#Kochi-Muziris_Biennale">Kochi-Muziris Biennale</a></li>
+										<li><a href="/backwaters">Backwaters</a></li>
+										<li><a href="/theyyam">Theyyam</a></li>
+										<li><a href="/ayurveda">Ayurveda - Art of Living</a></li>
+										<li><a href="/kerala">Introducion of Kerala</a></li>
+										<li><a href="/arts">Performing Arts of Kerala</a></li>
 									</ul>
 								</div>
 							</div>
