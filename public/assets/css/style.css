@@ -2188,18 +2188,21 @@
      display: block !important;
    }
  }
- @media screen and (max-width: 640px) {
-   .main-navigation .menu {
-     display: none;
-     position: absolute;
+@media screen and (max-width: 640px) {
+  .main-navigation .menu {
+    display: none;
+    position: absolute;
      top: 80px;
      left: 20px;
      right: 20px;
      background: white;
      -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-             box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-   }
- }
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  }
+  .main-navigation.is-open .menu {
+    display: block;
+  }
+}
  .main-navigation .menu li {
    display: inline-block;
  }

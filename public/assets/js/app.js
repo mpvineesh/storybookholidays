@@ -8,10 +8,6 @@
 			manualControls: ".flex-control-nav li"
 		});
 
-		$(".menu-toggle").click(function(){
-			$(".main-navigation .menu").slideToggle();
-		});
-
 		$("[data-bg-color]").each(function(){
 			var color = $(this).data("bg-color");
 			$(this).css("background-color",color);
@@ -68,13 +64,6 @@
 
 		new WOW().init();
 	});
-
-	$('.main-nav').on('click',function(){
-		$('ul').slideToggle(280);
-	  });
-	  
-
-
 
 	$(window).ready(function(){
 		$(".menu li").hover(function() {
