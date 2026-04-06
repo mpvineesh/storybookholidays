@@ -139,6 +139,9 @@ On every push to `master`, it will:
 2. Build the React app
 3. Upload the generated `build/` folder to your FTP server
 
+The build also includes `public/.htaccess` so Apache/shared hosting can rewrite
+client-side routes like `/admin` back to `index.html`.
+
 Add these GitHub repository secrets before using it:
 
 - `FTP_SERVER`
