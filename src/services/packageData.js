@@ -1,12 +1,9 @@
 import React from 'react';
 export default class PackageData extends React.Component {
-    constructor() {
-        super();
-    }
     render() {
       return (
           <React.Fragment>
-              {this.props.packageName == 'amazing-kerala' && 
+              {this.props.packageName === 'amazing-kerala' && 
                 <div>
                     Day 1: Arrive - Kochi
                     <p>
@@ -76,7 +73,7 @@ export default class PackageData extends React.Component {
                 </div>
                 }
 
-            {this.props.packageName == 'exotic-kerala' && 
+            {this.props.packageName === 'exotic-kerala' && 
                 <div>
                     Day 1: Arrive - Kochi
                     <p>
@@ -170,7 +167,7 @@ export default class PackageData extends React.Component {
                     </ul>
                 </div>
                 }
-                {this.props.packageName == 'best-kerala' && 
+                {this.props.packageName === 'best-kerala' && 
                     <div>
                     Day 1: Arrive - Kochi -Munnar
                     <p>
@@ -222,7 +219,7 @@ export default class PackageData extends React.Component {
                     </div>
                 }
 
-                {this.props.packageName == 'kerala-backwater' && 
+                {this.props.packageName === 'kerala-backwater' && 
                     <div>
                     Day 1: Arrive - Kochi -Kumarakom
                     <p>
@@ -257,7 +254,7 @@ export default class PackageData extends React.Component {
                     </ul>
                     </div>
                 }
-                {this.props.packageName == 'moemorising-munnar' && 
+                {this.props.packageName === 'moemorising-munnar' && 
                     <div>
                     Day 1: Arrive - Kochi -Munnar
                     <p>
@@ -292,7 +289,7 @@ export default class PackageData extends React.Component {
                     </ul>
                     </div>
                 }
-                {this.props.packageName == 'simple-kerala' && 
+                {this.props.packageName === 'simple-kerala' && 
                     <div>
                     Day 1: Arrive - Kochi -Munnar
                     <p>
@@ -336,7 +333,7 @@ export default class PackageData extends React.Component {
                     </div>
                 }
 
-{this.props.packageName == 'wayanad-wild' && 
+{this.props.packageName === 'wayanad-wild' && 
                     <div>
                     Day 1: Arrive - Wayanad
                     <p>

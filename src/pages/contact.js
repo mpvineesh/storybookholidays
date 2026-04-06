@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from 'react';
+import React from 'react';
 import Header from '../common/header';
 import Footer from '../common/footer';
 
@@ -34,7 +34,7 @@ function Contact() {
 							</div>
 							<div class="col-md-7 col-md-push-1 wow fadeInRight">
 								<div class="map">
-								<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3898.956898566006!2d75.12704641461241!3d12.25119609133138!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTLCsDE1JzA0LjMiTiA3NcKwMDcnNDUuMyJF!5e0!3m2!1sen!2sin!4v1612680431482!5m2!1sen!2sin" width="600" height="520" frameborder="0" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+								<iframe title="Story Book Holidays location map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3898.956898566006!2d75.12704641461241!3d12.25119609133138!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTLCsDE1JzA0LjMiTiA3NcKwMDcnNDUuMyJF!5e0!3m2!1sen!2sin!4v1612680431482!5m2!1sen!2sin" width="600" height="520" frameborder="0" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
 								</div>
 							</div>
 							

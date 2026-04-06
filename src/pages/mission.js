@@ -4,12 +4,11 @@ import Footer from '../common/footer';
 import DatService from '../services/dataService';
 
 function Mission() {
-	const [content, setContent] = React.useState([]);
+	const [content, setContent] = React.useState('');
 	React.useEffect(() => {
 		const fetchData = async () => {
 			let data = await new DatService().getContent('mission', 'content');
 			setContent(data);
-			console.log('content',content)
 		}
 		fetchData();
 	}, []);

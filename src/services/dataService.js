@@ -1,11 +1,6 @@
 import data from './data.json';
 
 class DatService {
- 
-  constructor() {
-    
-  }
-
   async getContent(page, section, key) {
       let content = '';
       if(key && key!== '') {
@@ -18,7 +13,7 @@ class DatService {
   async getPackageDetails(packageName) {
     let packageData = {};
     let packages = data['packages'];
-    packageData = packages.filter(p => p.packageName == packageName)[0];
+    packageData = packages.filter(p => p.packageName === packageName)[0];
     console.log('packageData', packageData, packages);
     return packageData;
   }
