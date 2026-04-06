@@ -19,6 +19,9 @@ The API runs on `http://localhost:5001` by default.
 3. Open `http://localhost:3000/admin`
 4. Sign in with the admin username and password from your environment file
 
+For deployed frontend builds, the app now falls back to `https://storybookholidays.onrender.com`
+when `REACT_APP_API_BASE_URL` is not explicitly set.
+
 ## Backend Endpoints
 
 ### `GET /api/health`
@@ -125,6 +128,24 @@ Deletes a package and removes its uploaded image from the server.
 Runs the React app on `http://localhost:3000`.
 
 The admin dashboard is available at `http://localhost:3000/admin` and now supports both itinerary management and package management with a rich text editor and image upload.
+
+## GitHub FTP Deploy
+
+This repo includes a GitHub Actions workflow at `.github/workflows/deploy-ftp.yml`.
+
+On every push to `master`, it will:
+
+1. Install dependencies
+2. Build the React app
+3. Upload the generated `build/` folder to your FTP server
+
+Add these GitHub repository secrets before using it:
+
+- `FTP_SERVER`
+- `FTP_USERNAME`
+- `FTP_PASSWORD`
+- `FTP_SERVER_DIR`
+- `FTP_PORT` (optional, defaults to `21`)
 
 ### `npm run build`
 
