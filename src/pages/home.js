@@ -1,170 +1,391 @@
-import React, { Suspense, lazy } from 'react';
+import React from 'react';
 import Header from '../common/header';
 import Footer from '../common/footer';
 import DatService from '../services/dataService';
 
+const destinationHighlights = [
+  {
+    title: 'Munnar',
+    subtitle: 'Tea gardens and cloud-kissed viewpoints',
+    description:
+      'Wake up to rolling plantations, cool mountain air, and slow scenic drives through Kerala’s most iconic hill escape.',
+    image: '/assets/images/slide7.jpg',
+    highlights: ['Tea estates', 'Waterfalls', 'Romantic stays'],
+  },
+  {
+    title: 'Alleppey',
+    subtitle: 'Backwater cruises with golden sunsets',
+    description:
+      'Glide past village canals, coconut groves, and lakeside life on curated houseboat experiences built for pure calm.',
+    image: '/assets/images/slide-kumarakam.jpg',
+    highlights: ['Houseboats', 'Village trails', 'Sunset decks'],
+  },
+  {
+    title: 'Kovalam',
+    subtitle: 'Beach days with wellness and culture',
+    description:
+      'Blend sea breezes, Ayurvedic indulgence, and easy coastal evenings in one of Kerala’s most loved shoreline escapes.',
+    image: '/assets/images/slide4.jpg',
+    highlights: ['Beach resorts', 'Ayurveda', 'Ocean views'],
+  },
+];
+
+const heroSlides = [
+  {
+    title: 'Kumarakom',
+    subtitle: 'Lakeside mornings and unhurried backwater stays',
+    description:
+      'Ease into Kerala with premium houseboats, village canals, and soft golden evenings beside Vembanad Lake.',
+    image: '/assets/images/slide-kumarakam.jpg',
+    highlights: ['Luxury houseboats', 'Bird sanctuary', 'Slow travel'],
+  },
+  {
+    title: 'Munnar',
+    subtitle: 'Mist, tea gardens, and scenic mountain roads',
+    description:
+      'Trade city noise for cool air, rolling plantations, and lookouts that make every drive feel cinematic.',
+    image: '/assets/images/slide7.jpg',
+    highlights: ['Tea estates', 'Waterfalls', 'Hill retreats'],
+  },
+  {
+    title: 'Athirappilly',
+    subtitle: 'Rainforest routes and Kerala’s dramatic waterfall escape',
+    description:
+      'Layer forest stays, monsoon greens, and the roar of iconic falls into a stop that feels both wild and restorative.',
+    image: '/assets/images/slide-athirappally.jpg',
+    highlights: ['Waterfall views', 'Rainforest drives', 'Nature stays'],
+  },
+  {
+    title: 'Kovalam',
+    subtitle: 'Sea breezes, wellness, and sunset beach time',
+    description:
+      'Balance shorefront relaxation with Ayurvedic comforts and leisurely evenings along Kerala’s most loved coast.',
+    image: '/assets/images/slide4.jpg',
+    highlights: ['Beach resorts', 'Ayurveda', 'Ocean sunsets'],
+  },
+];
+
+const planningPoints = [
+  'Tailor-made itineraries across Kerala',
+  'Trusted driver-guides and smooth transfers',
+  'Handpicked stays, cruises, and local experiences',
+];
+
+const experienceThemes = [
+  {
+    label: 'Slow Luxury',
+    title: 'Thoughtful journeys with space to breathe',
+    description:
+      'We balance signature sights with quiet moments so your holiday feels restorative, not rushed.',
+  },
+  {
+    label: 'Local Insight',
+    title: 'Kerala through stories, food, and culture',
+    description:
+      'From village life to living traditions, each route is shaped with local knowledge that adds depth to every stop.',
+  },
+  {
+    label: 'Seamless Support',
+    title: 'Everything arranged before you arrive',
+    description:
+      'Accommodation, transport, and activity planning come together in one coordinated experience from start to finish.',
+  },
+];
+
+const travelerStats = [
+  { value: '7+', label: 'Curated Kerala packages' },
+  { value: '100%', label: 'Private planning support' },
+  { value: '2', label: 'Office locations in Kerala' },
+  { value: '365', label: 'Days to start your next story' },
+];
+
+const testimonials = [
+  {
+    image: '/assets/images/anand.jpeg',
+    quote:
+      'They delivered the service word by word as they told me. I will definitely travel with Story Book Holidays again.',
+    name: 'Anand',
+    role: 'Family Traveler',
+  },
+  {
+    image: '/assets/images/testimonial1.jpeg',
+    quote:
+      'The hotel selection was excellent and the vehicle was maintained beautifully. Our family trip felt easy and memorable throughout.',
+    name: 'Eraz',
+    role: 'Holiday Traveler',
+  },
+  {
+    image: '/assets/images/gregory.jpeg',
+    quote:
+      'The whole trip turned out to be a pleasant experience and quite economical. The accommodation choices were especially impressive.',
+    name: 'Gregory Vian',
+    role: 'Traveler from Australia',
+  },
+  {
+    image: '/assets/images/vinay.jpeg',
+    quote:
+      'We enjoyed our tour in Kerala with Story Book Holidays, especially the coordination and support in every city.',
+    name: 'Vinay A Singh',
+    role: 'Group Traveler',
+  },
+];
+
 function Home() {
-    const [packages, setPackages] = React.useState([]);
-	React.useEffect(() => {
-		const fetchData = async () => {
-			let data = await new DatService().getPackages();
+  const [packages, setPackages] = React.useState([]);
+  const [activeHeroSlide, setActiveHeroSlide] = React.useState(0);
 
-			setPackages(data.slice(0,4));
-			console.log('data',data)
-		}
-		fetchData();
-	}, []);
+  React.useEffect(() => {
+    let isMounted = true;
+
+    const fetchData = async () => {
+      const data = await new DatService().getPackages();
+
+      if (isMounted) {
+        setPackages(data.slice(0, 4));
+      }
+    };
+
+    fetchData();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  React.useEffect(() => {
+    const intervalId = window.setInterval(() => {
+      setActiveHeroSlide((currentSlide) => (currentSlide + 1) % heroSlides.length);
+    }, 5000);
+
+    return () => {
+      window.clearInterval(intervalId);
+    };
+  }, []);
+
+  const currentHeroSlide = heroSlides[activeHeroSlide];
+
   return (
-      <React.Fragment>
-          <Header/>
-            <main class="content">
-                <div class="slider">
-                    <ul class="slides">
-                        <li data-background="/assets/images/slide-kumarakam.jpg">
-                            <div class="container">
-                                <div class="slide-caption col-md-4">
-                                    <h2 class="slide-title">Kumarakom</h2>
-                                    <p>Kuttanad backwaters drags the muse out of even the most poetically challenged. So, pack your quill and head for what are arguably the most beautiful acres along the kuttanad backwaters, to palm-fringed canals, clumps of coir retting in water, a fishing boat returning with the day’s catch</p>
-                                </div>
-                            </div>
-                        </li>
-                        <li data-background="/assets/images/slide7.jpg">
-                            <div class="container">
-                                <div class="slide-caption col-md-4">
-                                    <h2 class="slide-title">Munnar</h2>
-                                    <p>“A trip to Munnar is a journey through picturesque surroundings, but the most sought-after offering of the estates is the unbelievably pure air. There are also wild animals to spot, some trout fishing to be done etc., and the list is endless. But if lazing around is all that you want to do on your holiday, Munnar’s idyllic surroundings let you do that too.”</p>
-                                </div>
-                            </div>
-                        </li>
-                        <li data-background="/assets/images/slide3.jpg">
-                            <div class="container">
-                                <div class="slide-caption col-md-4">
-                                    <h2 class="slide-title">Kovalam</h2>
-                                    <p>Looking around this sun and sand paradise, its difficult to imagine that Kovalam was once just a pretty fishing village with a prettier beach. That was till the hippies discovered the hidden jewel.</p>
-                                </div>
-                            </div>
-                        </li>
-
-                        
-                    </ul>
-                    <div class="flexslider-controls">
-                        <div class="container">
-                            <ol class="flex-control-nav">
-                                <li><a>1</a></li>
-                                <li><a>2</a></li>
-                                <li><a>3</a></li>
-                            </ol>
-                        </div>
-                    </div>
+    <React.Fragment>
+      <Header />
+      <main className="content home-page">
+        <section className="hero-section">
+          <div className="hero-background-slides" aria-hidden="true">
+            {heroSlides.map((slide, index) => (
+              <div
+                className={`hero-background-slide ${index === activeHeroSlide ? 'is-active' : ''}`}
+                key={slide.title}
+                style={{ backgroundImage: `url('${slide.image}')` }}
+              />
+            ))}
+          </div>
+          <div className="container">
+            <div className="hero-grid">
+              <div className="hero-copy">
+                <span className="eyebrow">Curated Kerala travel, beautifully planned</span>
+                <h1>Turn every holiday into a story worth retelling.</h1>
+                <p>
+                  Explore backwaters, hill stations, beaches, and cultural landmarks with a
+                  travel team that shapes each itinerary around comfort, beauty, and memorable
+                  local experiences.
+                </p>
+                <div className="hero-actions">
+                  <a href="/packages" className="button hero-button">
+                    Explore Packages
+                  </a>
+                  <a
+                    href="https://wa.me/919446460533?text=Hello%20Storybook%20Holidays!"
+                    className="button button-outline hero-button"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Plan on WhatsApp
+                  </a>
                 </div>
-
-                <div class="fullwidth-block features-section">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-3 col-sm-6 col-xs-12">
-                                <div class="feature left-icon wow fadeInLeft" data-wow-delay=".3s">
-                                    <i class="icon-ticket"></i>
-                                    <h3 class="feature-title">Wayanad</h3>
-                                    <p>Wayanad is a confluence where the needs of the body, mind and soul are met. You can trek mountains and bathe under waterfalls balancing yourself on sharp rocks. You can simply lie down and dream as big as the sky’s expanse with a symphony of wild calls in the background. </p>
-                                </div>
-                            </div>
-                            <div class="col-md-3 col-sm-6 col-xs-12">
-                                <div class="feature left-icon wow fadeInLeft">
-                                    <i class="icon-plane"></i>
-                                    <h3 class="feature-title">Thekkady</h3>
-                                    <p>There’s a peculiar charm in watching majestic elephants and bright-eyed tigers in an environment that is truly theirs and it is irresistible. Perhaps that appeal is to be found more in the Periyar Tiger Reserve than in any other sanctuaries in Kerala.</p>
-                                </div>
-                            </div>
-                            <div class="col-md-3 col-sm-6 col-xs-12">
-                                <div class="feature left-icon wow fadeInRight">
-                                    <i class="icon-jetski"></i>
-                                    <h3 class="feature-title">Valiyaparamba</h3>
-                                    <p>The scenic Valiyaparamba backwaters,  numerous little islands, narrow strips of beaches and densely packed groves palm and areca nuts are fed by four swiftly flowing rivers. You can spend a whole day exploring the backwaters by houseboat.</p>
-                                </div>
-                            </div>
-                            <div class="col-md-3 col-sm-6 col-xs-12">
-                                <div class="feature left-icon wow fadeInRight" data-wow-delay=".3s">
-                                    <i class="icon-shuttelcock"></i>
-                                    <h3 class="feature-title">Athirappilly</h3>
-                                    <p>The waterfall is recurring motif in Athirappilly. The Chalakudy river flows placidly through it all, past forests with many elephants, its poise broken only as it races down rocks to form  a canopy of white that’s the waterfall. Its natures gift to Athirappilly , lovingly treasured and unquestioningly shared with noisy strangers.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div className="hero-badges">
+                  <span>Private escapes</span>
+                  <span>Trusted local expertise</span>
+                  <span>Backwaters to beaches</span>
                 </div>
-
-                <div class="fullwidth-block offers-section" data-bg-color="#f1f1f1">
-                    <div class="container">
-                        <h2 class="section-title">The newest holiday offers</h2>
-                        <div class="row">
-
-
-
-                        {packages.map((pack, index) => {
-						 
-						 return(<div class="col-md-3 col-sm-6 col-xs-12" key={index}>
-                                <article class="offer wow bounceIn">
-                                    <figure class="featured-image"><img src={'assets/images/packages/'+pack.image} height="200" class="package-image" alt=""/></figure>
-                                    <h2 class="entry-title"><a href="">{pack.title}</a></h2>
-                                    <p>{pack.shortDescription}</p>
-                                    <a href={'/package?name='+pack.packageName} class="button">See details</a>
-                                </article>
-                            </div>)
-                            })}
-                    
-                        </div>
-                    </div>
+                <div className="hero-slide-indicators" aria-label="Hero background slideshow controls">
+                  {heroSlides.map((slide, index) => (
+                    <button
+                      type="button"
+                      className={index === activeHeroSlide ? 'is-active' : ''}
+                      onClick={() => setActiveHeroSlide(index)}
+                      key={slide.title}
+                      aria-label={`Show ${slide.title}`}
+                    />
+                  ))}
                 </div>
+              </div>
 
-                <div class="fullwidth-block testimonial-section">
-                    <div class="container">
-                        <h2 class="section-title">Testimonials</h2>
-                        <div class="row">
-                            <div class="col-md-3 col-sm-6 col-xs-12">
-                                <div class="testimonial wow fadeInUp">
-                                    <figure class="avatar"><img src="/assets/images/anand.jpeg" alt=""/></figure>
-                                    <blockquote class="testimonial-body">
-                                        <p>They delivered the service word by word as they told me ... I ensure that I will use this service next time also..</p>
-                                        <cite>Anand</cite>
-                                        <span>Traveler</span>
-                                    </blockquote>
-                                </div>
-                            </div>
-                            <div class="col-md-3 col-sm-6 col-xs-12">
-                                <div class="testimonial wow fadeInUp" data-wow-delay=".2s">
-                                    <figure class="avatar"><img src="/assets/images/eraz.jpeg" alt=""/></figure>
-                                    <blockquote class="testimonial-body">
-                                        <p>Wonderful services provided by Story Book Holidays.  The hotels selection was great and the vehicle was maintained very well.  Thanks to the team who made my family trip a memorable one.</p>
-                                        <cite>Eraz</cite>
-                                        <span>Traveler</span>
-                                    </blockquote>
-                                </div>
-                            </div>
-                            <div class="col-md-3 col-sm-6 col-xs-12">
-                                <div class="testimonial wow fadeInUp" data-wow-delay=".4s">
-                                    <figure class="avatar"><img src="/assets/images/gregory.jpeg" alt=""/></figure>
-                                    <blockquote class="testimonial-body">
-                                        <p>The whole trip turned out to be very pleasant experience and quite economic. The accommodation arranged by Story Book Holidays are very excellent Many thanks to Story Book team for this excellent trip.</p>
-                                        <cite>Gregory Vian , Australia</cite>
-                                        <span>Traveler</span>
-                                    </blockquote>
-                                </div>
-                            </div>
-                            <div class="col-md-3 col-sm-6 col-xs-12">
-                                <div class="testimonial wow fadeInUp" data-wow-delay=".6s">
-                                    <figure class="avatar"><img src="/assets/images/vinay.jpeg" alt=""/></figure>
-                                    <blockquote class="testimonial-body">
-                                        <p>We enjoyed our tour in Kerala with Story Book Holidays. Especially their coordination and willingness to help in each and every city were excellent..</p>
-                                        <cite>Vinay A Singh</cite>
-                                        <span>Traveler</span>
-                                    </blockquote>
-                                </div>
-                            </div>
-                        </div>
+              <div className="hero-panel">
+                <article className="hero-spotlight">
+                  <div
+                    className="spotlight-image"
+                    style={{ backgroundImage: `url('${currentHeroSlide.image}')` }}
+                  />
+                  <div className="spotlight-content">
+                    <span className="spotlight-label">Featured escape</span>
+                    <h2>{currentHeroSlide.title}</h2>
+                    <p>{currentHeroSlide.description}</p>
+                    <div className="spotlight-meta">
+                      {currentHeroSlide.highlights.map((highlight) => (
+                        <span key={highlight}>{highlight}</span>
+                      ))}
                     </div>
+                  </div>
+                </article>
+
+                <aside className="hero-planner-card">
+                  <p className="planner-eyebrow">Now showing</p>
+                  <h3 className="planner-slide-title">{currentHeroSlide.subtitle}</h3>
+                  <p className="planner-copy">{currentHeroSlide.description}</p>
+                  <p className="planner-eyebrow">Why travelers choose Story Book Holidays</p>
+                  <h4 className="planner-heading">
+                    Warm planning, clear coordination, unforgettable routes.
+                  </h4>
+                  <ul className="planner-list">
+                    {planningPoints.map((point) => (
+                      <li key={point}>{point}</li>
+                    ))}
+                  </ul>
+                </aside>
+              </div>
+            </div>
+
+            <div className="hero-stats">
+              {travelerStats.map((stat) => (
+                <div className="stat-card" key={stat.label}>
+                  <strong>{stat.value}</strong>
+                  <span>{stat.label}</span>
                 </div>
-            </main>
-    <Footer/>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="fullwidth-block destination-showcase">
+          <div className="container">
+            <div className="section-heading">
+              <div>
+                <p className="section-kicker">Destination highlights</p>
+                <h2 className="section-title">Three moods of Kerala, one unforgettable holiday.</h2>
+              </div>
+              <a href="/destinations" className="section-link">
+                View all destinations
+              </a>
+            </div>
+
+            <div className="destination-grid">
+              {destinationHighlights.map((destination) => (
+                <article className="destination-card" key={destination.title}>
+                  <div
+                    className="destination-card-media"
+                    style={{ backgroundImage: `url('${destination.image}')` }}
+                  />
+                  <div className="destination-card-body">
+                    <p className="destination-card-subtitle">{destination.subtitle}</p>
+                    <h3>{destination.title}</h3>
+                    <p>{destination.description}</p>
+                    <div className="tag-list">
+                      {destination.highlights.map((highlight) => (
+                        <span key={highlight}>{highlight}</span>
+                      ))}
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="fullwidth-block offers-section travel-offers">
+          <div className="container">
+            <div className="section-heading">
+              <div>
+                <p className="section-kicker">Best-selling itineraries</p>
+                <h2 className="section-title">Holiday packages designed to feel effortless.</h2>
+              </div>
+              <a href="/packages" className="section-link">
+                Browse all packages
+              </a>
+            </div>
+
+            <div className="offers-grid">
+              {packages.map((pack) => (
+                <article className="offer travel-offer" key={pack.packageName}>
+                  <figure className="featured-image">
+                    <img
+                      src={`assets/images/packages/${pack.image}`}
+                      className="package-image"
+                      alt={pack.title}
+                    />
+                  </figure>
+                  <div className="offer-body">
+                    <span className="offer-duration">{pack.duration}</span>
+                    <h3 className="entry-title">
+                      <a href={`/package?name=${pack.packageName}`}>{pack.title}</a>
+                    </h3>
+                    <p>{pack.shortDescription}</p>
+                    <a href={`/package?name=${pack.packageName}`} className="button">
+                      See Details
+                    </a>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="fullwidth-block experience-section">
+          <div className="container">
+            <div className="section-heading compact">
+              <div>
+                <p className="section-kicker">Designed around your travel style</p>
+                <h2 className="section-title">A more attractive trip starts with better pacing.</h2>
+              </div>
+            </div>
+
+            <div className="experience-grid">
+              {experienceThemes.map((theme) => (
+                <article className="experience-card" key={theme.title}>
+                  <span className="experience-label">{theme.label}</span>
+                  <h3>{theme.title}</h3>
+                  <p>{theme.description}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="fullwidth-block testimonial-section">
+          <div className="container">
+            <div className="section-heading compact">
+              <div>
+                <p className="section-kicker">Traveler reviews</p>
+                <h2 className="section-title">Guests remember the smoothness as much as the scenery.</h2>
+              </div>
+            </div>
+
+            <div className="testimonial-grid">
+              {testimonials.map((testimonial) => (
+                <div className="testimonial" key={testimonial.name}>
+                  <figure className="avatar">
+                    <img src={testimonial.image} alt={testimonial.name} />
+                  </figure>
+                  <blockquote className="testimonial-body">
+                    <p>{testimonial.quote}</p>
+                    <cite>{testimonial.name}</cite>
+                    <span>{testimonial.role}</span>
+                  </blockquote>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      </main>
+      <Footer />
     </React.Fragment>
   );
 }

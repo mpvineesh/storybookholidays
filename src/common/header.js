@@ -1,59 +1,116 @@
-import React, { Suspense, lazy } from 'react';
+import React from 'react';
+import { useLocation } from 'react-router-dom';
+
+const navItems = [
+  { label: 'Home', href: '/' },
+  { label: 'About', href: '/about' },
+  { label: 'Packages', href: '/packages' },
+  { label: 'Destinations', href: '/destinations' },
+  { label: 'Contact', href: '/contact' },
+];
 
 function Header(props) {
+  const location = useLocation();
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  React.useEffect(() => {
+    setIsMenuOpen(false);
+  }, [location.pathname]);
+
   return (
-    <header className={props.parent ? 'site-header wow fadeInDown': 'home site-header wow fadeInDown'}>
-		<div class="container">
-			<div class="header-content">
-				<div class="branding">
-					<img src="/assets/images/logo/logo.png" alt="Story Book Holidays" width="120" height="72" class="logo"/>
-					<h1 class="site-title"><a href="/">Story Book Holidays</a></h1>
-					<small class="site-description">Explore the untold stories!</small>
-				</div>
-				
-				<nav class="main-navigation nav">
-					<button type="button" class="menu-toggle"><i class="fa fa-bars"></i></button>
-					<ul class="menu">
-						<li class="menu-item"><a href="/">Home</a></li>
-						<li><a href="/about">About Us <i class="fa fa-angle-down" aria-hidden="true"></i></a>
-							<ul>
-								<li><a href="/about#our-story">Our Story</a></li>
-								<li><a href="/about#mission">Mission</a></li>
-								<li><a href="/about#vision">Vision</a></li>
-							</ul>
-						</li>
-						<li><a href="/packages">Holiday Packages <i class="fa fa-angle-down" aria-hidden="true"></i></a>
-							<ul>
-								<li><a href="/package?name=exotic-kerala">Exotic Kerala Package</a></li>
-								<li><a href="/package?name=kerala-backwater">Kerala Back water Tour</a></li>
-								<li><a href="/package?name=moemorising-munnar">Memorising Munnar</a></li>
-								<li><a href="/package?name=simple-kerala">Simple Kerala Package</a></li>
-								<li><a href="/package?name=wayanad-wild">Wayanad Wild</a></li>
-								<li><a href="/package?name=amazing-kerala">Amazing Kerala Package</a></li>
-								<li><a href="/package?name=best-kerala">Best Kerala Package</a></li>
-							</ul>
-						</li>
-						<li class="menu-item"><a href="/destinations">Destinations</a></li>
-						
-						<li class="menu-item"><a href="/contact">Contact</a></li>
-					</ul>
-				</nav>
-				
-				<div class="social-links">
-					<a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
-					<a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
-					<a href="https://instagram.com/story_book_holidays?igshid=xcyefcxv1e4m" class="instagram"><i class="fa fa-instagram"></i></a>
-					<a href="https://wa.me/919446460533?text=Hello%20Storybook%20Holidays!" class="whatsapp"><i class="fa fa-whatsapp"></i></a>
-				</div>
-			</div>
-			{props.parent && props.parent !== '' ?
-			<nav class="breadcrumbs">
-				<a href="/home">Home</a> &rarr;
-				<span>{props.parent||''}</span>
-			</nav>
-			: null}
-		</div>
-	</header>
+    <header className={!props.parent ? 'site-header site-header-home' : 'site-header'}>
+      <div className="container">
+        <div className="header-content">
+          <div className="branding">
+            <img
+              src="/assets/images/logo/logo.png"
+              alt="Story Book Holidays"
+              width="120"
+              height="72"
+              className="logo"
+            />
+            <div>
+              <h1 className="site-title">
+                <a href="/">Story Book Holidays</a>
+              </h1>
+              <small className="site-description">Curated Kerala journeys with soul</small>
+            </div>
+          </div>
+
+          <nav className={`main-navigation nav ${isMenuOpen ? 'is-open' : ''}`}>
+            <button
+              type="button"
+              className="menu-toggle"
+              onClick={() => setIsMenuOpen((open) => !open)}
+              aria-label="Toggle navigation"
+              aria-expanded={isMenuOpen}
+            >
+              <i className={`fa ${isMenuOpen ? 'fa-times' : 'fa-bars'}`} />
+            </button>
+            <ul className="menu">
+              {navItems.map((item) => {
+                const isActive =
+                  item.href === '/'
+                    ? location.pathname === '/'
+                    : location.pathname.startsWith(item.href);
+
+                return (
+                  <li className={isActive ? 'current-menu-item' : ''} key={item.href}>
+                    <a href={item.href}>{item.label}</a>
+                  </li>
+                );
+              })}
+            </ul>
+          </nav>
+
+          <div className="header-actions">
+            <div className="social-links">
+              <a
+                href="https://instagram.com/story_book_holidays?igshid=xcyefcxv1e4m"
+                className="instagram"
+                aria-label="Instagram"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <i className="fa fa-instagram" />
+              </a>
+              <a
+                href="https://www.facebook.com/"
+                className="facebook"
+                aria-label="Facebook"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <i className="fa fa-facebook" />
+              </a>
+              <a
+                href="https://wa.me/919446460533?text=Hello%20Storybook%20Holidays!"
+                className="whatsapp"
+                aria-label="WhatsApp"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <i className="fa fa-whatsapp" />
+              </a>
+            </div>
+            <a
+              href="https://wa.me/919446460533?text=Hello%20Storybook%20Holidays!"
+              className="button header-cta"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Plan My Trip
+            </a>
+          </div>
+        </div>
+
+        {props.parent ? (
+          <nav className="breadcrumbs" aria-label="Breadcrumb">
+            <a href="/">Home</a>
+            <span>{props.parent}</span>
+          </nav>
+        ) : null}
+      </div>
+    </header>
   );
 }
 

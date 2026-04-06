@@ -1,11 +1,8 @@
-import React, { Suspense, lazy } from 'react';
+import React, { Suspense } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Link,
-  useRouteMatch,
-  useParams
+  Route
 } from "react-router-dom";
 //import { Router, Route, Link, browserHistory, IndexRoute } from 'react-router'
 import Home from './pages/home'
@@ -22,17 +19,15 @@ import Arts from './places/arts'
 import Theyyam from './places/theyyam'
 import Kerala from './places/kerala'
 import Ayurveda from './places/ayurveda'
+import AdminDashboard from './pages/admin-dashboard'
 
 class AppRoutes extends React.Component {
-    constructor(props) {
-      super(props);
-    }
-
     render() {
         return (
           <Router>
             <Switch>
             <Suspense fallback={<div className="preloader"><div className="cssload-speeding-wheel"></div></div>}>
+                <Route exact path="/admin" component={AdminDashboard} />
                 <Route exact path="/" component={Home} />
                 <Route path="/home" component={Home} />
                 <Route path="/about" component={AboutUs} />
