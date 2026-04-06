@@ -40,6 +40,13 @@ jobs:
           test -n "$FTP_SERVER_DIR" || (echo "Missing GitHub secret: FTP_SERVER_DIR" && exit 1)
           echo "FTP_PORT=${FTP_PORT:-21}" >> "$GITHUB_ENV"
 
+      - name: Remove stale IIS web.config
+        run: |
+          curl --silent --show-error --disable-epsv \
+            --user "$FTP_USERNAME:$FTP_PASSWORD" \
+            "ftp://$FTP_SERVER:$FTP_PORT${FTP_SERVER_DIR%/}/" \
+            -Q "-DELE web.config" || true
+
       - name: Deploy build folder over FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
