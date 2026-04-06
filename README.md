@@ -139,9 +139,9 @@ On every push to `master`, it will:
 2. Build the React app
 3. Upload the generated `build/` folder to your FTP server
 
-The build includes `public/.htaccess` for Apache hosting and also creates a
-physical `admin/index.html` file after build so `/admin` works on hosting that
-does not support SPA rewrites.
+The build includes `public/.htaccess` for Apache hosting and also creates
+physical `default.htm`, `admin/index.html`, and `admin/default.htm` files after
+build so `/` and `/admin` work on IIS-style hosting without SPA rewrites.
 
 Add these GitHub repository secrets before using it:
 
