@@ -3,18 +3,40 @@ const path = require('path');
 
 const buildDir = path.join(__dirname, '..', 'build');
 const indexHtmlPath = path.join(buildDir, 'index.html');
-const adminDir = path.join(buildDir, 'admin');
-const adminIndexPath = path.join(adminDir, 'index.html');
 const defaultDocumentPath = path.join(buildDir, 'default.htm');
-const adminDefaultDocumentPath = path.join(adminDir, 'default.htm');
+
+const staticRoutes = [
+  'admin',
+  'home',
+  'about',
+  'destinations',
+  'packages',
+  'package',
+  'contact',
+  'mission',
+  'vision',
+  'our-story',
+  'backwaters',
+  'theyyam',
+  'ayurveda',
+  'kerala',
+  'arts',
+];
 
 if (!fs.existsSync(indexHtmlPath)) {
   throw new Error(`Build output not found at ${indexHtmlPath}`);
 }
 
-fs.mkdirSync(adminDir, { recursive: true });
-fs.copyFileSync(indexHtmlPath, adminIndexPath);
 fs.copyFileSync(indexHtmlPath, defaultDocumentPath);
-fs.copyFileSync(adminIndexPath, adminDefaultDocumentPath);
 
-console.log('Created static route files at build/index.html, build/default.htm, build/admin/index.html, and build/admin/default.htm');
+staticRoutes.forEach((route) => {
+  const routeDir = path.join(buildDir, route);
+  const routeIndexPath = path.join(routeDir, 'index.html');
+  const routeDefaultDocumentPath = path.join(routeDir, 'default.htm');
+
+  fs.mkdirSync(routeDir, { recursive: true });
+  fs.copyFileSync(indexHtmlPath, routeIndexPath);
+  fs.copyFileSync(indexHtmlPath, routeDefaultDocumentPath);
+});
+
+console.log(`Created static route files for ${staticRoutes.length} routes plus the root default document.`);
