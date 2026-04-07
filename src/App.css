@@ -110,6 +110,8 @@ img {
 }
 
 .main-navigation {
+  display: flex;
+  align-items: center;
   margin-left: auto;
   float: none;
 }
@@ -184,6 +186,37 @@ li.current-menu-item a {
 .site-header .branding .site-title,
 .site-header .branding .site-description {
   display: block;
+}
+
+@media screen and (min-width: 991px) {
+  .site-header .header-content {
+    flex-wrap: nowrap;
+  }
+
+  .site-header .branding {
+    min-width: max-content;
+  }
+
+  .site-header .main-navigation {
+    flex: 1 1 auto;
+    justify-content: center;
+    min-width: 0;
+  }
+
+  .site-header .main-navigation .menu-toggle {
+    display: none;
+  }
+
+  .site-header .main-navigation .menu {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: center;
+    flex-wrap: nowrap;
+  }
+
+  .header-actions {
+    margin-left: 0;
+  }
 }
 
 .breadcrumbs {
