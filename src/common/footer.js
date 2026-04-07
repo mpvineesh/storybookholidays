@@ -14,20 +14,20 @@ const travelThemes = [
   { label: 'Theyyam', href: '/theyyam' },
 ];
 
-const planningSteps = [
-  {
-    title: 'Tell us your travel mood',
-    description: 'Share dates, group size, and whether you want beaches, hills, culture, or slower luxury.',
-  },
-  {
-    title: 'We shape the route',
-    description: 'Stays, transfers, and day flow are arranged into one Kerala journey that feels smooth from the start.',
-  },
-  {
-    title: 'Travel with local support',
-    description: 'From arrival to final drop, our team stays reachable so your holiday remains easy and well-paced.',
-  },
-];
+// const planningSteps = [
+//   {
+//     title: 'Tell us your travel mood',
+//     description: 'Share dates, group size, and whether you want beaches, hills, culture, or slower luxury.',
+//   },
+//   {
+//     title: 'We shape the route',
+//     description: 'Stays, transfers, and day flow are arranged into one Kerala journey that feels smooth from the start.',
+//   },
+//   {
+//     title: 'Travel with local support',
+//     description: 'From arrival to final drop, our team stays reachable so your holiday remains easy and well-paced.',
+//   },
+// ];
 
 
 const contactCards = [
