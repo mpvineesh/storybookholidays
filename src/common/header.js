@@ -28,7 +28,7 @@ function Header(props) {
               height="72"
               className="logo"
             />
-            <div>
+            <div className="branding-copy">
               <h1 className="site-title">
                 <a href="/">Story Book Holidays</a>
               </h1>

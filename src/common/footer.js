@@ -83,26 +83,7 @@ function Footer() {
   return (
     <footer className="site-footer">
       <div className="container">
-        <section className="footer-journey-band">
-          <div className="footer-journey-intro">
-            <p className="footer-kicker">What happens after you enquire?</p>
-            <h2>A calmer planning experience from the first message to the final drop-off.</h2>
-            <p className="footer-journey-note">
-              The lower half of the page now guides travelers into the next step instead of
-              ending abruptly after reviews. It keeps the mood premium, clear, and easy to act on.
-            </p>
-          </div>
-
-          <div className="footer-journey-steps">
-            {planningSteps.map((step, index) => (
-              <article className="journey-step" key={step.title}>
-                <span className="journey-step-index">0{index + 1}</span>
-                <h3>{step.title}</h3>
-                <p>{step.description}</p>
-              </article>
-            ))}
-          </div>
-        </section>
+  
 
         <div className="footer-cta-card">
           <div className="footer-cta-copy">
