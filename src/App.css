@@ -115,7 +115,7 @@ img {
 }
 
 .site-header .main-navigation .menu {
-  display: flex !important;
+  display: flex;
   flex-direction: row;
   align-items: center;
   gap: 6px;
@@ -1510,7 +1510,7 @@ li.current-menu-item a {
   }
 
   .site-header .main-navigation .menu {
-    display: none;
+    display: none !important;
     position: static;
     margin-top: 14px;
     padding: 12px;
@@ -1522,7 +1522,7 @@ li.current-menu-item a {
   }
 
   .site-header .main-navigation.is-open .menu {
-    display: flex;
+    display: flex !important;
   }
 
   .site-header .main-navigation .menu li a {
