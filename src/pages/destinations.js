@@ -180,76 +180,10 @@ function Destinations() {
     <React.Fragment>
       <Header parent="Destinations" />
       <main className="content destinations-page">
-        <section className="destinations-hero">
-          <div className="container">
-            {errorMessage ? <div className="admin-alert admin-alert-error">{errorMessage}</div> : null}
-            <div className="destinations-hero-grid">
-              <div className="destinations-hero-copy">
-                <p className="section-kicker">Destination guide</p>
-                <h1>Browse Kerala one unforgettable stop at a time.</h1>
-                <p>
-                  Explore destination stories, preview highlights, and dive into the full guide for
-                  each place from a single screen built to grow with your destination catalogue.
-                </p>
-                <div className="destination-hero-metrics">
-                  <span>{destinations.length || 0} published destinations</span>
-                  <span>API-driven content</span>
-                  <span>Rich text friendly</span>
-                </div>
-              </div>
-
-              {featuredDestination ? (
-                <article className="destination-spotlight">
-                  <div
-                    className="destination-spotlight-media"
-                    style={{
-                      backgroundImage: `linear-gradient(180deg, rgba(8, 29, 36, 0.08), rgba(8, 29, 36, 0.72)), url('${getDestinationImage(
-                        featuredDestination,
-                        destinations.findIndex(
-                          (destination) =>
-                            createDestinationId(destination) === createDestinationId(featuredDestination)
-                        )
-                      )}')`,
-                    }}
-                  />
-                  <div className="destination-spotlight-content">
-                    <p className="destination-spotlight-label">Spotlight destination</p>
-                    <h2>{featuredDestination.title}</h2>
-                    <p>{getDestinationSummary(featuredDestination, 210)}</p>
-                    <div className="destination-spotlight-badges">
-                      <span>{getReadingTime(featuredDestination)} min read</span>
-                      <span>{featuredDestination.slug || 'Published destination'}</span>
-                    </div>
-                  </div>
-                </article>
-              ) : (
-                <div className="destination-spotlight destination-spotlight-empty">
-                  <div className="destination-spotlight-content">
-                    <p className="destination-spotlight-label">Waiting for content</p>
-                    <h2>Destination entries will appear here.</h2>
-                    <p>
-                      Once destination records are published through the API, this page will turn
-                      them into spotlight cards and detailed guides automatically.
-                    </p>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        </section>
-
+       
         <section className="destinations-browser">
           <div className="container">
-            <div className="section-heading">
-              <div>
-                <p className="section-kicker">Explore the collection</p>
-                <h2 className="section-title">Destination cards</h2>
-              </div>
-              <p className="destinations-section-note">
-                Choose a destination to refresh the spotlight, then jump into the detailed guide
-                below.
-              </p>
-            </div>
+          
 
             {isLoading ? (
               <div className="destination-browser-grid">
