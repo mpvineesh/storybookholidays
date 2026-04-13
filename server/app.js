@@ -3,6 +3,7 @@ const cors = require("cors");
 const path = require("path");
 
 const adminRoutes = require("./routes/adminRoutes");
+const destinationRoutes = require("./routes/destinationRoutes");
 const itineraryRoutes = require("./routes/itineraryRoutes");
 const packageRoutes = require("./routes/packageRoutes");
 
@@ -41,6 +42,7 @@ app.get("/api/health", (_req, res) => {
 });
 
 app.use("/api/admin", adminRoutes);
+app.use("/api/destinations", destinationRoutes);
 app.use("/api/itineraries", itineraryRoutes);
 app.use("/api/packages", packageRoutes);
 
@@ -63,7 +65,7 @@ app.use((error, _req, res, _next) => {
   if (error.name === "CastError") {
     return res.status(400).json({
       success: false,
-      message: "Invalid itinerary id",
+      message: "Invalid resource id",
     });
   }
 

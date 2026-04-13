@@ -1,6 +1,7 @@
 import React from 'react';
 import './admin-dashboard.css';
 import PackageAdminPanel from '../components/admin/PackageAdminPanel';
+import DestinationAdminPanel from '../components/admin/DestinationAdminPanel';
 import {
   adminLogin,
   createItinerary,
@@ -99,6 +100,13 @@ const adminSections = [
     label: 'Packages',
     title: 'Packages',
     description: 'Track and manage all package publishing records',
+  },
+  {
+    id: 'destinations',
+    icon: 'fa-map-marker',
+    label: 'Destinations',
+    title: 'Destinations',
+    description: 'Track and manage all destination publishing records',
   },
 ];
 
@@ -458,7 +466,9 @@ function AdminDashboard() {
                     placeholder={
                       activeSection === 'itineraries'
                         ? 'Search itineraries...'
-                        : 'Search packages...'
+                        : activeSection === 'packages'
+                          ? 'Search packages...'
+                          : 'Search destinations...'
                     }
                   />
                 </div>
@@ -718,6 +728,10 @@ function AdminDashboard() {
 
               {activeSection === 'packages' ? (
                 <PackageAdminPanel token={token} workspaceSearch={workspaceSearch} />
+              ) : null}
+
+              {activeSection === 'destinations' ? (
+                <DestinationAdminPanel token={token} workspaceSearch={workspaceSearch} />
               ) : null}
             </div>
           </div>

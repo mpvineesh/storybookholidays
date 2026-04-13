@@ -3,8 +3,10 @@ const path = require("path");
 
 const uploadsDirectory = path.join(__dirname, "../../uploads");
 const packageImagesDirectory = path.join(uploadsDirectory, "packages");
+const destinationImagesDirectory = path.join(uploadsDirectory, "destinations");
 
 fs.mkdirSync(packageImagesDirectory, { recursive: true });
+fs.mkdirSync(destinationImagesDirectory, { recursive: true });
 
 const removeFileIfExists = async (filePath) => {
   if (!filePath) {
@@ -23,5 +25,6 @@ const removeFileIfExists = async (filePath) => {
 module.exports = {
   uploadsDirectory,
   packageImagesDirectory,
+  destinationImagesDirectory,
   removeFileIfExists,
 };

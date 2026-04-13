@@ -104,6 +104,18 @@ export const getPackages = async () => {
   return parseResponse(response);
 };
 
+export const getDestinations = async () => {
+  const response = await fetch(`${API_BASE_URL}/api/destinations`);
+
+  return parseResponse(response);
+};
+
+export const getDestinationBySlug = async (slug) => {
+  const response = await fetch(`${API_BASE_URL}/api/destinations/slug/${slug}`);
+
+  return parseResponse(response);
+};
+
 export const getPackageBySlug = async (slug) => {
   const response = await fetch(`${API_BASE_URL}/api/packages/slug/${slug}`);
 
@@ -132,6 +144,35 @@ export const updatePackage = async (token, packageId, payload) => {
 
 export const deletePackage = async (token, packageId) => {
   const response = await fetch(`${API_BASE_URL}/api/packages/${packageId}`, {
+    method: 'DELETE',
+    headers: getHeaders(token),
+  });
+
+  return parseResponse(response);
+};
+
+export const createDestination = async (token, payload) => {
+  const response = await fetch(`${API_BASE_URL}/api/destinations`, {
+    method: 'POST',
+    headers: getMultipartHeaders(token),
+    body: payload,
+  });
+
+  return parseResponse(response);
+};
+
+export const updateDestination = async (token, destinationId, payload) => {
+  const response = await fetch(`${API_BASE_URL}/api/destinations/${destinationId}`, {
+    method: 'PUT',
+    headers: getMultipartHeaders(token),
+    body: payload,
+  });
+
+  return parseResponse(response);
+};
+
+export const deleteDestination = async (token, destinationId) => {
+  const response = await fetch(`${API_BASE_URL}/api/destinations/${destinationId}`, {
     method: 'DELETE',
     headers: getHeaders(token),
   });
