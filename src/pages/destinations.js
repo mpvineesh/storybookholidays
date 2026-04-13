@@ -142,12 +142,32 @@ function Destinations() {
     };
   }, [destinations]);
 
-  const handleSelectDestination = (destinationId) => {
+  const scrollToDestinationArticle = (destinationId) => {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    window.requestAnimationFrame(() => {
+      const articleElement = document.getElementById(destinationId);
+
+      if (articleElement) {
+        articleElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  };
+
+  const handleSelectDestination = (destinationId, options = {}) => {
+    const { scrollToArticle = false } = options;
+
     setSelectedDestinationId(destinationId);
 
     if (typeof window !== 'undefined') {
       const nextUrl = `${window.location.pathname}${window.location.search}#${destinationId}`;
       window.history.replaceState(null, '', nextUrl);
+    }
+
+    if (scrollToArticle) {
+      scrollToDestinationArticle(destinationId);
     }
   };
 
@@ -278,7 +298,10 @@ function Destinations() {
                             <a
                               className="destination-browser-link"
                               href={`#${destinationId}`}
-                              onClick={() => handleSelectDestination(destinationId)}
+                              onClick={(event) => {
+                                event.preventDefault();
+                                handleSelectDestination(destinationId, { scrollToArticle: true });
+                              }}
                             >
                               Read guide
                             </a>
@@ -346,7 +369,10 @@ function Destinations() {
                               <a
                                 className={isActive ? 'is-active' : ''}
                                 href={`#${destinationId}`}
-                                onClick={() => handleSelectDestination(destinationId)}
+                                onClick={(event) => {
+                                  event.preventDefault();
+                                  handleSelectDestination(destinationId, { scrollToArticle: true });
+                                }}
                               >
                                 {destination.title}
                               </a>
