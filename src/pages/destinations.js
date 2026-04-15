@@ -58,14 +58,14 @@ function Destinations() {
   const [destinations, setDestinations] = React.useState([]);
   const [selectedDestinationId, setSelectedDestinationId] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(true);
-  const [errorMessage, setErrorMessage] = React.useState('');
+  //const [errorMessage, setErrorMessage] = React.useState('');
 
   React.useEffect(() => {
     let isMounted = true;
 
     const fetchDestinations = async () => {
       setIsLoading(true);
-      setErrorMessage('');
+      //setErrorMessage('');
 
       try {
         const response = await getDestinations();
@@ -78,7 +78,7 @@ function Destinations() {
       } catch (error) {
         if (isMounted) {
           setDestinations([]);
-          setErrorMessage(error.message || 'Unable to load destinations right now.');
+          //setErrorMessage(error.message || 'Unable to load destinations right now.');
         }
       } finally {
         if (isMounted) {
