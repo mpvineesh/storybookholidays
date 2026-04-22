@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:www.spicelandholidays.com)",
+      "Bash(npm run *)",
+      "Bash(firebase --version)",
+      "Bash(firebase login:list)",
+      "Bash(firebase projects:list)",
+      "Bash(firebase hosting:sites:list --project storybookholidays-india)",
+      "Bash(firebase deploy *)",
+      "Bash(mkdir -p /tmp/sbh-img-backup)",
+      "Bash(cp /Users/vineesh/Projects/storybookholidays/public/assets/images/slide-athirappally.jpg /tmp/sbh-img-backup/)",
+      "Bash(sips --resampleWidth 1920 -s format jpeg -s formatOptions 78 /tmp/sbh-img-backup/slide-athirappally.jpg --out /tmp/sbh-img-backup/slide-athirappally-opt.jpg)",
+      "Read(//tmp/**)",
+      "Bash(git check-ignore *)"
+    ]
+  }
+}

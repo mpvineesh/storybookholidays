@@ -2,7 +2,7 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 
 const navItems = [
-  { label: 'Home', href: '/' },
+  { label: 'Home', href: '/home' },
   { label: 'About', href: '/about' },
   { label: 'Packages', href: '/packages' },
   { label: 'Destinations', href: '/destinations' },
@@ -27,10 +27,12 @@ function Header(props) {
               width="120"
               height="72"
               className="logo"
+              decoding="async"
+              fetchpriority="high"
             />
             <div className="branding-copy">
               <h1 className="site-title">
-                <a href="/">Story Book Holidays</a>
+                <a href="/home">Story Book Holidays</a>
               </h1>
               <small className="site-description">Curated Kerala journeys with soul</small>
             </div>
@@ -105,7 +107,7 @@ function Header(props) {
 
         {props.parent ? (
           <nav className="breadcrumbs" aria-label="Breadcrumb">
-            <a href="/">Home</a>
+            <a href="/home">Home</a>
             <span>{props.parent}</span>
           </nav>
         ) : null}

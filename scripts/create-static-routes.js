@@ -21,6 +21,8 @@ const staticRoutes = [
   'ayurveda',
   'kerala',
   'arts',
+  'india',
+  'world',
 ];
 
 if (!fs.existsSync(indexHtmlPath)) {

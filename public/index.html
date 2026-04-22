@@ -10,63 +10,30 @@
       <meta name="robots" content="follow, index"/>
       <title>Story Book Holidays | Curated Kerala Travel Experiences</title>
       <base href="/">
+
       <link rel="preconnect" href="https://fonts.googleapis.com">
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-      <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=IBM+Plex+Mono:wght@400;500&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
-      <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
-      <link rel="stylesheet" href="/assets/css/animate.min.css">
+      <link rel="preconnect" href="https://storybookholidays.onrender.com" crossorigin>
+      <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+
+      <link rel="preload" as="image" href="/assets/images/slide-athirappally.jpg" fetchpriority="high">
+
+      <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=IBM+Plex+Mono:wght@400;500&family=Manrope:wght@400;500;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+      <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=IBM+Plex+Mono:wght@400;500&family=Manrope:wght@400;500;700;800&display=swap"></noscript>
+
+      <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" onload="this.onload=null;this.rel='stylesheet'" crossorigin="anonymous">
+      <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous"></noscript>
+
+      <link rel="preload" as="style" href="/assets/css/animate.min.css" onload="this.onload=null;this.rel='stylesheet'">
+      <noscript><link rel="stylesheet" href="/assets/css/animate.min.css"></noscript>
       <link rel="stylesheet" href="/assets/css/style.css">
-      <!--[if lt IE 9]>
-      <script src="js/ie-support/html5.js"></script>
-      <script src="js/ie-support/respond.js"></script>
-      <![endif]-->
    </head>
    <body class="slider-collapse">
       <div id="site-content">
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
+         <noscript>You need to enable JavaScript to run this app.</noscript>
+         <div id="root"></div>
       </div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
-
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-  </body>
-    <script src="/assets/js/jquery-1.11.1.min.js"></script>
-    <script src="/assets/js/app.js"></script>
-    <script src="/assets/js/plugins.js"></script>
-    <script src="/assets/js/wow.js"></script>
-    <script type = "text/javascript" >
-      $(document).ready((function () {
-    $("#sendMail").on("click", (function (e) {
-       var a = $("#name").val(),
-          s = $("#email").val(),
-          n = $("#subject").val(),
-          l = $("#message").val();
-          if(a && a.length > 0 && l && l.length > 0 && s && s.length > 0 && n && n.length > 0) {
-            $("#sendMail").attr("value", "Sendinging Message..."), $.ajax({
-               type: "POST",
-               url: "./send.php",
-               data: {
-                  from: s,
-                  message: l,
-                  subject: n,
-                  name: a
-               }
-            }).done((function (e) {
-               $("#sendMail").attr("value", "Send Message"), $("#name").val(""), $("#email").val(""), $("#subject").val(""), $("#message").val(""), $("#email-success").fadeIn(1e3), setTimeout((function () {
-                  $("#email-success").fadeOut(1e3)
-               }), 5e3)
-            }))
-         } else {
-            alert("Please enter all fields")
-         }
-    }))
- })) 
- </script>
+      <script src="/assets/js/wow.js" defer></script>
+      <script src="/assets/js/app.js" defer></script>
+   </body>
 </html>

@@ -198,7 +198,7 @@ function Footer() {
           <div className="branding footer-bottom-intro">
             <p className="footer-kicker footer-kicker-soft">Plan with confidence</p>
             <h3 className="site-title">
-              <a href="/">Explore the untold stories of Kerala.</a>
+              <a href="/home">Explore the untold stories of Kerala.</a>
             </h3>
             <small className="site-description">
               From backwaters to hill stations, we make the route, stays, and support feel

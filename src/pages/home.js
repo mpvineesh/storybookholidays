@@ -133,6 +133,7 @@ const testimonials = [
 function Home() {
   const [packages, setPackages] = React.useState([]);
   const [activeHeroSlide, setActiveHeroSlide] = React.useState(0);
+  const [loadedHeroSlides, setLoadedHeroSlides] = React.useState(() => new Set([0]));
 
   React.useEffect(() => {
     let isMounted = true;
@@ -162,6 +163,25 @@ function Home() {
     };
   }, []);
 
+  React.useEffect(() => {
+    if (loadedHeroSlides.size >= heroSlides.length) return undefined;
+    const nextIndex = (activeHeroSlide + 1) % heroSlides.length;
+    if (loadedHeroSlides.has(nextIndex)) return undefined;
+    const preloadImg = new Image();
+    preloadImg.src = heroSlides[nextIndex].image;
+    preloadImg.onload = () => {
+      setLoadedHeroSlides((prev) => {
+        if (prev.has(nextIndex)) return prev;
+        const updated = new Set(prev);
+        updated.add(nextIndex);
+        return updated;
+      });
+    };
+    return () => {
+      preloadImg.onload = null;
+    };
+  }, [activeHeroSlide, loadedHeroSlides]);
+
   const currentHeroSlide = heroSlides[activeHeroSlide];
 
   return (
@@ -174,7 +194,7 @@ function Home() {
               <div
                 className={`hero-background-slide ${index === activeHeroSlide ? 'is-active' : ''}`}
                 key={slide.title}
-                style={{ backgroundImage: `url('${slide.image}')` }}
+                style={loadedHeroSlides.has(index) ? { backgroundImage: `url('${slide.image}')` } : undefined}
               />
             ))}
           </div>
@@ -320,6 +340,8 @@ function Home() {
                       src={`assets/images/packages/${pack.image}`}
                       className="package-image"
                       alt={pack.title}
+                      loading="lazy"
+                      decoding="async"
                     />
                   </figure>
                   <div className="offer-body">
@@ -372,7 +394,14 @@ function Home() {
               {testimonials.map((testimonial) => (
                 <div className="testimonial" key={testimonial.name}>
                   <figure className="avatar">
-                    <img src={testimonial.image} alt={testimonial.name} />
+                    <img
+                      src={testimonial.image}
+                      alt={testimonial.name}
+                      loading="lazy"
+                      decoding="async"
+                      width="88"
+                      height="88"
+                    />
                   </figure>
                   <blockquote className="testimonial-body">
                     <p>{testimonial.quote}</p>
