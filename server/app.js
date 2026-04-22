@@ -8,10 +8,18 @@ const itineraryRoutes = require("./routes/itineraryRoutes");
 const packageRoutes = require("./routes/packageRoutes");
 
 const app = express();
+
+const defaultAllowedOrigins = [
+  "https://storybookholidays-india.web.app",
+  "https://storybookholidays-india.firebaseapp.com",
+];
+
 const configuredOrigins = (process.env.CLIENT_ORIGIN || "")
   .split(",")
   .map((origin) => origin.trim())
   .filter(Boolean);
+
+const allowedOrigins = new Set([...defaultAllowedOrigins, ...configuredOrigins]);
 
 const isLocalOrigin = (origin) =>
   /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin);
@@ -23,7 +31,7 @@ app.use(
         return callback(null, true);
       }
 
-      if (configuredOrigins.includes(origin) || isLocalOrigin(origin)) {
+      if (allowedOrigins.has(origin) || isLocalOrigin(origin)) {
         return callback(null, true);
       }
 
