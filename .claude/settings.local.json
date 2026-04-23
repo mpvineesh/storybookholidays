@@ -12,7 +12,9 @@
       "Bash(cp /Users/vineesh/Projects/storybookholidays/public/assets/images/slide-athirappally.jpg /tmp/sbh-img-backup/)",
       "Bash(sips --resampleWidth 1920 -s format jpeg -s formatOptions 78 /tmp/sbh-img-backup/slide-athirappally.jpg --out /tmp/sbh-img-backup/slide-athirappally-opt.jpg)",
       "Read(//tmp/**)",
-      "Bash(git check-ignore *)"
+      "Bash(git check-ignore *)",
+      "Bash(curl -sS -D- -o /dev/null -X OPTIONS -H 'Origin: https://storybookholidays-india.web.app' -H 'Access-Control-Request-Method: POST' -H 'Access-Control-Request-Headers: content-type' https://storybookholidays.onrender.com/api/admin/login --max-time 60)",
+      "Bash(node -e ' *)"
     ]
   }
 }

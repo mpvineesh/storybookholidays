@@ -8,9 +8,12 @@ import {
   updatePackage,
 } from '../../services/itineraryAdminApi';
 
+const PACKAGE_REGIONS = ['Kerala', 'India', 'World'];
+
 const createEmptyPackageForm = () => ({
   title: '',
   slug: '',
+  region: 'Kerala',
   duration: '',
   shortDescription: '',
   contentHtml: '',
@@ -106,6 +109,7 @@ function PackageAdminPanel({ token, workspaceSearch = '' }) {
     const formData = new FormData();
     formData.append('title', packageForm.title);
     formData.append('slug', packageForm.slug);
+    formData.append('region', packageForm.region);
     formData.append('duration', packageForm.duration);
     formData.append('shortDescription', packageForm.shortDescription);
     formData.append('contentHtml', packageForm.contentHtml);
@@ -134,6 +138,7 @@ function PackageAdminPanel({ token, workspaceSearch = '' }) {
       setPackageForm({
         title: response.data.title || '',
         slug: response.data.slug || '',
+        region: response.data.region || 'Kerala',
         duration: response.data.duration || '',
         shortDescription: response.data.shortDescription || '',
         contentHtml: response.data.contentHtml || '',
@@ -157,6 +162,7 @@ function PackageAdminPanel({ token, workspaceSearch = '' }) {
     setPackageForm({
       title: packageEntry.title || '',
       slug: packageEntry.slug || '',
+      region: packageEntry.region || 'Kerala',
       duration: packageEntry.duration || '',
       shortDescription: packageEntry.shortDescription || '',
       contentHtml: packageEntry.contentHtml || '',
@@ -276,6 +282,22 @@ function PackageAdminPanel({ token, workspaceSearch = '' }) {
                     onChange={handleInputChange}
                     placeholder="amazing-kerala"
                   />
+                </label>
+
+                <label className="admin-field">
+                  <span>Region</span>
+                  <select
+                    name="region"
+                    value={packageForm.region}
+                    onChange={handleInputChange}
+                    required
+                  >
+                    {PACKAGE_REGIONS.map((regionOption) => (
+                      <option key={regionOption} value={regionOption}>
+                        {regionOption}
+                      </option>
+                    ))}
+                  </select>
                 </label>
 
                 <label className="admin-field">

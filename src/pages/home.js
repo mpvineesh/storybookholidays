@@ -347,10 +347,10 @@ function Home() {
                   <div className="offer-body">
                     <span className="offer-duration">{pack.duration}</span>
                     <h3 className="entry-title">
-                      <a href={`/package?name=${pack.packageName}`}>{pack.title}</a>
+                      <a href={`/package/${pack.packageName}`}>{pack.title}</a>
                     </h3>
                     <p>{pack.shortDescription}</p>
-                    <a href={`/package?name=${pack.packageName}`} className="button">
+                    <a href={`/package/${pack.packageName}`} className="button">
                       See Details
                     </a>
                   </div>

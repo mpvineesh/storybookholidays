@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from '../common/header';
 import Footer from '../common/footer';
-import { useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import DatService from '../services/dataService';
 import PackageData from '../services/packageData';
@@ -12,8 +12,7 @@ function PackageInfo() {
   const [fallbackPackage, setFallbackPackage] = React.useState(null);
   const [isLoading, setIsLoading] = React.useState(true);
   const [errorMessage, setErrorMessage] = React.useState('');
-  const search = useLocation().search;
-  const packageName = new URLSearchParams(search).get('name');
+  const { slug: packageName } = useParams();
 
   React.useEffect(() => {
     const fetchData = async () => {

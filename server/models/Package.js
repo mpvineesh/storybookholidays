@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 
+const PACKAGE_REGIONS = ["Kerala", "India", "World"];
+
 const packageSchema = new mongoose.Schema(
   {
     title: {
@@ -13,6 +15,15 @@ const packageSchema = new mongoose.Schema(
       trim: true,
       lowercase: true,
       unique: true,
+    },
+    region: {
+      type: String,
+      enum: {
+        values: PACKAGE_REGIONS,
+        message: "Region must be one of: Kerala, India, World",
+      },
+      default: "Kerala",
+      required: [true, "Region is required"],
     },
     duration: {
       type: String,
@@ -45,4 +56,7 @@ const packageSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("Package", packageSchema);
+const PackageModel = mongoose.model("Package", packageSchema);
+PackageModel.REGIONS = PACKAGE_REGIONS;
+
+module.exports = PackageModel;

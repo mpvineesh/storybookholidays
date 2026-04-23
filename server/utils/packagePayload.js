@@ -1,5 +1,6 @@
 const path = require("path");
 
+const Package = require("../models/Package");
 const slugify = require("./slugify");
 
 const buildPackageImageUrl = (req, imagePath) => {
@@ -24,13 +25,19 @@ const mapPackageResponse = (req, packageDocument) => {
   };
 };
 
-const parsePackageInput = (body = {}) => ({
-  title: (body.title || "").trim(),
-  slug: slugify(body.slug || body.title || ""),
-  duration: (body.duration || "").trim(),
-  shortDescription: (body.shortDescription || "").trim(),
-  contentHtml: body.contentHtml || "",
-});
+const parsePackageInput = (body = {}) => {
+  const submittedRegion = (body.region || "").trim();
+  const region = Package.REGIONS.includes(submittedRegion) ? submittedRegion : "Kerala";
+
+  return {
+    title: (body.title || "").trim(),
+    slug: slugify(body.slug || body.title || ""),
+    region,
+    duration: (body.duration || "").trim(),
+    shortDescription: (body.shortDescription || "").trim(),
+    contentHtml: body.contentHtml || "",
+  };
+};
 
 module.exports = {
   mapPackageResponse,

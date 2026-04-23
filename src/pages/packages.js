@@ -44,7 +44,7 @@ function Packages() {
                   </figure>
                   <div className="package-card-body">
                     <h2 className="entry-title">
-                      <a href={`/package?name=${pack.slug || pack.packageName}`}>{pack.title}</a>
+                      <a href={`/package/${pack.slug || pack.packageName}`}>{pack.title}</a>
                     </h2>
                     <p>{pack.shortDescription}</p>
                   </div>

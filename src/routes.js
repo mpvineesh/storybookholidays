@@ -42,7 +42,7 @@ function AppRoutes() {
           <Route path="/about" component={AboutUs} />
           <Route path="/destinations" component={Destinations} />
           <Route exact path="/packages" component={Packages} />
-          <Route exact path="/package" component={PackageInfo} />
+          <Route exact path="/package/:slug" component={PackageInfo} />
           <Route path="/contact" component={ContactUs} />
           <Route exact path="/mission" component={Mission} />
           <Route path="/vision" component={Vision} />
