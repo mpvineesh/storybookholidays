@@ -19,7 +19,6 @@ const Destinations = lazy(() => import('./pages/destinations'));
 const BackWaters = lazy(() => import('./places/backwaters'));
 const Arts = lazy(() => import('./places/arts'));
 const Theyyam = lazy(() => import('./places/theyyam'));
-const Kerala = lazy(() => import('./places/kerala'));
 const Ayurveda = lazy(() => import('./places/ayurveda'));
 const AdminDashboard = lazy(() => import('./pages/admin-dashboard'));
 
@@ -36,9 +35,10 @@ function AppRoutes() {
         <Switch>
           <Route exact path="/admin" component={AdminDashboard} />
           <Route exact path="/" component={Landing} />
+          <Route exact path="/home" component={Landing} />
           <Route
             exact
-            path="/home"
+            path="/kerala"
             render={(props) => (
               <RegionProvider region="Kerala">
                 <Home {...props} region="Kerala" />
@@ -74,7 +74,6 @@ function AppRoutes() {
           <Route path="/backwaters" component={BackWaters} />
           <Route path="/theyyam" component={Theyyam} />
           <Route path="/ayurveda" component={Ayurveda} />
-          <Route path="/kerala" component={Kerala} />
           <Route path="/arts" component={Arts} />
         </Switch>
       </Suspense>

@@ -32,47 +32,6 @@ const destinationHighlights = [
   },
 ];
 
-const heroSlides = [
-  {
-    title: 'Kumarakom',
-    subtitle: 'Lakeside mornings and unhurried backwater stays',
-    description:
-      'Ease into Kerala with premium houseboats, village canals, and soft golden evenings beside Vembanad Lake.',
-    image: '/assets/images/slide-kumarakam.jpg',
-    highlights: ['Luxury houseboats', 'Bird sanctuary', 'Slow travel'],
-  },
-  {
-    title: 'Munnar',
-    subtitle: 'Mist, tea gardens, and scenic mountain roads',
-    description:
-      'Trade city noise for cool air, rolling plantations, and lookouts that make every drive feel cinematic.',
-    image: '/assets/images/slide7.jpg',
-    highlights: ['Tea estates', 'Waterfalls', 'Hill retreats'],
-  },
-  {
-    title: 'Athirappilly',
-    subtitle: 'Rainforest routes and Kerala’s dramatic waterfall escape',
-    description:
-      'Layer forest stays, monsoon greens, and the roar of iconic falls into a stop that feels both wild and restorative.',
-    image: '/assets/images/slide-athirappally.jpg',
-    highlights: ['Waterfall views', 'Rainforest drives', 'Nature stays'],
-  },
-  {
-    title: 'Kovalam',
-    subtitle: 'Sea breezes, wellness, and sunset beach time',
-    description:
-      'Balance shorefront relaxation with Ayurvedic comforts and leisurely evenings along Kerala’s most loved coast.',
-    image: '/assets/images/slide4.jpg',
-    highlights: ['Beach resorts', 'Ayurveda', 'Ocean sunsets'],
-  },
-];
-
-const planningPoints = [
-  'Tailor-made itineraries across Kerala',
-  'Trusted driver-guides and smooth transfers',
-  'Handpicked stays, cruises, and local experiences',
-];
-
 const experienceThemes = [
   {
     label: 'Slow Luxury',
@@ -92,13 +51,6 @@ const experienceThemes = [
     description:
       'Accommodation, transport, and activity planning come together in one coordinated experience from start to finish.',
   },
-];
-
-const travelerStats = [
-  { value: '7+', label: 'Curated Kerala packages' },
-  { value: '100%', label: 'Private planning support' },
-  { value: '2', label: 'Office locations in Kerala' },
-  { value: '365', label: 'Days to start your next story' },
 ];
 
 const testimonials = [
@@ -143,21 +95,13 @@ const normalizeSlide = (slide) => ({
 function Home({ region = 'Kerala' }) {
   const { content } = useRegionContent();
   const heroFromContent = content.hero || {};
-  const heroSlidesFromContext = (heroFromContent.slides || []).map(normalizeSlide);
-  const slides = heroSlidesFromContext.length > 0 ? heroSlidesFromContext : heroSlides;
-  const heroEyebrow = heroFromContent.eyebrow || 'Curated Kerala travel, beautifully planned';
-  const heroTitle = heroFromContent.title || 'Turn every holiday into a story worth retelling.';
-  const heroDescription =
-    heroFromContent.description ||
-    'Explore backwaters, hill stations, beaches, and cultural landmarks with a travel team that shapes each itinerary around comfort, beauty, and memorable local experiences.';
-  const heroBadges = (heroFromContent.badges && heroFromContent.badges.length
-    ? heroFromContent.badges
-    : ['Private escapes', 'Trusted local expertise', 'Backwaters to beaches']);
-  const planningPointsFromContext =
-    content.planning && content.planning.points && content.planning.points.length
-      ? content.planning.points
-      : planningPoints;
-  const statsFromContext = content.stats && content.stats.length ? content.stats : travelerStats;
+  const slides = (heroFromContent.slides || []).map(normalizeSlide);
+  const heroEyebrow = heroFromContent.eyebrow || '';
+  const heroTitle = heroFromContent.title || '';
+  const heroDescription = heroFromContent.description || '';
+  const heroBadges = heroFromContent.badges || [];
+  const planningPointsFromContext = (content.planning && content.planning.points) || [];
+  const statsFromContext = content.stats || [];
 
   const [packages, setPackages] = React.useState([]);
   const [activeHeroSlide, setActiveHeroSlide] = React.useState(0);

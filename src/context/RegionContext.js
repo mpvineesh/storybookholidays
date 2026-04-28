@@ -1,37 +1,31 @@
 import React from 'react';
 import { getRegionContent } from '../services/regionContentApi';
-
-const EMPTY_CONTENT = {
-  header: { tagline: '' },
-  hero: { eyebrow: '', title: '', description: '', badges: [], slides: [] },
-  planning: { points: [] },
-  destinations: { kicker: '', title: '', items: [] },
-  packagesSection: { kicker: '', title: '' },
-  experience: { kicker: '', title: '', themes: [] },
-  stats: [],
-};
+import { defaultContentFor } from '../services/regionContentDefaults';
 
 const RegionContext = React.createContext({
   region: 'Kerala',
-  content: EMPTY_CONTENT,
+  content: defaultContentFor('Kerala'),
   isLoading: false,
   error: '',
 });
 
 export function RegionProvider({ region = 'Kerala', children }) {
-  const [content, setContent] = React.useState(EMPTY_CONTENT);
+  const [content, setContent] = React.useState(() => defaultContentFor(region));
   const [isLoading, setIsLoading] = React.useState(true);
   const [error, setError] = React.useState('');
 
   React.useEffect(() => {
     let isMounted = true;
+    setContent(defaultContentFor(region));
     setIsLoading(true);
     setError('');
 
     getRegionContent(region)
       .then((response) => {
         if (!isMounted) return;
-        setContent({ ...EMPTY_CONTENT, ...(response.data || {}) });
+        const fetched = response.data || {};
+        const fallback = defaultContentFor(region);
+        setContent({ ...fallback, ...fetched });
       })
       .catch((fetchError) => {
         if (!isMounted) return;

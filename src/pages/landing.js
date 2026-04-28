@@ -8,7 +8,7 @@ const regions = [
     description:
       'Backwaters, tea hills, beaches, Ayurveda, and timeless culture — our signature curated journeys across Kerala.',
     image: '/assets/images/kerala-card.jpg',
-    href: '/home',
+    href: '/kerala',
     available: true,
   },
   {
