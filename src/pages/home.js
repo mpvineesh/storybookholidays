@@ -2,6 +2,8 @@ import React from 'react';
 import Header from '../common/header';
 import Footer from '../common/footer';
 import DatService from '../services/dataService';
+import { getPackages as getPackagesFromApi } from '../services/itineraryAdminApi';
+import { useRegionContent } from '../context/RegionContext';
 
 const destinationHighlights = [
   {
@@ -130,7 +132,33 @@ const testimonials = [
   },
 ];
 
-function Home() {
+const normalizeSlide = (slide) => ({
+  title: slide.title || '',
+  subtitle: slide.subtitle || '',
+  description: slide.description || '',
+  image: slide.imageUrl || slide.image || '',
+  highlights: slide.highlights || [],
+});
+
+function Home({ region = 'Kerala' }) {
+  const { content } = useRegionContent();
+  const heroFromContent = content.hero || {};
+  const heroSlidesFromContext = (heroFromContent.slides || []).map(normalizeSlide);
+  const slides = heroSlidesFromContext.length > 0 ? heroSlidesFromContext : heroSlides;
+  const heroEyebrow = heroFromContent.eyebrow || 'Curated Kerala travel, beautifully planned';
+  const heroTitle = heroFromContent.title || 'Turn every holiday into a story worth retelling.';
+  const heroDescription =
+    heroFromContent.description ||
+    'Explore backwaters, hill stations, beaches, and cultural landmarks with a travel team that shapes each itinerary around comfort, beauty, and memorable local experiences.';
+  const heroBadges = (heroFromContent.badges && heroFromContent.badges.length
+    ? heroFromContent.badges
+    : ['Private escapes', 'Trusted local expertise', 'Backwaters to beaches']);
+  const planningPointsFromContext =
+    content.planning && content.planning.points && content.planning.points.length
+      ? content.planning.points
+      : planningPoints;
+  const statsFromContext = content.stats && content.stats.length ? content.stats : travelerStats;
+
   const [packages, setPackages] = React.useState([]);
   const [activeHeroSlide, setActiveHeroSlide] = React.useState(0);
   const [loadedHeroSlides, setLoadedHeroSlides] = React.useState(() => new Set([0]));
@@ -139,10 +167,20 @@ function Home() {
     let isMounted = true;
 
     const fetchData = async () => {
-      const data = await new DatService().getPackages();
+      let allPackages = [];
+      try {
+        const response = await getPackagesFromApi();
+        allPackages = response.data || [];
+      } catch (error) {
+        allPackages = await new DatService().getPackages();
+      }
+
+      const filtered = allPackages.filter(
+        (pack) => (pack.region || 'Kerala') === region
+      );
 
       if (isMounted) {
-        setPackages(data.slice(0, 4));
+        setPackages(filtered.slice(0, 4));
       }
     };
 
@@ -151,24 +189,31 @@ function Home() {
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [region]);
 
   React.useEffect(() => {
+    if (slides.length <= 1) return undefined;
     const intervalId = window.setInterval(() => {
-      setActiveHeroSlide((currentSlide) => (currentSlide + 1) % heroSlides.length);
+      setActiveHeroSlide((currentSlide) => (currentSlide + 1) % slides.length);
     }, 5000);
 
     return () => {
       window.clearInterval(intervalId);
     };
-  }, []);
+  }, [slides.length]);
 
   React.useEffect(() => {
-    if (loadedHeroSlides.size >= heroSlides.length) return undefined;
-    const nextIndex = (activeHeroSlide + 1) % heroSlides.length;
+    setActiveHeroSlide(0);
+    setLoadedHeroSlides(new Set([0]));
+  }, [region]);
+
+  React.useEffect(() => {
+    if (slides.length === 0) return undefined;
+    if (loadedHeroSlides.size >= slides.length) return undefined;
+    const nextIndex = (activeHeroSlide + 1) % slides.length;
     if (loadedHeroSlides.has(nextIndex)) return undefined;
     const preloadImg = new Image();
-    preloadImg.src = heroSlides[nextIndex].image;
+    preloadImg.src = slides[nextIndex].image;
     preloadImg.onload = () => {
       setLoadedHeroSlides((prev) => {
         if (prev.has(nextIndex)) return prev;
@@ -180,9 +225,10 @@ function Home() {
     return () => {
       preloadImg.onload = null;
     };
-  }, [activeHeroSlide, loadedHeroSlides]);
+  }, [activeHeroSlide, loadedHeroSlides, slides]);
 
-  const currentHeroSlide = heroSlides[activeHeroSlide];
+  const safeActiveSlide = slides.length > 0 ? activeHeroSlide % slides.length : 0;
+  const currentHeroSlide = slides[safeActiveSlide] || { title: '', subtitle: '', description: '', image: '', highlights: [] };
 
   return (
     <React.Fragment>
@@ -190,10 +236,10 @@ function Home() {
       <main className="content home-page">
         <section className="hero-section">
           <div className="hero-background-slides" aria-hidden="true">
-            {heroSlides.map((slide, index) => (
+            {slides.map((slide, index) => (
               <div
-                className={`hero-background-slide ${index === activeHeroSlide ? 'is-active' : ''}`}
-                key={slide.title}
+                className={`hero-background-slide ${index === safeActiveSlide ? 'is-active' : ''}`}
+                key={`${slide.title}-${index}`}
                 style={loadedHeroSlides.has(index) ? { backgroundImage: `url('${slide.image}')` } : undefined}
               />
             ))}
@@ -201,13 +247,9 @@ function Home() {
           <div className="container">
             <div className="hero-grid">
               <div className="hero-copy">
-                <span className="eyebrow">Curated Kerala travel, beautifully planned</span>
-                <h1>Turn every holiday into a story worth retelling.</h1>
-                <p>
-                  Explore backwaters, hill stations, beaches, and cultural landmarks with a
-                  travel team that shapes each itinerary around comfort, beauty, and memorable
-                  local experiences.
-                </p>
+                <span className="eyebrow">{heroEyebrow}</span>
+                <h1>{heroTitle}</h1>
+                <p>{heroDescription}</p>
                 <div className="hero-actions">
                   <a href="/packages" className="button hero-button">
                     Explore Packages
@@ -222,17 +264,17 @@ function Home() {
                   </a>
                 </div>
                 <div className="hero-badges">
-                  <span>Private escapes</span>
-                  <span>Trusted local expertise</span>
-                  <span>Backwaters to beaches</span>
+                  {heroBadges.map((badge) => (
+                    <span key={badge}>{badge}</span>
+                  ))}
                 </div>
                 <div className="hero-slide-indicators" aria-label="Hero background slideshow controls">
-                  {heroSlides.map((slide, index) => (
+                  {slides.map((slide, index) => (
                     <button
                       type="button"
-                      className={index === activeHeroSlide ? 'is-active' : ''}
+                      className={index === safeActiveSlide ? 'is-active' : ''}
                       onClick={() => setActiveHeroSlide(index)}
-                      key={slide.title}
+                      key={`${slide.title}-${index}`}
                       aria-label={`Show ${slide.title}`}
                     />
                   ))}
@@ -266,7 +308,7 @@ function Home() {
                     Warm planning, clear coordination, unforgettable routes.
                   </h4>
                   <ul className="planner-list">
-                    {planningPoints.map((point) => (
+                    {planningPointsFromContext.map((point) => (
                       <li key={point}>{point}</li>
                     ))}
                   </ul>
@@ -275,7 +317,7 @@ function Home() {
             </div>
 
             <div className="hero-stats">
-              {travelerStats.map((stat) => (
+              {statsFromContext.map((stat) => (
                 <div className="stat-card" key={stat.label}>
                   <strong>{stat.value}</strong>
                   <span>{stat.label}</span>
@@ -333,29 +375,32 @@ function Home() {
             </div>
 
             <div className="offers-grid">
-              {packages.map((pack) => (
-                <article className="offer travel-offer" key={pack.packageName}>
-                  <figure className="featured-image">
-                    <img
-                      src={`assets/images/packages/${pack.image}`}
-                      className="package-image"
-                      alt={pack.title}
-                      loading="lazy"
-                      decoding="async"
-                    />
-                  </figure>
-                  <div className="offer-body">
-                    <span className="offer-duration">{pack.duration}</span>
-                    <h3 className="entry-title">
-                      <a href={`/package/${pack.packageName}`}>{pack.title}</a>
-                    </h3>
-                    <p>{pack.shortDescription}</p>
-                    <a href={`/package/${pack.packageName}`} className="button">
-                      See Details
-                    </a>
-                  </div>
-                </article>
-              ))}
+              {packages.map((pack) => {
+                const packageRef = pack.slug || pack.packageName;
+                return (
+                  <article className="offer travel-offer" key={pack._id || packageRef}>
+                    <figure className="featured-image">
+                      <img
+                        src={pack.imageUrl || `assets/images/packages/${pack.image}`}
+                        className="package-image"
+                        alt={pack.title}
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </figure>
+                    <div className="offer-body">
+                      <span className="offer-duration">{pack.duration}</span>
+                      <h3 className="entry-title">
+                        <a href={`/package/${packageRef}`}>{pack.title}</a>
+                      </h3>
+                      <p>{pack.shortDescription}</p>
+                      <a href={`/package/${packageRef}`} className="button">
+                        See Details
+                      </a>
+                    </div>
+                  </article>
+                );
+              })}
             </div>
           </div>
         </section>

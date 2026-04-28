@@ -4,9 +4,9 @@ import {
   Switch,
   Route,
 } from 'react-router-dom';
+import { RegionProvider } from './context/RegionContext';
 
 const Landing = lazy(() => import('./pages/landing'));
-const ComingSoon = lazy(() => import('./pages/coming-soon'));
 const Home = lazy(() => import('./pages/home'));
 const AboutUs = lazy(() => import('./pages/about'));
 const ContactUs = lazy(() => import('./pages/contact'));
@@ -36,9 +36,33 @@ function AppRoutes() {
         <Switch>
           <Route exact path="/admin" component={AdminDashboard} />
           <Route exact path="/" component={Landing} />
-          <Route exact path="/india" component={ComingSoon} />
-          <Route exact path="/world" component={ComingSoon} />
-          <Route path="/home" component={Home} />
+          <Route
+            exact
+            path="/home"
+            render={(props) => (
+              <RegionProvider region="Kerala">
+                <Home {...props} region="Kerala" />
+              </RegionProvider>
+            )}
+          />
+          <Route
+            exact
+            path="/india"
+            render={(props) => (
+              <RegionProvider region="India">
+                <Home {...props} region="India" />
+              </RegionProvider>
+            )}
+          />
+          <Route
+            exact
+            path="/world"
+            render={(props) => (
+              <RegionProvider region="World">
+                <Home {...props} region="World" />
+              </RegionProvider>
+            )}
+          />
           <Route path="/about" component={AboutUs} />
           <Route path="/destinations" component={Destinations} />
           <Route exact path="/packages" component={Packages} />

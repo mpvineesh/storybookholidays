@@ -1,5 +1,6 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
+import { useRegionContent } from '../context/RegionContext';
 
 const navItems = [
   { label: 'Home', href: '/home' },
@@ -11,6 +12,8 @@ const navItems = [
 
 function Header(props) {
   const location = useLocation();
+  const { content } = useRegionContent();
+  const tagline = (content.header && content.header.tagline) || 'Curated Kerala journeys with soul';
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   React.useEffect(() => {
     setIsMenuOpen(false);
@@ -34,7 +37,7 @@ function Header(props) {
               <h1 className="site-title">
                 <a href="/home">Story Book Holidays</a>
               </h1>
-              <small className="site-description">Curated Kerala journeys with soul</small>
+              <small className="site-description">{tagline}</small>
             </div>
           </div>
 

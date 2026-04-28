@@ -2,6 +2,7 @@ import React from 'react';
 import './admin-dashboard.css';
 import PackageAdminPanel from '../components/admin/PackageAdminPanel';
 import DestinationAdminPanel from '../components/admin/DestinationAdminPanel';
+import RegionContentAdminPanel from '../components/admin/RegionContentAdminPanel';
 import {
   adminLogin,
   createItinerary,
@@ -107,6 +108,13 @@ const adminSections = [
     label: 'Destinations',
     title: 'Destinations',
     description: 'Track and manage all destination publishing records',
+  },
+  {
+    id: 'region-content',
+    icon: 'fa-globe',
+    label: 'Region Content',
+    title: 'Region Content',
+    description: 'Configure landing-page content for each region',
   },
 ];
 
@@ -732,6 +740,10 @@ function AdminDashboard() {
 
               {activeSection === 'destinations' ? (
                 <DestinationAdminPanel token={token} workspaceSearch={workspaceSearch} />
+              ) : null}
+
+              {activeSection === 'region-content' ? (
+                <RegionContentAdminPanel token={token} />
               ) : null}
             </div>
           </div>

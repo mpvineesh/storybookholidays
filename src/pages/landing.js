@@ -7,7 +7,7 @@ const regions = [
     tagline: "God's Own Country",
     description:
       'Backwaters, tea hills, beaches, Ayurveda, and timeless culture — our signature curated journeys across Kerala.',
-    image: '/assets/images/slide-kumarakam.jpg',
+    image: '/assets/images/kerala-card.jpg',
     href: '/home',
     available: true,
   },
@@ -17,9 +17,9 @@ const regions = [
     tagline: 'Incredible India',
     description:
       'From the Himalayas to the heritage cities and coastal getaways — pan-India journeys crafted with care.',
-    image: '/assets/images/banner.jpg',
+    image: '/assets/images/india-card.jpg',
     href: '/india',
-    available: false,
+    available: true,
   },
   {
     key: 'world',
@@ -27,9 +27,9 @@ const regions = [
     tagline: 'Beyond Borders',
     description:
       'Handpicked international escapes — from island retreats to cultural capitals, designed around you.',
-    image: '/assets/images/roads.jpg',
+    image: '/assets/images/world-card.jpg',
     href: '/world',
-    available: false,
+    available: true,
   },
 ];
 
@@ -125,7 +125,7 @@ function Landing() {
                 <h2>{region.label}</h2>
                 <p>{region.description}</p>
                 <span className="region-card-action">
-                  {region.available ? 'Explore Kerala →' : 'Coming Soon'}
+                  {region.available ? `Explore ${region.label} →` : 'Coming Soon'}
                 </span>
               </div>
               {!region.available && <span className="region-card-badge">Coming Soon</span>}

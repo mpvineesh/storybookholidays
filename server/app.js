@@ -6,6 +6,7 @@ const adminRoutes = require("./routes/adminRoutes");
 const destinationRoutes = require("./routes/destinationRoutes");
 const itineraryRoutes = require("./routes/itineraryRoutes");
 const packageRoutes = require("./routes/packageRoutes");
+const regionContentRoutes = require("./routes/regionContentRoutes");
 
 const app = express();
 
@@ -39,7 +40,7 @@ app.use(
     },
   })
 );
-app.use(express.json());
+app.use(express.json({ limit: "2mb" }));
 app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 
 app.get("/api/health", (_req, res) => {
@@ -53,6 +54,7 @@ app.use("/api/admin", adminRoutes);
 app.use("/api/destinations", destinationRoutes);
 app.use("/api/itineraries", itineraryRoutes);
 app.use("/api/packages", packageRoutes);
+app.use("/api/region-content", regionContentRoutes);
 
 app.use((req, res) => {
   res.status(404).json({
