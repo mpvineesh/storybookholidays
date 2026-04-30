@@ -101,10 +101,11 @@ jobs:
             echo "Using npm $(npm -v)"
 
             mkdir -p "$APP_DIR"
+            mkdir -p "$APP_DIR/server"
             mkdir -p "$APP_DIR/uploads"
 
-            rm -rf "$APP_DIR/server"
             rm -f "$APP_DIR/package.json" "$APP_DIR/package-lock.json" "$APP_DIR/ecosystem.config.js"
+            find "$APP_DIR/server" -mindepth 1 -maxdepth 1 ! -name node_modules -exec rm -rf {} +
 
             tar -xzf "$ARCHIVE_PATH" -C "$APP_DIR"
             mv "$ENV_PATH" "$APP_DIR/server/.env"
