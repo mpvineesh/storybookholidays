@@ -116,9 +116,6 @@ const updateDestination = async (req, res, next) => {
     if (req.file) {
       destinationInput.imagePath = getRelativeImagePath(req.file);
       destinationInput.imageOriginalName = req.file.originalname;
-    } else {
-      destinationInput.imagePath = existingDestination.imagePath;
-      destinationInput.imageOriginalName = existingDestination.imageOriginalName;
     }
 
     const updatedDestination = await Destination.findByIdAndUpdate(

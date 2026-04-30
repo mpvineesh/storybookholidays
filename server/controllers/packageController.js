@@ -113,9 +113,6 @@ const updatePackage = async (req, res, next) => {
     if (req.file) {
       packageInput.imagePath = getRelativeImagePath(req.file);
       packageInput.imageOriginalName = req.file.originalname;
-    } else {
-      packageInput.imagePath = existingPackage.imagePath;
-      packageInput.imageOriginalName = existingPackage.imageOriginalName;
     }
 
     const updatedPackage = await Package.findByIdAndUpdate(

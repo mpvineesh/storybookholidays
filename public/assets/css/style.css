@@ -2378,9 +2378,14 @@
  figure img {
    display: block;
    max-width: 100%;
-   object-fit: none;
+   object-fit: cover;
  }
- 
+ @media (max-width: 768px) {
+   figure img {
+     object-fit: none;
+   }
+ }
+
  .site-footer {
    background-color: #f1f1f1;
    font-size: 13px;
