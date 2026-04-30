@@ -4,17 +4,25 @@ This project includes a React frontend and a simple Node.js + Express + MongoDB 
 
 ## Backend Setup
 
-1. Copy `.env.example` to `.env`
+The backend is isolated inside the [`server`](/Users/vineesh/Projects/storybookholidays/server) directory with its own `package.json`.
+
+1. Copy `server/.env.example` to `server/.env`
 2. Set `MONGODB_URI` with your MongoDB connection string
 3. Set `CLIENT_ORIGIN` to your frontend URL. You can provide multiple origins separated by commas.
-4. Add `ADMIN_USERNAME`, `ADMIN_PASSWORD`, and `ADMIN_TOKEN_SECRET`
-5. Start the API with `npm run server`
+4. Add `AWS_REGION`, `S3_BUCKET_NAME`, `AWS_ACCESS_KEY_ID`, and `AWS_SECRET_ACCESS_KEY`
+5. Optionally set `S3_PUBLIC_BASE_URL` if you want image URLs to use a custom asset domain
+6. Add `ADMIN_USERNAME`, `ADMIN_PASSWORD`, and `ADMIN_TOKEN_SECRET`
+7. Install backend dependencies with `cd server && npm install`
+8. Start the API with `cd server && npm run dev`
 
 The API runs on `http://localhost:5001` by default.
 
+Uploaded package, destination, and region-content images are stored in S3-compatible object storage.
+Existing records that still point at old `/uploads/...` paths continue to work.
+
 ## Frontend Admin Setup
 
-1. Keep `REACT_APP_API_BASE_URL=http://localhost:5001` in `.env` for local development
+1. Keep `REACT_APP_API_BASE_URL=http://localhost:5001` in the root `.env` for local development
 2. Start the React app with `npm start`
 3. Open `http://localhost:3000/admin`
 4. Sign in with the admin username and password from your environment file
@@ -119,7 +127,7 @@ Updates a package. Requires `Authorization: Bearer <token>` and accepts `multipa
 
 ### `DELETE /api/packages/:id`
 
-Deletes a package and removes its uploaded image from the server.
+Deletes a package and removes its uploaded image from storage.
 
 ## Frontend Scripts
 
@@ -172,13 +180,18 @@ Add these GitHub repository secrets before using it:
 - `LIGHTSAIL_PORT` (optional, defaults to `22`)
 - `LIGHTSAIL_APP_DIR` (optional, defaults to `/home/ubuntu/storybookholidays-backend`)
 - `LIGHTSAIL_PROCESS_NAME` (optional, defaults to `storybookholidays-backend`)
+- `LIGHTSAIL_NODE_VERSION` (optional, defaults to `22`)
 
-`LIGHTSAIL_ENV_FILE` should contain the full backend `.env` contents, for example:
+`LIGHTSAIL_ENV_FILE` should contain the full backend `server/.env` contents, for example:
 
 ```env
 PORT=5001
 MONGODB_URI=your-mongodb-connection-string
 CLIENT_ORIGIN=https://your-frontend-domain.com
+AWS_REGION=ap-south-1
+S3_BUCKET_NAME=storybookholidays-package
+AWS_ACCESS_KEY_ID=your-access-key-id
+AWS_SECRET_ACCESS_KEY=your-secret-access-key
 ADMIN_USERNAME=admin
 ADMIN_PASSWORD=replace-this
 ADMIN_TOKEN_SECRET=replace-with-a-long-random-secret

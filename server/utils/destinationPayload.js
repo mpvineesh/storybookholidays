@@ -1,14 +1,5 @@
-const path = require("path");
-
+const { getStoredFileName, getStoredFileUrl } = require("./objectStorage");
 const slugify = require("./slugify");
-
-const buildDestinationImageUrl = (req, imagePath) => {
-  if (!imagePath) {
-    return "";
-  }
-
-  return `${req.protocol}://${req.get("host")}${imagePath}`;
-};
 
 const mapDestinationResponse = (req, destinationDocument) => {
   const destinationObject = destinationDocument.toObject
@@ -17,10 +8,8 @@ const mapDestinationResponse = (req, destinationDocument) => {
 
   return {
     ...destinationObject,
-    imageUrl: buildDestinationImageUrl(req, destinationObject.imagePath),
-    imageFileName: destinationObject.imagePath
-      ? path.basename(destinationObject.imagePath)
-      : "",
+    imageUrl: getStoredFileUrl(req, destinationObject.imagePath),
+    imageFileName: getStoredFileName(destinationObject.imagePath),
   };
 };
 

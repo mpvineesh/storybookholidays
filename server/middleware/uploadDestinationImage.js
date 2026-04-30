@@ -1,40 +1,5 @@
-const multer = require("multer");
-const path = require("path");
+const { createImageUpload } = require("../utils/imageUpload");
 
-const { destinationImagesDirectory } = require("../utils/fileStorage");
-
-const storage = multer.diskStorage({
-  destination(_req, _file, callback) {
-    callback(null, destinationImagesDirectory);
-  },
-  filename(_req, file, callback) {
-    const extension = path.extname(file.originalname);
-    const baseName = path
-      .basename(file.originalname, extension)
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/^-+|-+$/g, "")
-      .slice(0, 40);
-
-    callback(
-      null,
-      `${Date.now()}-${Math.round(Math.random() * 1e9)}-${baseName || "destination"}${extension}`
-    );
-  },
-});
-
-const uploadDestinationImage = multer({
-  storage,
-  limits: {
-    fileSize: 5 * 1024 * 1024,
-  },
-  fileFilter(_req, file, callback) {
-    if (file.mimetype.startsWith("image/")) {
-      return callback(null, true);
-    }
-
-    return callback(new Error("Only image uploads are allowed"));
-  },
-});
+const uploadDestinationImage = createImageUpload();
 
 module.exports = uploadDestinationImage;

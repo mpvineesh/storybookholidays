@@ -1,6 +1,10 @@
 const RegionContent = require("../models/RegionContent");
 const { buildDefaultsFor } = require("../utils/regionContentDefaults");
-const { removeFileIfExists } = require("../utils/fileStorage");
+const {
+  getStoredFileUrl,
+  removeStoredFile,
+  uploadBufferToS3,
+} = require("../utils/objectStorage");
 
 const isValidRegion = (region) => RegionContent.REGIONS.includes(region);
 
@@ -64,6 +68,8 @@ const upsertRegionContent = async (req, res, next) => {
 };
 
 const uploadRegionContentImageHandler = async (req, res, next) => {
+  let uploadedImagePath = "";
+
   try {
     if (!req.file) {
       return res.status(400).json({
@@ -72,19 +78,18 @@ const uploadRegionContentImageHandler = async (req, res, next) => {
       });
     }
 
-    const relativePath = `/uploads/region-content/${req.file.filename}`;
-    const absoluteUrl = `${req.protocol}://${req.get("host")}${relativePath}`;
+    uploadedImagePath = await uploadBufferToS3(req.file, "region-content", "region");
 
     return res.status(201).json({
       success: true,
       data: {
-        path: relativePath,
-        url: absoluteUrl,
+        path: uploadedImagePath,
+        url: getStoredFileUrl(req, uploadedImagePath),
       },
     });
   } catch (error) {
-    if (req.file) {
-      await removeFileIfExists(req.file.path);
+    if (uploadedImagePath) {
+      await removeStoredFile(uploadedImagePath);
     }
     return next(error);
   }

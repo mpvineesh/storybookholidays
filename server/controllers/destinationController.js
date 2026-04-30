@@ -1,17 +1,9 @@
-const path = require("path");
-
 const Destination = require("../models/Destination");
-const { removeFileIfExists, uploadsDirectory } = require("../utils/fileStorage");
+const { removeStoredFile, uploadBufferToS3 } = require("../utils/objectStorage");
 const {
   mapDestinationResponse,
   parseDestinationInput,
 } = require("../utils/destinationPayload");
-
-const getRelativeImagePath = (file) =>
-  file ? `/uploads/destinations/${file.filename}` : "";
-
-const getAbsoluteImagePath = (imagePath) =>
-  imagePath ? path.join(uploadsDirectory, imagePath.replace(/^\/uploads\//, "")) : "";
 
 const createUniqueSlug = async (baseSlug, existingId = null) => {
   const slugRoot = baseSlug || `destination-${Date.now()}`;
@@ -68,12 +60,15 @@ const getDestinationBySlug = async (req, res, next) => {
 };
 
 const createDestination = async (req, res, next) => {
+  let uploadedImagePath = "";
+
   try {
     const destinationInput = parseDestinationInput(req.body);
     destinationInput.slug = await createUniqueSlug(destinationInput.slug);
 
     if (req.file) {
-      destinationInput.imagePath = getRelativeImagePath(req.file);
+      uploadedImagePath = await uploadBufferToS3(req.file, "destinations", "destination");
+      destinationInput.imagePath = uploadedImagePath;
       destinationInput.imageOriginalName = req.file.originalname;
     }
 
@@ -84,8 +79,8 @@ const createDestination = async (req, res, next) => {
       data: mapDestinationResponse(req, destination),
     });
   } catch (error) {
-    if (req.file) {
-      await removeFileIfExists(req.file.path);
+    if (uploadedImagePath) {
+      await removeStoredFile(uploadedImagePath);
     }
 
     return next(error);
@@ -93,14 +88,12 @@ const createDestination = async (req, res, next) => {
 };
 
 const updateDestination = async (req, res, next) => {
+  let uploadedImagePath = "";
+
   try {
     const existingDestination = await Destination.findById(req.params.id);
 
     if (!existingDestination) {
-      if (req.file) {
-        await removeFileIfExists(req.file.path);
-      }
-
       return res.status(404).json({
         success: false,
         message: "Destination not found",
@@ -114,7 +107,8 @@ const updateDestination = async (req, res, next) => {
     );
 
     if (req.file) {
-      destinationInput.imagePath = getRelativeImagePath(req.file);
+      uploadedImagePath = await uploadBufferToS3(req.file, "destinations", "destination");
+      destinationInput.imagePath = uploadedImagePath;
       destinationInput.imageOriginalName = req.file.originalname;
     }
 
@@ -128,7 +122,7 @@ const updateDestination = async (req, res, next) => {
     );
 
     if (req.file && existingDestination.imagePath) {
-      await removeFileIfExists(getAbsoluteImagePath(existingDestination.imagePath));
+      await removeStoredFile(existingDestination.imagePath);
     }
 
     return res.status(200).json({
@@ -136,8 +130,8 @@ const updateDestination = async (req, res, next) => {
       data: mapDestinationResponse(req, updatedDestination),
     });
   } catch (error) {
-    if (req.file) {
-      await removeFileIfExists(req.file.path);
+    if (uploadedImagePath) {
+      await removeStoredFile(uploadedImagePath);
     }
 
     return next(error);
@@ -156,7 +150,7 @@ const deleteDestination = async (req, res, next) => {
     }
 
     if (destination.imagePath) {
-      await removeFileIfExists(getAbsoluteImagePath(destination.imagePath));
+      await removeStoredFile(destination.imagePath);
     }
 
     return res.status(200).json({

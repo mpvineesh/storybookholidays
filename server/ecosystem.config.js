@@ -2,7 +2,7 @@ module.exports = {
   apps: [
     {
       name: process.env.PM2_APP_NAME || "storybookholidays-backend",
-      script: "server/index.js",
+      script: "index.js",
       cwd: __dirname,
       instances: 1,
       exec_mode: "fork",

@@ -1,14 +1,6 @@
-const path = require("path");
-
 const Package = require("../models/Package");
-const { removeFileIfExists, uploadsDirectory } = require("../utils/fileStorage");
+const { removeStoredFile, uploadBufferToS3 } = require("../utils/objectStorage");
 const { mapPackageResponse, parsePackageInput } = require("../utils/packagePayload");
-
-const getRelativeImagePath = (file) =>
-  file ? `/uploads/packages/${file.filename}` : "";
-
-const getAbsoluteImagePath = (imagePath) =>
-  imagePath ? path.join(uploadsDirectory, imagePath.replace(/^\/uploads\//, "")) : "";
 
 const createUniqueSlug = async (baseSlug, existingId = null) => {
   const slugRoot = baseSlug || `package-${Date.now()}`;
@@ -65,12 +57,15 @@ const getPackageBySlug = async (req, res, next) => {
 };
 
 const createPackage = async (req, res, next) => {
+  let uploadedImagePath = "";
+
   try {
     const packageInput = parsePackageInput(req.body);
     packageInput.slug = await createUniqueSlug(packageInput.slug);
 
     if (req.file) {
-      packageInput.imagePath = getRelativeImagePath(req.file);
+      uploadedImagePath = await uploadBufferToS3(req.file, "packages", "package");
+      packageInput.imagePath = uploadedImagePath;
       packageInput.imageOriginalName = req.file.originalname;
     }
 
@@ -81,8 +76,8 @@ const createPackage = async (req, res, next) => {
       data: mapPackageResponse(req, packageEntry),
     });
   } catch (error) {
-    if (req.file) {
-      await removeFileIfExists(req.file.path);
+    if (uploadedImagePath) {
+      await removeStoredFile(uploadedImagePath);
     }
 
     return next(error);
@@ -90,14 +85,12 @@ const createPackage = async (req, res, next) => {
 };
 
 const updatePackage = async (req, res, next) => {
+  let uploadedImagePath = "";
+
   try {
     const existingPackage = await Package.findById(req.params.id);
 
     if (!existingPackage) {
-      if (req.file) {
-        await removeFileIfExists(req.file.path);
-      }
-
       return res.status(404).json({
         success: false,
         message: "Package not found",
@@ -111,7 +104,8 @@ const updatePackage = async (req, res, next) => {
     );
 
     if (req.file) {
-      packageInput.imagePath = getRelativeImagePath(req.file);
+      uploadedImagePath = await uploadBufferToS3(req.file, "packages", "package");
+      packageInput.imagePath = uploadedImagePath;
       packageInput.imageOriginalName = req.file.originalname;
     }
 
@@ -125,7 +119,7 @@ const updatePackage = async (req, res, next) => {
     );
 
     if (req.file && existingPackage.imagePath) {
-      await removeFileIfExists(getAbsoluteImagePath(existingPackage.imagePath));
+      await removeStoredFile(existingPackage.imagePath);
     }
 
     return res.status(200).json({
@@ -133,8 +127,8 @@ const updatePackage = async (req, res, next) => {
       data: mapPackageResponse(req, updatedPackage),
     });
   } catch (error) {
-    if (req.file) {
-      await removeFileIfExists(req.file.path);
+    if (uploadedImagePath) {
+      await removeStoredFile(uploadedImagePath);
     }
 
     return next(error);
@@ -153,7 +147,7 @@ const deletePackage = async (req, res, next) => {
     }
 
     if (packageEntry.imagePath) {
-      await removeFileIfExists(getAbsoluteImagePath(packageEntry.imagePath));
+      await removeStoredFile(packageEntry.imagePath);
     }
 
     return res.status(200).json({

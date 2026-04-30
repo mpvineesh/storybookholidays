@@ -1,15 +1,6 @@
-const path = require("path");
-
 const Package = require("../models/Package");
+const { getStoredFileName, getStoredFileUrl } = require("./objectStorage");
 const slugify = require("./slugify");
-
-const buildPackageImageUrl = (req, imagePath) => {
-  if (!imagePath) {
-    return "";
-  }
-
-  return `${req.protocol}://${req.get("host")}${imagePath}`;
-};
 
 const mapPackageResponse = (req, packageDocument) => {
   const packageObject = packageDocument.toObject
@@ -18,10 +9,8 @@ const mapPackageResponse = (req, packageDocument) => {
 
   return {
     ...packageObject,
-    imageUrl: buildPackageImageUrl(req, packageObject.imagePath),
-    imageFileName: packageObject.imagePath
-      ? path.basename(packageObject.imagePath)
-      : "",
+    imageUrl: getStoredFileUrl(req, packageObject.imagePath),
+    imageFileName: getStoredFileName(packageObject.imagePath),
   };
 };
 
