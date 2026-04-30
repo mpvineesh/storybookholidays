@@ -1,0 +1,112 @@
+name: Deploy Backend To Lightsail
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+concurrency:
+  group: lightsail-backend-deploy
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      LIGHTSAIL_HOST: ${{ secrets.LIGHTSAIL_HOST }}
+      LIGHTSAIL_USERNAME: ${{ secrets.LIGHTSAIL_USERNAME }}
+      LIGHTSAIL_SSH_KEY: ${{ secrets.LIGHTSAIL_SSH_KEY }}
+      LIGHTSAIL_ENV_FILE: ${{ secrets.LIGHTSAIL_ENV_FILE }}
+      LIGHTSAIL_PORT: ${{ secrets.LIGHTSAIL_PORT != '' && secrets.LIGHTSAIL_PORT || '22' }}
+      LIGHTSAIL_APP_DIR: ${{ secrets.LIGHTSAIL_APP_DIR != '' && secrets.LIGHTSAIL_APP_DIR || '/home/ubuntu/storybookholidays-backend' }}
+      LIGHTSAIL_PROCESS_NAME: ${{ secrets.LIGHTSAIL_PROCESS_NAME != '' && secrets.LIGHTSAIL_PROCESS_NAME || 'storybookholidays-backend' }}
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Validate deployment secrets
+        run: |
+          test -n "$LIGHTSAIL_HOST" || (echo "Missing GitHub secret: LIGHTSAIL_HOST" && exit 1)
+          test -n "$LIGHTSAIL_USERNAME" || (echo "Missing GitHub secret: LIGHTSAIL_USERNAME" && exit 1)
+          test -n "$LIGHTSAIL_SSH_KEY" || (echo "Missing GitHub secret: LIGHTSAIL_SSH_KEY" && exit 1)
+          test -n "$LIGHTSAIL_ENV_FILE" || (echo "Missing GitHub secret: LIGHTSAIL_ENV_FILE" && exit 1)
+
+      - name: Package backend release
+        run: |
+          tar -czf storybookholidays-backend.tar.gz \
+            package.json \
+            package-lock.json \
+            server \
+            uploads \
+            ecosystem.config.js
+
+      - name: Create production env file
+        run: |
+          printf '%s' "$LIGHTSAIL_ENV_FILE" > storybookholidays-backend.env
+
+      - name: Upload backend archive
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ env.LIGHTSAIL_HOST }}
+          username: ${{ env.LIGHTSAIL_USERNAME }}
+          key: ${{ env.LIGHTSAIL_SSH_KEY }}
+          port: ${{ env.LIGHTSAIL_PORT }}
+          source: storybookholidays-backend.tar.gz
+          target: /tmp/
+          overwrite: true
+
+      - name: Upload backend env file
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ env.LIGHTSAIL_HOST }}
+          username: ${{ env.LIGHTSAIL_USERNAME }}
+          key: ${{ env.LIGHTSAIL_SSH_KEY }}
+          port: ${{ env.LIGHTSAIL_PORT }}
+          source: storybookholidays-backend.env
+          target: /tmp/
+          overwrite: true
+
+      - name: Deploy backend on Lightsail
+        uses: appleboy/ssh-action@v1.2.0
+        env:
+          APP_DIR: ${{ env.LIGHTSAIL_APP_DIR }}
+          PROCESS_NAME: ${{ env.LIGHTSAIL_PROCESS_NAME }}
+          PM2_APP_NAME: ${{ env.LIGHTSAIL_PROCESS_NAME }}
+        with:
+          host: ${{ env.LIGHTSAIL_HOST }}
+          username: ${{ env.LIGHTSAIL_USERNAME }}
+          key: ${{ env.LIGHTSAIL_SSH_KEY }}
+          port: ${{ env.LIGHTSAIL_PORT }}
+          envs: APP_DIR,PROCESS_NAME,PM2_APP_NAME
+          script_stop: true
+          script: |
+            set -eu
+
+            ARCHIVE_PATH="/tmp/storybookholidays-backend.tar.gz"
+            ENV_PATH="/tmp/storybookholidays-backend.env"
+
+            mkdir -p "$APP_DIR"
+            mkdir -p "$APP_DIR/uploads"
+
+            rm -rf "$APP_DIR/server"
+            rm -f "$APP_DIR/package.json" "$APP_DIR/package-lock.json" "$APP_DIR/ecosystem.config.js"
+
+            tar -xzf "$ARCHIVE_PATH" -C "$APP_DIR"
+            mv "$ENV_PATH" "$APP_DIR/.env"
+
+            cd "$APP_DIR"
+            npm ci --omit=dev
+
+            if command -v pm2 >/dev/null 2>&1; then
+              PM2_BIN="$(command -v pm2)"
+            else
+              npm install pm2 --no-save
+              PM2_BIN="$APP_DIR/node_modules/.bin/pm2"
+            fi
+
+            "$PM2_BIN" startOrReload ecosystem.config.js --only "$PROCESS_NAME" --update-env
+            "$PM2_BIN" save --force
+
+            rm -f "$ARCHIVE_PATH"

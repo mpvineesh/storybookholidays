@@ -151,6 +151,51 @@ Add these GitHub repository secrets before using it:
 - `FTP_SERVER_DIR`
 - `FTP_PORT` (optional, defaults to `21`)
 
+## GitHub Lightsail Backend Deploy
+
+This repo now also includes `.github/workflows/deploy-lightsail-backend.yml` for the Node/Express backend.
+
+On every push to `master`, it will:
+
+1. Package the backend files from this repo
+2. Upload them to your AWS Lightsail server over SSH
+3. Write the production `.env` file from a GitHub secret
+4. Run `npm ci --omit=dev` on the Lightsail instance
+5. Restart the backend with `pm2`
+
+Add these GitHub repository secrets before using it:
+
+- `LIGHTSAIL_HOST`
+- `LIGHTSAIL_USERNAME`
+- `LIGHTSAIL_SSH_KEY`
+- `LIGHTSAIL_ENV_FILE`
+- `LIGHTSAIL_PORT` (optional, defaults to `22`)
+- `LIGHTSAIL_APP_DIR` (optional, defaults to `/home/ubuntu/storybookholidays-backend`)
+- `LIGHTSAIL_PROCESS_NAME` (optional, defaults to `storybookholidays-backend`)
+
+`LIGHTSAIL_ENV_FILE` should contain the full backend `.env` contents, for example:
+
+```env
+PORT=5001
+MONGODB_URI=your-mongodb-connection-string
+CLIENT_ORIGIN=https://your-frontend-domain.com
+ADMIN_USERNAME=admin
+ADMIN_PASSWORD=replace-this
+ADMIN_TOKEN_SECRET=replace-with-a-long-random-secret
+```
+
+One-time setup on the Lightsail server:
+
+1. Install Node.js and npm
+2. Make sure the SSH user from `LIGHTSAIL_USERNAME` can write to `LIGHTSAIL_APP_DIR`
+3. Allow your backend port in the Lightsail firewall, or put the app behind Nginx
+4. For automatic restarts after a full server reboot, install PM2 globally once and enable startup:
+
+```bash
+npm install -g pm2
+pm2 startup
+```
+
 ### `npm run build`
 
 Builds the frontend for production.
