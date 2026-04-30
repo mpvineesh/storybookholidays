@@ -1,5 +1,5 @@
 const LOCAL_API_BASE_URL = 'http://localhost:5001';
-const PRODUCTION_API_BASE_URL = 'https://storybookholidays.onrender.com';
+const PRODUCTION_API_BASE_URL = 'http://35.154.210.184:8080';
 
 const isLocalEnvironment = () => {
   if (typeof window === 'undefined') {
