@@ -40,7 +40,7 @@ app.use(
     },
   })
 );
-app.use(express.json({ limit: "2mb" }));
+app.use(express.json({ limit: "5mb" }));
 app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 
 app.get("/api/health", (_req, res) => {
