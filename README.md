@@ -27,7 +27,7 @@ Existing records that still point at old `/uploads/...` paths continue to work.
 3. Open `http://localhost:3000/admin`
 4. Sign in with the admin username and password from your environment file
 
-For deployed frontend builds, the app now falls back to `http://35.154.210.184:8080`
+For deployed frontend builds, the app now falls back to `https://api.storybookholidays.com`
 when `REACT_APP_API_BASE_URL` is not explicitly set.
 
 ## Backend Endpoints
