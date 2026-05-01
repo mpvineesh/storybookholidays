@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    @apply bg-bg-page text-ink antialiased;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  *:focus-visible {
+    @apply outline-none ring-2 ring-brand-500 ring-offset-2 ring-offset-white;
+  }
+}
+
+@layer components {
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    @apply bg-slate-300 rounded;
+  }
+
+  .admin-rich-editor .ql-toolbar {
+    @apply rounded-t-lg border-border bg-slate-50;
+  }
+
+  .admin-rich-editor .ql-container {
+    @apply rounded-b-lg border-border min-h-[200px] text-sm;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  .admin-rich-editor .ql-editor {
+    @apply min-h-[200px];
+  }
+}

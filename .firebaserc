@@ -1,5 +1,17 @@
 {
   "projects": {
     "default": "storybookholidays-india"
+  },
+  "targets": {
+    "storybookholidays-india": {
+      "hosting": {
+        "main": [
+          "storybookholidays-india"
+        ],
+        "admin": [
+          "admin-storybookholidays-india"
+        ]
+      }
+    }
   }
 }
