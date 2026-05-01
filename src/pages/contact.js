@@ -1,12 +1,41 @@
 import React from 'react';
 import Header from '../common/header';
 import Footer from '../common/footer';
+import Seo from '../common/Seo';
 
 
 function Contact() {
   return (
 
     <React.Fragment>
+      <Seo
+        title="Contact Us"
+        description="Contact Story Book Holidays — call +91 94464 60533 or email info@storybookholidays.com to plan your Kerala, India or international holiday."
+        path="/contact"
+        jsonLd={{
+          '@context': 'https://schema.org',
+          '@type': 'TravelAgency',
+          name: 'Story Book Holidays',
+          telephone: '+91-94464-60533',
+          email: 'info@storybookholidays.com',
+          address: [
+            {
+              '@type': 'PostalAddress',
+              streetAddress: 'Opp. Sreevalsam Auditorium, Theru Road',
+              addressLocality: 'Nileshwar',
+              addressRegion: 'Kasaragod, Kerala',
+              addressCountry: 'IN',
+            },
+            {
+              '@type': 'PostalAddress',
+              streetAddress: '2nd floor, Thahi complex, Chakkaraparambu road, Vennela',
+              addressLocality: 'Kochi',
+              addressRegion: 'Kerala',
+              addressCountry: 'IN',
+            },
+          ],
+        }}
+      />
       <Header parent="Contact Us"/>
     <main class="content">
 				<div class="fullwidth-block">

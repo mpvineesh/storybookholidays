@@ -7,7 +7,6 @@ import DashboardPage from '@/pages/DashboardPage.jsx';
 import PackagesPage from '@/pages/PackagesPage.jsx';
 import DestinationsPage from '@/pages/DestinationsPage.jsx';
 import RegionContentPage from '@/pages/RegionContentPage.jsx';
-import PlaceholderPage from '@/pages/PlaceholderPage.jsx';
 
 const App = () => (
   <Routes>
@@ -22,10 +21,6 @@ const App = () => (
       <Route index element={<DashboardPage />} />
       <Route path="/packages" element={<PackagesPage />} />
       <Route path="/destinations" element={<DestinationsPage />} />
-      <Route
-        path="/itineraries"
-        element={<PlaceholderPage title="Itineraries" description="Manage itineraries." />}
-      />
       <Route path="/region-content" element={<RegionContentPage />} />
     </Route>
     <Route path="*" element={<Navigate to="/" replace />} />

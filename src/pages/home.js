@@ -4,6 +4,31 @@ import Footer from '../common/footer';
 import DatService from '../services/dataService';
 import { getPackages as getPackagesFromApi } from '../services/itineraryAdminApi';
 import { useRegionContent } from '../context/RegionContext';
+import Seo from '../common/Seo';
+
+const regionSeo = {
+  Kerala: {
+    title: 'Kerala Tour Packages — Backwaters, Hill Stations & Beaches',
+    description:
+      'Curated Kerala holiday packages — Munnar, Alleppey, Thekkady, Kovalam and more. Backwater cruises, hill escapes, beaches and Ayurveda by Story Book Holidays.',
+    path: '/kerala',
+    image: 'https://storybookholidays.com/assets/images/kerala-card.jpg',
+  },
+  India: {
+    title: 'India Holiday Packages — Heritage, Himalayas & Coastal Escapes',
+    description:
+      'Pan-India holidays curated by Story Book Holidays — heritage cities, Himalayan getaways, beach retreats and bespoke trips across India.',
+    path: '/india',
+    image: 'https://storybookholidays.com/assets/images/india-card.jpg',
+  },
+  World: {
+    title: 'International Holiday Packages — Curated Trips Beyond Borders',
+    description:
+      'Handpicked international getaways — island retreats, cultural capitals and bespoke world tours by Story Book Holidays.',
+    path: '/world',
+    image: 'https://storybookholidays.com/assets/images/world-card.jpg',
+  },
+};
 
 const destinationHighlights = [
   {
@@ -174,8 +199,16 @@ function Home({ region = 'Kerala' }) {
   const safeActiveSlide = slides.length > 0 ? activeHeroSlide % slides.length : 0;
   const currentHeroSlide = slides[safeActiveSlide] || { title: '', subtitle: '', description: '', image: '', highlights: [] };
 
+  const seoConfig = regionSeo[region] || regionSeo.Kerala;
+
   return (
     <React.Fragment>
+      <Seo
+        title={seoConfig.title}
+        description={seoConfig.description}
+        path={seoConfig.path}
+        image={seoConfig.image}
+      />
       <Header />
       <main className="content home-page">
         <section className="hero-section">

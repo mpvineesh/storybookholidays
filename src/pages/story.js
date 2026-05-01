@@ -1,10 +1,16 @@
 import React from 'react';
 import Header from '../common/header';
 import Footer from '../common/footer';
+import Seo from '../common/Seo';
 
 function Story() {
   return (
   <React.Fragment>
+    <Seo
+      title="Our Story"
+      description="The story behind Story Book Holidays — Justin Jose's journey from hospitality to building a curated, story-led Kerala travel agency."
+      path="/our-story"
+    />
     <Header parent="Our Story"/>
     <main class="content">
 				<div class="fullwidth-block">

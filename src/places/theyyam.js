@@ -1,10 +1,16 @@
 import React from 'react';
 import Header from '../common/header';
 import Footer from '../common/footer';
+import Seo from '../common/Seo';
 
 function Theyyam() {
   return (
     <React.Fragment>
+      <Seo
+        title="Theyyam — North Kerala's Sacred Ritual Art Form"
+        description="Experience Theyyam, the vibrant ritual dance of North Kerala. Plan a curated Theyyam season trip with Story Book Holidays."
+        path="/theyyam"
+      />
       <Header parent="Destinations"/>
         <main class="content">
           <div class="fullwidth-block">

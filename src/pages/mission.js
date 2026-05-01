@@ -2,6 +2,7 @@ import React from 'react';
 import Header from '../common/header';
 import Footer from '../common/footer';
 import DatService from '../services/dataService';
+import Seo from '../common/Seo';
 
 function Mission() {
 	const [content, setContent] = React.useState('');
@@ -14,6 +15,11 @@ function Mission() {
 	}, []);
   return (
     <React.Fragment>
+      <Seo
+        title="Our Mission"
+        description="Our mission at Story Book Holidays — to design thoughtful, story-driven holidays that turn travel into a deeply personal experience."
+        path="/mission"
+      />
       <Header parent="Mission"/>
             <main class="content">
 				<div class="fullwidth-block">

@@ -1,4 +1,5 @@
 import React from 'react';
+import Seo from '../common/Seo';
 
 const regions = [
   {
@@ -72,6 +73,29 @@ function Landing() {
 
   return (
     <div className="region-landing">
+      <Seo
+        title="Curated Kerala, India & World Holiday Packages"
+        description="Choose your story — explore Kerala backwaters and hill escapes, journeys across India, or international getaways, all curated by Story Book Holidays."
+        path="/"
+        jsonLd={{
+          '@context': 'https://schema.org',
+          '@type': 'TravelAgency',
+          name: 'Story Book Holidays',
+          url: 'https://storybookholidays.com',
+          logo: 'https://storybookholidays.com/favicon.png',
+          image: 'https://storybookholidays.com/assets/images/slide-athirappally.jpg',
+          telephone: '+91-94464-60533',
+          email: 'info@storybookholidays.com',
+          address: {
+            '@type': 'PostalAddress',
+            streetAddress: 'Opp. Sreevalsam Auditorium, Theru Road',
+            addressLocality: 'Nileshwar',
+            addressRegion: 'Kasaragod, Kerala',
+            addressCountry: 'IN',
+          },
+          areaServed: ['Kerala', 'India', 'Worldwide'],
+        }}
+      />
       <div className="region-landing-bg" aria-hidden="true">
         {backgroundSlides.map((image, index) => (
           <div

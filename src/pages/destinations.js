@@ -1,6 +1,7 @@
 import React from 'react';
 import Header from '../common/header';
 import Footer from '../common/footer';
+import Seo from '../common/Seo';
 import { getDestinations } from '../services/itineraryAdminApi';
 
 const fallbackImages = [
@@ -178,6 +179,11 @@ function Destinations() {
 
   return (
     <React.Fragment>
+      <Seo
+        title="Kerala Destinations — Explore Munnar, Alleppey, Kovalam & More"
+        description="Browse curated Kerala destinations — backwaters, hill stations, beaches, heritage towns and offbeat escapes handpicked by Story Book Holidays."
+        path="/destinations"
+      />
       <Header parent="Destinations" />
       <main className="content destinations-page">
        

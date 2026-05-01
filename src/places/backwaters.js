@@ -1,10 +1,16 @@
 import React from 'react';
 import Header from '../common/header';
 import Footer from '../common/footer';
+import Seo from '../common/Seo';
 
 function BackWaters() {
   return (
     <React.Fragment>
+      <Seo
+        title="Kerala Backwaters — Houseboats, Cruises & Village Life"
+        description="Glide through Kerala's iconic backwaters — Alleppey, Kumarakom and beyond. Curated houseboat cruises and village experiences by Story Book Holidays."
+        path="/backwaters"
+      />
       <Header parent="Destinations"/>
         <main class="content">
           <div class="fullwidth-block">

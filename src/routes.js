@@ -20,7 +20,6 @@ const BackWaters = lazy(() => import('./places/backwaters'));
 const Arts = lazy(() => import('./places/arts'));
 const Theyyam = lazy(() => import('./places/theyyam'));
 const Ayurveda = lazy(() => import('./places/ayurveda'));
-const AdminDashboard = lazy(() => import('./pages/admin-dashboard'));
 
 function AppRoutes() {
   return (
@@ -33,7 +32,6 @@ function AppRoutes() {
         }
       >
         <Switch>
-          <Route exact path="/admin" component={AdminDashboard} />
           <Route exact path="/" component={Landing} />
           <Route exact path="/home" component={Landing} />
           <Route

@@ -32,6 +32,8 @@ const getS3Client = () =>
       accessKeyId: getRequiredEnv("AWS_ACCESS_KEY_ID"),
       secretAccessKey: getRequiredEnv("AWS_SECRET_ACCESS_KEY"),
     },
+    requestChecksumCalculation: "WHEN_REQUIRED",
+    responseChecksumValidation: "WHEN_REQUIRED",
   });
 
 const isAbsoluteUrl = (value = "") => /^https?:\/\//i.test(value);

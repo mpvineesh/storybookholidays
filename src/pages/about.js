@@ -1,11 +1,17 @@
 import React from 'react';
 import Header from '../common/header';
 import Footer from '../common/footer';
+import Seo from '../common/Seo';
 
 function About() {
-	
+
   return (
     <React.Fragment>
+      <Seo
+        title="About Us"
+        description="Story Book Holidays is a Kerala-based curated travel agency founded by Justin Jose. Read our story, mission, and the inspiration behind every journey."
+        path="/about"
+      />
       <Header parent="About"/>
         <main class="content">
           <div class="fullwidth-block">

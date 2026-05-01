@@ -1,11 +1,21 @@
 import React from 'react';
 import Header from '../common/header';
 import Footer from '../common/footer';
+import Seo from '../common/Seo';
 import { useParams } from 'react-router-dom';
 
 import DatService from '../services/dataService';
 import PackageData from '../services/packageData';
 import { getPackageBySlug } from '../services/itineraryAdminApi';
+
+const stripHtml = (value = '') => {
+  if (!value) return '';
+  if (typeof window !== 'undefined' && window.DOMParser) {
+    const parsed = new window.DOMParser().parseFromString(value, 'text/html');
+    return (parsed.body.textContent || '').replace(/\s+/g, ' ').trim();
+  }
+  return value.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+};
 
 function PackageInfo() {
   const [packageEntry, setPackageEntry] = React.useState(null);
@@ -40,8 +50,39 @@ function PackageInfo() {
     }
   }, [packageName]);
 
+  const seoSourceTitle = packageEntry?.title || fallbackPackage?.title || 'Holiday Package';
+  const seoDescription =
+    packageEntry?.shortDescription ||
+    stripHtml(packageEntry?.contentHtml || '').slice(0, 200) ||
+    'Curated holiday package by Story Book Holidays.';
+  const seoImage = packageEntry?.imageUrl || undefined;
+
   return (
   <React.Fragment>
+    <Seo
+      title={seoSourceTitle}
+      description={seoDescription}
+      path={`/package/${packageName || ''}`}
+      image={seoImage}
+      type="article"
+      jsonLd={
+        packageEntry
+          ? {
+              '@context': 'https://schema.org',
+              '@type': 'TouristTrip',
+              name: packageEntry.title,
+              description: seoDescription,
+              image: packageEntry.imageUrl,
+              touristType: packageEntry.region || 'Leisure',
+              provider: {
+                '@type': 'TravelAgency',
+                name: 'Story Book Holidays',
+                url: 'https://storybookholidays.com',
+              },
+            }
+          : undefined
+      }
+    />
     <Header parent={packageEntry?.title || fallbackPackage?.title || 'Package'} />
       <main className="content">
         <div className="fullwidth-block">

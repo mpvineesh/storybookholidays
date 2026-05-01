@@ -1,6 +1,7 @@
 import React from 'react';
 import Header from '../common/header';
 import Footer from '../common/footer';
+import Seo from '../common/Seo';
 
 import DatService from '../services/dataService';
 import { getPackages as getPackagesFromApi } from '../services/itineraryAdminApi';
@@ -26,6 +27,11 @@ function Packages() {
 
   return (
     <React.Fragment>
+      <Seo
+        title="Holiday Packages — Kerala, India & Worldwide"
+        description="Explore curated Kerala, India and international holiday packages by Story Book Holidays. Backwaters, hill stations, beaches, heritage tours and more."
+        path="/packages"
+      />
       <Header parent="Packages" />
       <main className="content packages-page">
         <section className="packages-section">

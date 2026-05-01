@@ -1,10 +1,16 @@
 import React from 'react';
 import Header from '../common/header';
 import Footer from '../common/footer';
+import Seo from '../common/Seo';
 
 function Ayurveda() {
   return (
     <React.Fragment>
+      <Seo
+        title="Kerala Ayurveda Retreats — Wellness Holidays in God's Own Country"
+        description="Restorative Ayurveda holidays in Kerala — authentic treatments, wellness retreats and slow-travel itineraries by Story Book Holidays."
+        path="/ayurveda"
+      />
       <Header parent="Destinations"/>
         <main class="content">
           <div class="fullwidth-block">

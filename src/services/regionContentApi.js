@@ -24,29 +24,3 @@ export const getRegionContent = async (region) => {
   const response = await fetch(`${API_BASE_URL}/api/region-content/${region}`);
   return parseResponse(response);
 };
-
-export const updateRegionContent = async (token, region, payload) => {
-  const response = await fetch(`${API_BASE_URL}/api/region-content/${region}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-    },
-    body: JSON.stringify(payload),
-  });
-  return parseResponse(response);
-};
-
-export const uploadRegionContentImage = async (token, file) => {
-  const formData = new FormData();
-  formData.append('image', file);
-
-  const response = await fetch(`${API_BASE_URL}/api/region-content/upload-image`, {
-    method: 'POST',
-    headers: {
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-    },
-    body: formData,
-  });
-  return parseResponse(response);
-};

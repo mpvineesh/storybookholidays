@@ -1,10 +1,16 @@
 import React from 'react';
 import Header from '../common/header';
 import Footer from '../common/footer';
+import Seo from '../common/Seo';
 
 function Arts() {
   return (
     <React.Fragment>
+      <Seo
+        title="Kerala Arts & Culture — Kathakali, Mohiniyattam & More"
+        description="Discover Kerala's rich performing arts and cultural heritage — Kathakali, Mohiniyattam, Kalaripayattu and folk traditions, curated by Story Book Holidays."
+        path="/arts"
+      />
       <Header parent="Destinations"/>
         <main class="content">
           <div class="fullwidth-block">
