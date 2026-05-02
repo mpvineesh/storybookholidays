@@ -1119,8 +1119,10 @@ li.current-menu-item a {
 
 .destination-article-body {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 20px;
   padding: 30px;
+  min-width: 0;
 }
 
 .destination-article-header {
@@ -1145,10 +1147,14 @@ li.current-menu-item a {
 
 .destination-article-header h2 {
   margin: 0;
+  min-width: 0;
+  max-width: 100%;
   color: var(--color-ink);
   font-family: 'Cormorant Garamond', serif;
   font-size: clamp(2.4rem, 4vw, 3.5rem);
   line-height: 0.98;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .destination-article-meta {
@@ -1159,14 +1165,38 @@ li.current-menu-item a {
 
 .destination-article-summary {
   margin: 0;
+  min-width: 0;
+  max-width: 100%;
   color: var(--color-ink-soft);
   font-size: 1rem;
   line-height: 1.85;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .destination-article-html {
   color: var(--color-ink);
   line-height: 1.9;
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.destination-article-html * {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.destination-article-html table {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+}
+
+.destination-article-html pre {
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 
 .destination-article-html h1,
