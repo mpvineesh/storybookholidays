@@ -99,8 +99,13 @@ function PackageInfo() {
                       <p className="package-detail-duration">{packageEntry.duration}</p>
                     ) : null}
                     {packageEntry.imageUrl ? (
-                      <figure>
-                        <img src={packageEntry.imageUrl} alt={packageEntry.title} height="360" width="100%" />
+                      <figure className="package-detail-cover">
+                        <img
+                          src={packageEntry.imageUrl}
+                          alt={packageEntry.title}
+                          loading="lazy"
+                          decoding="async"
+                        />
                       </figure>
                     ) : null}
                     {packageEntry.shortDescription ? (
@@ -116,12 +121,12 @@ function PackageInfo() {
                 {!isLoading && !packageEntry && fallbackPackage ? (
                   <div className="package-detail-article">
                     <h2 className="section-title">{fallbackPackage.title}</h2>
-                    <figure>
+                    <figure className="package-detail-cover">
                       <img
                         src={`assets/images/packages/${fallbackPackage.image}`}
                         alt={fallbackPackage.title}
-                        height="360"
-                        width="100%"
+                        loading="lazy"
+                        decoding="async"
                       />
                     </figure>
                     <PackageData packageName={packageName} />

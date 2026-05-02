@@ -1,5 +1,6 @@
 import React from 'react';
 import Seo from '../common/Seo';
+import { setStoredRegion } from '../context/regionStorage';
 
 const regions = [
   {
@@ -142,6 +143,11 @@ function Landing() {
               href={region.href}
               className={`region-card ${region.available ? '' : 'is-soon'}`}
               style={{ backgroundImage: `url('${region.image}')` }}
+              onClick={() => {
+                if (region.available) {
+                  setStoredRegion(region.label);
+                }
+              }}
             >
               <div className="region-card-overlay" />
               <div className="region-card-content">

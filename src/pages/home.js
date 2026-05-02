@@ -117,8 +117,16 @@ const normalizeSlide = (slide) => ({
   highlights: slide.highlights || [],
 });
 
-function Home({ region = 'Kerala' }) {
-  const { content } = useRegionContent();
+function Home({ region: regionFromRoute }) {
+  const { content, region: activeRegion, setRegion } = useRegionContent();
+
+  React.useEffect(() => {
+    if (regionFromRoute && regionFromRoute !== activeRegion) {
+      setRegion(regionFromRoute);
+    }
+  }, [regionFromRoute, activeRegion, setRegion]);
+
+  const region = regionFromRoute || activeRegion;
   const heroFromContent = content.hero || {};
   const slides = (heroFromContent.slides || []).map(normalizeSlide);
   const heroEyebrow = heroFromContent.eyebrow || '';

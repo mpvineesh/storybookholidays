@@ -5,25 +5,32 @@ import Seo from '../common/Seo';
 
 import DatService from '../services/dataService';
 import { getPackages as getPackagesFromApi } from '../services/itineraryAdminApi';
+import { useRegionContent } from '../context/RegionContext';
 
 function Packages() {
-  const [packages, setPackages] = React.useState([]);
+  const { region } = useRegionContent();
+  const [allPackages, setAllPackages] = React.useState([]);
   const [errorMessage, setErrorMessage] = React.useState('');
 
   React.useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await getPackagesFromApi();
-        setPackages(response.data || []);
+        setAllPackages(response.data || []);
       } catch (error) {
         const fallbackData = await new DatService().getPackages();
-        setPackages(fallbackData);
+        setAllPackages(fallbackData);
         setErrorMessage('Showing existing package data because the package API is unavailable.');
       }
     };
 
     fetchData();
   }, []);
+
+  const packages = React.useMemo(
+    () => allPackages.filter((pack) => (pack.region || 'Kerala') === region),
+    [allPackages, region]
+  );
 
   return (
     <React.Fragment>
@@ -37,6 +44,12 @@ function Packages() {
         <section className="packages-section">
           <div className="container">
             {errorMessage ? <div className="admin-alert admin-alert-error">{errorMessage}</div> : null}
+            {packages.length === 0 && allPackages.length > 0 ? (
+              <p className="packages-empty">
+                No {region} packages have been added yet. Switch region from the
+                header to see other holidays.
+              </p>
+            ) : null}
             <div className="packages-grid">
               {packages.map((pack) => (
                 <article key={pack._id || pack.slug || pack.packageName} className="offer-item package-card">

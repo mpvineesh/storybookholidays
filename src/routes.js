@@ -4,7 +4,6 @@ import {
   Switch,
   Route,
 } from 'react-router-dom';
-import { RegionProvider } from './context/RegionContext';
 
 const Landing = lazy(() => import('./pages/landing'));
 const Home = lazy(() => import('./pages/home'));
@@ -37,29 +36,17 @@ function AppRoutes() {
           <Route
             exact
             path="/kerala"
-            render={(props) => (
-              <RegionProvider region="Kerala">
-                <Home {...props} region="Kerala" />
-              </RegionProvider>
-            )}
+            render={(props) => <Home {...props} region="Kerala" />}
           />
           <Route
             exact
             path="/india"
-            render={(props) => (
-              <RegionProvider region="India">
-                <Home {...props} region="India" />
-              </RegionProvider>
-            )}
+            render={(props) => <Home {...props} region="India" />}
           />
           <Route
             exact
             path="/world"
-            render={(props) => (
-              <RegionProvider region="World">
-                <Home {...props} region="World" />
-              </RegionProvider>
-            )}
+            render={(props) => <Home {...props} region="World" />}
           />
           <Route path="/about" component={AboutUs} />
           <Route path="/destinations" component={Destinations} />

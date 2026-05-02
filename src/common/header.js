@@ -12,12 +12,28 @@ const navItems = [
 
 function Header(props) {
   const location = useLocation();
-  const { content } = useRegionContent();
+  const { content, region, regions, setRegion } = useRegionContent();
   const tagline = (content.header && content.header.tagline) || 'Curated Kerala journeys with soul';
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const [isRegionMenuOpen, setIsRegionMenuOpen] = React.useState(false);
+  const regionMenuRef = React.useRef(null);
   React.useEffect(() => {
     setIsMenuOpen(false);
+    setIsRegionMenuOpen(false);
   }, [location.pathname]);
+
+  React.useEffect(() => {
+    if (!isRegionMenuOpen) return undefined;
+
+    const handleClickOutside = (event) => {
+      if (regionMenuRef.current && !regionMenuRef.current.contains(event.target)) {
+        setIsRegionMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isRegionMenuOpen]);
 
   return (
     <header className={!props.parent ? 'site-header site-header-home' : 'site-header'}>
@@ -68,6 +84,47 @@ function Header(props) {
           </nav>
 
           <div className="header-actions">
+            <div className="region-switcher" ref={regionMenuRef}>
+              <button
+                type="button"
+                className={`region-switcher-trigger ${isRegionMenuOpen ? 'is-open' : ''}`}
+                onClick={() => setIsRegionMenuOpen((open) => !open)}
+                aria-haspopup="listbox"
+                aria-expanded={isRegionMenuOpen}
+                aria-label={`Active region: ${region}. Click to change`}
+              >
+                <i className="fa fa-globe" aria-hidden="true" />
+                <span className="region-switcher-label">{region}</span>
+                <i
+                  className={`fa fa-chevron-${isRegionMenuOpen ? 'up' : 'down'}`}
+                  aria-hidden="true"
+                />
+              </button>
+              {isRegionMenuOpen ? (
+                <ul className="region-switcher-menu" role="listbox">
+                  {regions.map((option) => (
+                    <li
+                      key={option}
+                      role="option"
+                      aria-selected={option === region}
+                    >
+                      <button
+                        type="button"
+                        className={`region-switcher-option ${
+                          option === region ? 'is-active' : ''
+                        }`}
+                        onClick={() => {
+                          setRegion(option);
+                          setIsRegionMenuOpen(false);
+                        }}
+                      >
+                        {option}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+            </div>
             <div className="social-links">
               <a
                 href="https://instagram.com/story_book_holidays?igshid=xcyefcxv1e4m"
