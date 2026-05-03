@@ -8,7 +8,7 @@ on:
 
 concurrency:
   group: lightsail-backend-deploy
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   deploy:
@@ -36,9 +36,7 @@ jobs:
 
       - name: Package backend release
         run: |
-          tar -czf storybookholidays-backend.tar.gz \
-            server \
-            uploads
+          tar -czf storybookholidays-backend.tar.gz server
 
       - name: Create production env file
         run: |
@@ -93,7 +91,11 @@ jobs:
             fi
 
             . "$NVM_DIR/nvm.sh"
-            nvm install "$NODE_VERSION"
+            # nvm install hits the network even when the version is present;
+            # only install when missing.
+            if ! nvm ls "$NODE_VERSION" >/dev/null 2>&1; then
+              nvm install "$NODE_VERSION"
+            fi
             nvm use "$NODE_VERSION"
             hash -r
 
@@ -111,7 +113,40 @@ jobs:
             mv "$ENV_PATH" "$APP_DIR/server/.env"
 
             cd "$APP_DIR/server"
-            npm ci --omit=dev --no-audit --no-fund
+
+            # Skip the full npm install when package-lock.json hasn't changed
+            # since the last successful deploy AND node_modules looks intact.
+            # Code-only changes then take seconds instead of minutes.
+            LOCK_HASH="$(sha256sum package-lock.json | awk '{print $1}')"
+            LAST_HASH_FILE="$APP_DIR/.last-lock-hash"
+
+            if [ -d node_modules ] \
+              && [ -f node_modules/.install-complete ] \
+              && [ "$(cat "$LAST_HASH_FILE" 2>/dev/null)" = "$LOCK_HASH" ]; then
+              echo "package-lock.json unchanged; reusing node_modules."
+            else
+              echo "package-lock.json changed or node_modules missing; reinstalling."
+
+              # Stop the running process before touching node_modules so pm2
+              # releases its file handles. Otherwise npm ci can leave a
+              # half-cleaned tree and modules fail to require() files that
+              # look unlinked on disk (e.g. mongoose helpers/symbols).
+              if command -v pm2 >/dev/null 2>&1; then
+                pm2 stop "$PROCESS_NAME" 2>/dev/null || true
+              fi
+
+              # Drop node_modules entirely so a prior interrupted install
+              # can never poison this one.
+              rm -rf node_modules
+
+              npm ci --omit=dev --no-audit --no-fund --prefer-offline --no-progress
+
+              # Marker files only get written when both steps above succeeded
+              # (set -eu aborts the script otherwise), so a half-finished
+              # install won't be treated as cached on the next run.
+              touch node_modules/.install-complete
+              echo "$LOCK_HASH" > "$LAST_HASH_FILE"
+            fi
 
             if command -v pm2 >/dev/null 2>&1; then
               PM2_BIN="$(command -v pm2)"
