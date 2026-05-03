@@ -9,28 +9,35 @@ import { useRegionContent } from '../context/RegionContext';
 
 function Packages() {
   const { region } = useRegionContent();
-  const [allPackages, setAllPackages] = React.useState([]);
+  const [packages, setPackages] = React.useState([]);
   const [errorMessage, setErrorMessage] = React.useState('');
 
   React.useEffect(() => {
+    let isMounted = true;
+
     const fetchData = async () => {
       try {
-        const response = await getPackagesFromApi();
-        setAllPackages(response.data || []);
+        const response = await getPackagesFromApi(region);
+        if (!isMounted) return;
+        setPackages(response.data || []);
+        setErrorMessage('');
       } catch (error) {
         const fallbackData = await new DatService().getPackages();
-        setAllPackages(fallbackData);
+        if (!isMounted) return;
+        const filtered = fallbackData.filter(
+          (pack) => (pack.region || 'Kerala') === region
+        );
+        setPackages(filtered);
         setErrorMessage('Showing existing package data because the package API is unavailable.');
       }
     };
 
     fetchData();
-  }, []);
 
-  const packages = React.useMemo(
-    () => allPackages.filter((pack) => (pack.region || 'Kerala') === region),
-    [allPackages, region]
-  );
+    return () => {
+      isMounted = false;
+    };
+  }, [region]);
 
   return (
     <React.Fragment>
@@ -44,7 +51,7 @@ function Packages() {
         <section className="packages-section">
           <div className="container">
             {errorMessage ? <div className="admin-alert admin-alert-error">{errorMessage}</div> : null}
-            {packages.length === 0 && allPackages.length > 0 ? (
+            {packages.length === 0 && !errorMessage ? (
               <p className="packages-empty">
                 No {region} packages have been added yet. Switch region from the
                 header to see other holidays.

@@ -789,6 +789,18 @@ li.current-menu-item a {
   transition: transform 0.28s ease, box-shadow 0.28s ease;
 }
 
+.destination-card-link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.destination-card-link:hover,
+.destination-card-link:focus {
+  color: inherit;
+  text-decoration: none;
+}
+
 .destination-card:hover,
 .offer.travel-offer:hover,
 .experience-card:hover,

@@ -2,7 +2,10 @@ import React from 'react';
 import Header from '../common/header';
 import Footer from '../common/footer';
 import DatService from '../services/dataService';
-import { getPackages as getPackagesFromApi } from '../services/itineraryAdminApi';
+import {
+  getPackages as getPackagesFromApi,
+  getDestinations as getDestinationsFromApi,
+} from '../services/itineraryAdminApi';
 import { useRegionContent } from '../context/RegionContext';
 import Seo from '../common/Seo';
 
@@ -127,6 +130,12 @@ function Home({ region: regionFromRoute }) {
   }, [regionFromRoute, activeRegion, setRegion]);
 
   const region = regionFromRoute || activeRegion;
+
+  const regionDestinationHeading = {
+    Kerala: 'Iconic Kerala destinations to anchor your trip.',
+    India: 'Signature destinations across India to shape your journey.',
+    World: 'International escapes that travelers come back to.',
+  }[region] || 'Destinations curated around your travel mood.';
   const heroFromContent = content.hero || {};
   const slides = (heroFromContent.slides || []).map(normalizeSlide);
   const heroEyebrow = heroFromContent.eyebrow || '';
@@ -137,6 +146,7 @@ function Home({ region: regionFromRoute }) {
   const statsFromContext = content.stats || [];
 
   const [packages, setPackages] = React.useState([]);
+  const [apiDestinations, setApiDestinations] = React.useState([]);
   const [activeHeroSlide, setActiveHeroSlide] = React.useState(0);
   const [loadedHeroSlides, setLoadedHeroSlides] = React.useState(() => new Set([0]));
 
@@ -144,24 +154,37 @@ function Home({ region: regionFromRoute }) {
     let isMounted = true;
 
     const fetchData = async () => {
-      let allPackages = [];
+      let regionPackages = [];
       try {
-        const response = await getPackagesFromApi();
-        allPackages = response.data || [];
+        const response = await getPackagesFromApi(region);
+        regionPackages = response.data || [];
       } catch (error) {
-        allPackages = await new DatService().getPackages();
+        const fallback = await new DatService().getPackages();
+        regionPackages = fallback.filter(
+          (pack) => (pack.region || 'Kerala') === region
+        );
       }
 
-      const filtered = allPackages.filter(
-        (pack) => (pack.region || 'Kerala') === region
-      );
-
       if (isMounted) {
-        setPackages(filtered.slice(0, 4));
+        setPackages(regionPackages.slice(0, 4));
+      }
+    };
+
+    const fetchDestinations = async () => {
+      try {
+        const response = await getDestinationsFromApi(region);
+        if (isMounted) {
+          setApiDestinations(response.data || []);
+        }
+      } catch (error) {
+        if (isMounted) {
+          setApiDestinations([]);
+        }
       }
     };
 
     fetchData();
+    fetchDestinations();
 
     return () => {
       isMounted = false;
@@ -208,6 +231,33 @@ function Home({ region: regionFromRoute }) {
   const currentHeroSlide = slides[safeActiveSlide] || { title: '', subtitle: '', description: '', image: '', highlights: [] };
 
   const seoConfig = regionSeo[region] || regionSeo.Kerala;
+
+  const stripHtml = (value = '') => {
+    if (!value) return '';
+    if (typeof window !== 'undefined' && window.DOMParser) {
+      const parsed = new window.DOMParser().parseFromString(value, 'text/html');
+      return (parsed.body.textContent || '').replace(/\s+/g, ' ').trim();
+    }
+    return value.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+  };
+
+  const truncate = (text, max = 160) =>
+    text && text.length > max ? `${text.slice(0, max).trimEnd()}...` : text;
+
+  const apiDestinationCards = apiDestinations.slice(0, 3).map((destination) => ({
+    title: destination.title,
+    slug: destination.slug,
+    _id: destination._id,
+    description: truncate(
+      destination.shortDescription || stripHtml(destination.contentHtml),
+      160
+    ),
+    imageUrl: destination.imageUrl,
+    image: destination.imageUrl,
+  }));
+
+  const destinationsToShow =
+    apiDestinationCards.length > 0 ? apiDestinationCards : destinationHighlights;
 
   return (
     <React.Fragment>
@@ -317,7 +367,7 @@ function Home({ region: regionFromRoute }) {
             <div className="section-heading">
               <div>
                 <p className="section-kicker">Destination highlights</p>
-                <h2 className="section-title">Three moods of Kerala, one unforgettable holiday.</h2>
+                <h2 className="section-title">{regionDestinationHeading}</h2>
               </div>
               <a href="/destinations" className="section-link">
                 View all destinations
@@ -325,24 +375,56 @@ function Home({ region: regionFromRoute }) {
             </div>
 
             <div className="destination-grid">
-              {destinationHighlights.map((destination) => (
-                <article className="destination-card" key={destination.title}>
-                  <div
-                    className="destination-card-media"
-                    style={{ backgroundImage: `url('${destination.image}')` }}
-                  />
-                  <div className="destination-card-body">
-                    <p className="destination-card-subtitle">{destination.subtitle}</p>
-                    <h3>{destination.title}</h3>
-                    <p>{destination.description}</p>
-                    <div className="tag-list">
-                      {destination.highlights.map((highlight) => (
-                        <span key={highlight}>{highlight}</span>
-                      ))}
+              {destinationsToShow.map((destination) => {
+                const linkHref = destination.slug
+                  ? `/destination/${destination.slug}`
+                  : null;
+                const cardImage =
+                  destination.image ||
+                  destination.imageUrl ||
+                  '/assets/images/slide7.jpg';
+                const summary =
+                  destination.description ||
+                  destination.shortDescription ||
+                  '';
+
+                const cardBody = (
+                  <article className="destination-card">
+                    <div
+                      className="destination-card-media"
+                      style={{ backgroundImage: `url('${cardImage}')` }}
+                    />
+                    <div className="destination-card-body">
+                      {destination.subtitle ? (
+                        <p className="destination-card-subtitle">{destination.subtitle}</p>
+                      ) : null}
+                      <h3>{destination.title}</h3>
+                      {summary ? <p>{summary}</p> : null}
+                      {destination.highlights && destination.highlights.length > 0 ? (
+                        <div className="tag-list">
+                          {destination.highlights.map((highlight) => (
+                            <span key={highlight}>{highlight}</span>
+                          ))}
+                        </div>
+                      ) : null}
                     </div>
-                  </div>
-                </article>
-              ))}
+                  </article>
+                );
+
+                const cardKey = destination._id || destination.slug || destination.title;
+
+                return linkHref ? (
+                  <a
+                    key={cardKey}
+                    href={linkHref}
+                    className="destination-card-link"
+                  >
+                    {cardBody}
+                  </a>
+                ) : (
+                  <React.Fragment key={cardKey}>{cardBody}</React.Fragment>
+                );
+              })}
             </div>
           </div>
         </section>

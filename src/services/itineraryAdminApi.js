@@ -23,8 +23,9 @@ const parseResponse = async (response) => {
   return data;
 };
 
-export const getPackages = async () => {
-  const response = await fetch(`${API_BASE_URL}/api/packages`);
+export const getPackages = async (region) => {
+  const query = region ? `?region=${encodeURIComponent(region)}` : '';
+  const response = await fetch(`${API_BASE_URL}/api/packages${query}`);
 
   return parseResponse(response);
 };

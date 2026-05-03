@@ -24,7 +24,14 @@ const createUniqueSlug = async (baseSlug, existingId = null) => {
 
 const listPackages = async (req, res, next) => {
   try {
-    const packages = await Package.find().sort({ createdAt: -1 });
+    const filter = {};
+    const { region } = req.query;
+
+    if (region && Package.REGIONS.includes(region)) {
+      filter.region = region;
+    }
+
+    const packages = await Package.find(filter).sort({ createdAt: -1 });
 
     return res.status(200).json({
       success: true,
