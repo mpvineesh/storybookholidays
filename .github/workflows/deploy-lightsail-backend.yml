@@ -77,7 +77,11 @@ jobs:
           key: ${{ env.LIGHTSAIL_SSH_KEY }}
           port: ${{ env.LIGHTSAIL_PORT }}
           envs: APP_DIR,PROCESS_NAME,PM2_APP_NAME,NODE_VERSION
-          script_stop: true
+          # Don't use script_stop: it injects an exit-on-failure check after
+          # every command, including tests inside if-conditionals — which
+          # breaks `if [ -f marker ]; then …; else install; fi`.
+          # `set -euxo pipefail` at the top of the script handles real errors.
+          script_stop: false
           command_timeout: 40m
           script: |
             set -euxo pipefail
