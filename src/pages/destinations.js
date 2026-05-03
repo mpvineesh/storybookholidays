@@ -3,6 +3,7 @@ import Header from '../common/header';
 import Footer from '../common/footer';
 import Seo from '../common/Seo';
 import { getDestinations } from '../services/itineraryAdminApi';
+import { useRegionContent } from '../context/RegionContext';
 
 const fallbackImages = [
   '/assets/images/slide7.jpg',
@@ -56,20 +57,19 @@ const getReadingTime = (destination) => {
 };
 
 function Destinations() {
+  const { region } = useRegionContent();
   const [destinations, setDestinations] = React.useState([]);
   const [selectedDestinationId, setSelectedDestinationId] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(true);
-  //const [errorMessage, setErrorMessage] = React.useState('');
 
   React.useEffect(() => {
     let isMounted = true;
 
     const fetchDestinations = async () => {
       setIsLoading(true);
-      //setErrorMessage('');
 
       try {
-        const response = await getDestinations();
+        const response = await getDestinations(region);
 
         if (!isMounted) {
           return;
@@ -79,7 +79,6 @@ function Destinations() {
       } catch (error) {
         if (isMounted) {
           setDestinations([]);
-          //setErrorMessage(error.message || 'Unable to load destinations right now.');
         }
       } finally {
         if (isMounted) {
@@ -93,7 +92,7 @@ function Destinations() {
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [region]);
 
   React.useEffect(() => {
     if (!destinations.length) {
@@ -177,11 +176,29 @@ function Destinations() {
     destinations[0] ||
     null;
 
+  const seoConfig = {
+    Kerala: {
+      title: 'Kerala Destinations — Explore Munnar, Alleppey, Kovalam & More',
+      description:
+        'Browse curated Kerala destinations — backwaters, hill stations, beaches, heritage towns and offbeat escapes handpicked by Story Book Holidays.',
+    },
+    India: {
+      title: 'India Destinations — Heritage Cities, Himalayas & Coastal Escapes',
+      description:
+        'Discover destinations across India — heritage cities, Himalayan retreats, beach towns and cultural landmarks curated by Story Book Holidays.',
+    },
+    World: {
+      title: 'International Destinations — Curated Holidays Beyond Borders',
+      description:
+        'Explore international destinations handpicked by Story Book Holidays — island retreats, cultural capitals, and bespoke world journeys.',
+    },
+  }[region] || { title: 'Destinations', description: '' };
+
   return (
     <React.Fragment>
       <Seo
-        title="Kerala Destinations — Explore Munnar, Alleppey, Kovalam & More"
-        description="Browse curated Kerala destinations — backwaters, hill stations, beaches, heritage towns and offbeat escapes handpicked by Story Book Holidays."
+        title={seoConfig.title}
+        description={seoConfig.description}
         path="/destinations"
       />
       <Header parent="Destinations" />
@@ -237,11 +254,7 @@ function Destinations() {
                             </button>
                             <a
                               className="destination-browser-link"
-                              href={`#${destinationId}`}
-                              onClick={(event) => {
-                                event.preventDefault();
-                                handleSelectDestination(destinationId, { scrollToArticle: true });
-                              }}
+                              href={`/destination/${destination.slug || destinationId}`}
                             >
                               Read guide
                             </a>
@@ -252,7 +265,7 @@ function Destinations() {
                   })}
                 </div>
 
-                <div className="destination-content-layout">
+                {/* <div className="destination-content-layout">
                   <div className="destination-articles">
                     {destinations.map((destination, index) => {
                       const destinationId = createDestinationId(destination);
@@ -322,7 +335,7 @@ function Destinations() {
                       </ul>
                     </div>
                   </aside>
-                </div>
+                </div> */}
               </React.Fragment>
             ) : null}
 

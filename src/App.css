@@ -355,7 +355,7 @@ li.current-menu-item a {
 
 .package-detail-summary {
   margin: 0;
-  max-width: 760px;
+ 
   color: var(--color-ink-soft);
   font-size: 1.02rem;
   line-height: 1.8;
@@ -728,7 +728,7 @@ li.current-menu-item a {
 }
 
 .fullwidth-block {
-  padding: 88px 0;
+  padding: 48px 0;
 }
 
 .section-heading {
@@ -749,6 +749,7 @@ li.current-menu-item a {
   font-family: 'Cormorant Garamond', serif;
   font-size: clamp(2.3rem, 4vw, 3.5rem);
   line-height: 1;
+  margin-bottom: 8px;
 }
 
 .section-link {
@@ -1923,6 +1924,66 @@ li.current-menu-item a {
 .contact-value {
   color: rgba(238, 249, 245, 0.94);
   line-height: 1.65;
+}
+
+.site-footer .contact-links .contact-card-multi {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  min-height: 100%;
+  padding: 18px 18px 17px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 22px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+  color: rgba(238, 249, 245, 0.9);
+}
+
+.site-footer .contact-links .contact-card-multi > .fa {
+  width: 18px;
+  margin-top: 5px;
+  color: #7dd8cb;
+}
+
+.site-footer .contact-links .contact-card-multi .contact-copy {
+  flex: 1;
+  gap: 8px;
+}
+
+.site-footer .contact-links .contact-line-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 16px;
+}
+
+.site-footer .contact-links .contact-line {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  color: rgba(238, 249, 245, 0.94);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.site-footer .contact-links .contact-line:hover {
+  color: #7dd8cb;
+  transform: none;
+  background: transparent;
+}
+
+.site-footer .contact-links .contact-line .contact-line-icon {
+  width: 14px;
+  margin-top: 0;
+  font-size: 0.85rem;
+  color: rgba(125, 216, 203, 0.85);
+}
+
+.site-footer .contact-links .contact-line .contact-value {
+  line-height: 1.4;
 }
 
 .site-footer .colophon {

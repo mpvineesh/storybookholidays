@@ -5,12 +5,18 @@ import {
   apiPutMultipart,
 } from '../apiClient';
 
-export const listDestinations = () => apiGet('/api/destinations');
+export const DESTINATION_REGIONS = ['Kerala', 'India', 'World'];
+
+export const listDestinations = (region) => {
+  const query = region ? `?region=${encodeURIComponent(region)}` : '';
+  return apiGet(`/api/destinations${query}`);
+};
 
 const buildFormData = (form, imageFile) => {
   const data = new FormData();
   data.append('title', form.title || '');
   data.append('slug', form.slug || '');
+  data.append('region', form.region || 'Kerala');
   data.append('shortDescription', form.shortDescription || '');
   data.append('contentHtml', form.contentHtml || '');
   if (imageFile) {

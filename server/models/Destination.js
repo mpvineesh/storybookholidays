@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 
+const DESTINATION_REGIONS = ["Kerala", "India", "World"];
+
 const destinationSchema = new mongoose.Schema(
   {
     title: {
@@ -13,6 +15,15 @@ const destinationSchema = new mongoose.Schema(
       trim: true,
       lowercase: true,
       unique: true,
+    },
+    region: {
+      type: String,
+      enum: {
+        values: DESTINATION_REGIONS,
+        message: "Region must be one of: Kerala, India, World",
+      },
+      default: "Kerala",
+      required: [true, "Region is required"],
     },
     shortDescription: {
       type: String,
@@ -40,4 +51,7 @@ const destinationSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("Destination", destinationSchema);
+const DestinationModel = mongoose.model("Destination", destinationSchema);
+DestinationModel.REGIONS = DESTINATION_REGIONS;
+
+module.exports = DestinationModel;

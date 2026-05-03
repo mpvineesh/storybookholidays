@@ -3,13 +3,16 @@ import { Upload, Loader2, Image as ImageIcon } from 'lucide-react';
 import Button from '@/components/ui/Button.jsx';
 import Input from '@/components/ui/Input.jsx';
 import Label from '@/components/ui/Label.jsx';
+import Select from '@/components/ui/Select.jsx';
 import Textarea from '@/components/ui/Textarea.jsx';
 import RichTextEditor from '@/components/ui/RichTextEditor.jsx';
 import Alert from '@/components/ui/Alert.jsx';
+import { DESTINATION_REGIONS } from '@/lib/api/destinationsApi';
 
 const emptyForm = () => ({
   title: '',
   slug: '',
+  region: 'Kerala',
   shortDescription: '',
   contentHtml: '',
 });
@@ -31,6 +34,7 @@ const DestinationForm = ({
       setForm({
         title: initialDestination.title || '',
         slug: initialDestination.slug || '',
+        region: initialDestination.region || 'Kerala',
         shortDescription: initialDestination.shortDescription || '',
         contentHtml: initialDestination.contentHtml || '',
       });
@@ -91,6 +95,22 @@ const DestinationForm = ({
             onChange={handleField}
             placeholder="munnar"
           />
+        </div>
+        <div>
+          <Label htmlFor="region">Region</Label>
+          <Select
+            id="region"
+            name="region"
+            value={form.region}
+            onChange={handleField}
+            required
+          >
+            {DESTINATION_REGIONS.map((region) => (
+              <option key={region} value={region}>
+                {region}
+              </option>
+            ))}
+          </Select>
         </div>
       </div>
 

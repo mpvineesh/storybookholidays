@@ -1,7 +1,9 @@
 import React from 'react';
 import { Plus, Pencil, Trash2, Search } from 'lucide-react';
+import Badge from '@/components/ui/Badge.jsx';
 import Button from '@/components/ui/Button.jsx';
 import Input from '@/components/ui/Input.jsx';
+import Select from '@/components/ui/Select.jsx';
 import Drawer from '@/components/ui/Drawer.jsx';
 import ConfirmDialog from '@/components/ui/ConfirmDialog.jsx';
 import Spinner from '@/components/ui/Spinner.jsx';
@@ -10,11 +12,18 @@ import Thumbnail from '@/components/ui/Thumbnail.jsx';
 import { Card, CardBody } from '@/components/ui/Card.jsx';
 import DestinationForm from '@/components/destinations/DestinationForm.jsx';
 import {
+  DESTINATION_REGIONS,
   createDestination,
   deleteDestination,
   listDestinations,
   updateDestination,
 } from '@/lib/api/destinationsApi';
+
+const regionTone = {
+  Kerala: 'success',
+  India: 'brand',
+  World: 'rose',
+};
 
 const DestinationsPage = () => {
   const [items, setItems] = React.useState([]);
@@ -22,6 +31,7 @@ const DestinationsPage = () => {
   const [errorMessage, setErrorMessage] = React.useState('');
   const [successMessage, setSuccessMessage] = React.useState('');
   const [search, setSearch] = React.useState('');
+  const [regionFilter, setRegionFilter] = React.useState('All');
 
   const [drawerOpen, setDrawerOpen] = React.useState(false);
   const [editing, setEditing] = React.useState(null);
@@ -56,13 +66,19 @@ const DestinationsPage = () => {
 
   const filtered = React.useMemo(() => {
     const query = search.trim().toLowerCase();
-    if (!query) return items;
-    return items.filter((entry) =>
-      [entry.title, entry.slug, entry.shortDescription]
+    return items.filter((entry) => {
+      const region = entry.region || 'Kerala';
+      if (regionFilter !== 'All' && region !== regionFilter) {
+        return false;
+      }
+
+      if (!query) return true;
+
+      return [entry.title, entry.slug, entry.shortDescription]
         .filter(Boolean)
-        .some((value) => value.toLowerCase().includes(query))
-    );
-  }, [items, search]);
+        .some((value) => value.toLowerCase().includes(query));
+    });
+  }, [items, search, regionFilter]);
 
   const openCreate = () => {
     setEditing(null);
@@ -139,7 +155,7 @@ const DestinationsPage = () => {
 
       <Card>
         <CardBody className="p-0">
-          <div className="border-b border-border px-4 py-3 flex items-center gap-3">
+          <div className="border-b border-border px-4 py-3 flex items-center gap-3 flex-wrap">
             <div className="relative flex-1 max-w-md">
               <Search
                 size={16}
@@ -152,6 +168,19 @@ const DestinationsPage = () => {
                 className="pl-9"
               />
             </div>
+            <Select
+              value={regionFilter}
+              onChange={(event) => setRegionFilter(event.target.value)}
+              className="w-auto"
+              aria-label="Filter destinations by region"
+            >
+              <option value="All">All regions</option>
+              {DESTINATION_REGIONS.map((region) => (
+                <option key={region} value={region}>
+                  {region}
+                </option>
+              ))}
+            </Select>
             <span className="text-sm text-ink-muted">
               {isLoading ? 'Loading…' : `${filtered.length} of ${items.length}`}
             </span>
@@ -162,6 +191,7 @@ const DestinationsPage = () => {
               <thead className="bg-bg-page text-ink-muted">
                 <tr>
                   <th className="text-left px-4 py-2 font-medium">Destination</th>
+                  <th className="text-left px-4 py-2 font-medium">Region</th>
                   <th className="text-left px-4 py-2 font-medium">Slug</th>
                   <th className="text-right px-4 py-2 font-medium">Actions</th>
                 </tr>
@@ -169,15 +199,15 @@ const DestinationsPage = () => {
               <tbody>
                 {isLoading ? (
                   <tr>
-                    <td colSpan={3} className="px-4 py-10 text-center">
+                    <td colSpan={4} className="px-4 py-10 text-center">
                       <Spinner />
                     </td>
                   </tr>
                 ) : filtered.length === 0 ? (
                   <tr>
-                    <td colSpan={3} className="px-4 py-10 text-center text-ink-muted">
-                      {search.trim()
-                        ? 'No destinations match your search.'
+                    <td colSpan={4} className="px-4 py-10 text-center text-ink-muted">
+                      {search.trim() || regionFilter !== 'All'
+                        ? 'No destinations match your filters.'
                         : 'No destinations yet. Click “Add destination” to create the first one.'}
                     </td>
                   </tr>
@@ -194,6 +224,11 @@ const DestinationsPage = () => {
                             </p>
                           </div>
                         </div>
+                      </td>
+                      <td className="px-4 py-3">
+                        <Badge tone={regionTone[entry.region] || 'default'}>
+                          {entry.region || 'Kerala'}
+                        </Badge>
                       </td>
                       <td className="px-4 py-3 text-ink-muted font-mono text-xs">
                         {entry.slug}

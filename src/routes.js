@@ -15,6 +15,7 @@ const Story = lazy(() => import('./pages/story'));
 const Packages = lazy(() => import('./pages/packages'));
 const PackageInfo = lazy(() => import('./pages/package-info'));
 const Destinations = lazy(() => import('./pages/destinations'));
+const DestinationInfo = lazy(() => import('./pages/destination-info'));
 const BackWaters = lazy(() => import('./places/backwaters'));
 const Arts = lazy(() => import('./places/arts'));
 const Theyyam = lazy(() => import('./places/theyyam'));
@@ -49,7 +50,8 @@ function AppRoutes() {
             render={(props) => <Home {...props} region="World" />}
           />
           <Route path="/about" component={AboutUs} />
-          <Route path="/destinations" component={Destinations} />
+          <Route exact path="/destinations" component={Destinations} />
+          <Route exact path="/destination/:slug" component={DestinationInfo} />
           <Route exact path="/packages" component={Packages} />
           <Route exact path="/package/:slug" component={PackageInfo} />
           <Route path="/contact" component={ContactUs} />

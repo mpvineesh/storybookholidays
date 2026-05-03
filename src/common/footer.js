@@ -46,16 +46,28 @@ const contactCards = [
     external: true,
   },
   {
-    icon: 'fa-phone',
-    label: 'Call Us',
-    value: '+91 94464 60533',
-    href: 'tel:+919446460533',
+    icon: 'fa-map-marker',
+    label: 'Delhi Office',
+    value: 'G25, Plot No 4, Vardhman Market, Sector 2 - Dwarka, New Delhi 110075',
+    href: 'https://www.google.com/maps/search/?api=1&query=G25%2C+Plot+No+4%2C+Vardhman+Market%2C+Sector+2+Dwarka%2C+New+Delhi+110075',
+    external: true,
   },
   {
-    icon: 'fa-envelope',
-    label: 'Email',
-    value: 'info@storybookholidays.com',
-    href: 'mailto:info@storybookholidays.com',
+    icon: 'fa-phone',
+    label: 'Reach Us',
+    rows: [
+      [
+        { value: '+91 94464 60533', href: 'tel:+919446460533', icon: 'fa-phone' },
+        { value: '+91 85888 97153', href: 'tel:+918588897153', icon: 'fa-phone' },
+      ],
+      [
+        {
+          value: 'info@storybookholidays.com',
+          href: 'mailto:info@storybookholidays.com',
+          icon: 'fa-envelope',
+        },
+      ],
+    ],
   },
 ];
 
@@ -207,25 +219,48 @@ function Footer() {
           </div>
 
           <div className="contact-links">
-            {contactCards.map((contact) =>
-              contact.external ? (
-                <a href={contact.href} key={contact.label} target="_blank" rel="noreferrer">
+            {contactCards.map((contact) => {
+              if (contact.rows) {
+                return (
+                  <div className="contact-card contact-card-multi" key={contact.label}>
+                    <i className={`fa ${contact.icon}`} />
+                    <span className="contact-copy">
+                      <span className="contact-label">{contact.label}</span>
+                      {contact.rows.map((row, rowIndex) => (
+                        <span className="contact-line-row" key={rowIndex}>
+                          {row.map((line) => (
+                            <a
+                              key={line.href}
+                              href={line.href}
+                              className="contact-line"
+                            >
+                              {line.icon ? (
+                                <i className={`fa ${line.icon} contact-line-icon`} />
+                              ) : null}
+                              <span className="contact-value">{line.value}</span>
+                            </a>
+                          ))}
+                        </span>
+                      ))}
+                    </span>
+                  </div>
+                );
+              }
+
+              const linkProps = contact.external
+                ? { target: '_blank', rel: 'noreferrer' }
+                : {};
+
+              return (
+                <a href={contact.href} key={contact.label} {...linkProps}>
                   <i className={`fa ${contact.icon}`} />
                   <span className="contact-copy">
                     <span className="contact-label">{contact.label}</span>
                     <span className="contact-value">{contact.value}</span>
                   </span>
                 </a>
-              ) : (
-                <a href={contact.href} key={contact.label}>
-                  <i className={`fa ${contact.icon}`} />
-                  <span className="contact-copy">
-                    <span className="contact-label">{contact.label}</span>
-                    <span className="contact-value">{contact.value}</span>
-                  </span>
-                </a>
-              ),
-            )}
+              );
+            })}
           </div>
         </div>
       </div>
@@ -233,7 +268,7 @@ function Footer() {
       <div className="colophon">
         <div className="container colophon-wrap">
           <p className="copy">Copyright {currentYear} Story Book Holidays. All rights reserved.</p>
-          <p className="colophon-note">Kasaragod and Kochi based Kerala holiday planners.</p>
+          <p className="colophon-note">Kerala-based holiday planners with offices in Kasaragod, Kochi and New Delhi.</p>
         </div>
       </div>
 

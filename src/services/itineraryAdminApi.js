@@ -29,8 +29,9 @@ export const getPackages = async () => {
   return parseResponse(response);
 };
 
-export const getDestinations = async () => {
-  const response = await fetch(`${API_BASE_URL}/api/destinations`);
+export const getDestinations = async (region) => {
+  const query = region ? `?region=${encodeURIComponent(region)}` : '';
+  const response = await fetch(`${API_BASE_URL}/api/destinations${query}`);
 
   return parseResponse(response);
 };
