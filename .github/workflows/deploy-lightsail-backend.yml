@@ -80,7 +80,7 @@ jobs:
           script_stop: true
           command_timeout: 40m
           script: |
-            set -eu
+            set -euxo pipefail
 
             ARCHIVE_PATH="/tmp/storybookholidays-backend.tar.gz"
             ENV_PATH="/tmp/storybookholidays-backend.env"
