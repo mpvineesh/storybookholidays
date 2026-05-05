@@ -4,6 +4,7 @@ const path = require("path");
 
 const adminRoutes = require("./routes/adminRoutes");
 const destinationRoutes = require("./routes/destinationRoutes");
+const inquiryRoutes = require("./routes/inquiryRoutes");
 const itineraryRoutes = require("./routes/itineraryRoutes");
 const packageRoutes = require("./routes/packageRoutes");
 const regionContentRoutes = require("./routes/regionContentRoutes");
@@ -52,6 +53,7 @@ app.get("/api/health", (_req, res) => {
 
 app.use("/api/admin", adminRoutes);
 app.use("/api/destinations", destinationRoutes);
+app.use("/api/inquiries", inquiryRoutes);
 app.use("/api/itineraries", itineraryRoutes);
 app.use("/api/packages", packageRoutes);
 app.use("/api/region-content", regionContentRoutes);

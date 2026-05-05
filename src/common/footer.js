@@ -1,4 +1,35 @@
 import React from 'react';
+import { useRegionContent } from '../context/RegionContext';
+
+const regionCopy = {
+  Kerala: {
+    ctaTitle: 'Let’s design a Kerala holiday that feels personal from day one.',
+    ctaNote:
+      'Share your pace, favorite experiences, and travel dates. We will shape a Kerala route that feels thoughtful from the first call.',
+    brandHeading: 'Kerala journeys with warmth, pacing, and local insight.',
+    themeHeading: 'Choose the Kerala mood you want most.',
+    supportPoint: 'Support across Kerala',
+    untoldStories: 'Explore the untold stories of Kerala.',
+  },
+  India: {
+    ctaTitle: 'Let’s design an India holiday that feels personal from day one.',
+    ctaNote:
+      'Share your pace, favorite experiences, and travel dates. We will shape a route across India that feels thoughtful from the first call.',
+    brandHeading: 'India journeys with warmth, pacing, and local insight.',
+    themeHeading: 'Choose the travel mood you want most across India.',
+    supportPoint: 'Support across India',
+    untoldStories: 'Explore the untold stories of India.',
+  },
+  World: {
+    ctaTitle: 'Let’s design an international holiday that feels personal from day one.',
+    ctaNote:
+      'Share your pace, favorite experiences, and travel dates. We will shape a global route that feels thoughtful from the first call.',
+    brandHeading: 'Global journeys with warmth, pacing, and local insight.',
+    themeHeading: 'Choose the travel mood you want most.',
+    supportPoint: 'Support across destinations',
+    untoldStories: 'Explore untold stories from around the world.',
+  },
+};
 
 const quickLinks = [
   { label: 'Holiday Packages', href: '/packages' },
@@ -91,20 +122,19 @@ const socialLinks = [
 
 function Footer() {
   const currentYear = new Date().getFullYear();
+  const { region } = useRegionContent();
+  const copy = regionCopy[region] || regionCopy.Kerala;
 
   return (
     <footer className="site-footer">
       <div className="container">
-  
+
 
         <div className="footer-cta-card">
           <div className="footer-cta-copy">
             <p className="footer-kicker">Ready for your next escape?</p>
-            <h2>Let’s design a Kerala holiday that feels personal from day one.</h2>
-            <p className="footer-cta-note">
-              Share your pace, favorite experiences, and travel dates. We will shape a Kerala
-              route that feels thoughtful from the first call.
-            </p>
+            <h2>{copy.ctaTitle}</h2>
+            <p className="footer-cta-note">{copy.ctaNote}</p>
           </div>
 
           <div className="footer-cta-actions">
@@ -139,7 +169,7 @@ function Footer() {
               className="logo"
             />
             <p className="footer-panel-label">Story Book Holidays</p>
-            <h3 className="widget-title">Kerala journeys with warmth, pacing, and local insight.</h3>
+            <h3 className="widget-title">{copy.brandHeading}</h3>
             <p>
               We create travel stories that balance scenic highlights with comfort, cultural
               texture, and practical support all along the route.
@@ -173,7 +203,7 @@ function Footer() {
 
           <div className="widget footer-panel">
             <p className="footer-panel-label">Travel Themes</p>
-            <h3 className="widget-title">Choose the Kerala mood you want most.</h3>
+            <h3 className="widget-title">{copy.themeHeading}</h3>
             <ul className="list-arrow footer-links">
               {travelThemes.map((link) => (
                 <li key={link.href}>
@@ -198,7 +228,7 @@ function Footer() {
               <div className="footer-support-points footer-support-points-soft">
                 <span>WhatsApp-first planning</span>
                 <span>Private family trips</span>
-                <span>Support across Kerala</span>
+                <span>{copy.supportPoint}</span>
               </div>
             </div>
           </div>
@@ -210,7 +240,7 @@ function Footer() {
           <div className="branding footer-bottom-intro">
             <p className="footer-kicker footer-kicker-soft">Plan with confidence</p>
             <h3 className="site-title">
-              <a href="/home">Explore the untold stories of Kerala.</a>
+              <a href="/home">{copy.untoldStories}</a>
             </h3>
             <small className="site-description">
               From backwaters to hill stations, we make the route, stays, and support feel

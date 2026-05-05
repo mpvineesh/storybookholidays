@@ -60,7 +60,13 @@ const destinationHighlights = [
   },
 ];
 
-const experienceThemes = [
+const localInsightTitle = {
+  Kerala: 'Kerala through stories, food, and culture',
+  India: 'India through stories, food, and culture',
+  World: 'The world through stories, food, and culture',
+};
+
+const buildExperienceThemes = (region) => [
   {
     label: 'Slow Luxury',
     title: 'Thoughtful journeys with space to breathe',
@@ -69,7 +75,7 @@ const experienceThemes = [
   },
   {
     label: 'Local Insight',
-    title: 'Kerala through stories, food, and culture',
+    title: localInsightTitle[region] || localInsightTitle.Kerala,
     description:
       'From village life to living traditions, each route is shaped with local knowledge that adds depth to every stop.',
   },
@@ -482,7 +488,7 @@ function Home({ region: regionFromRoute }) {
             </div>
 
             <div className="experience-grid">
-              {experienceThemes.map((theme) => (
+              {buildExperienceThemes(region).map((theme) => (
                 <article className="experience-card" key={theme.title}>
                   <span className="experience-label">{theme.label}</span>
                   <h3>{theme.title}</h3>

@@ -1,6 +1,13 @@
 /* eslint-disable no-console */
 const fs = require('fs');
 const path = require('path');
+
+const { Page } = require('puppeteer/lib/Page');
+const originalGoto = Page.prototype.goto;
+Page.prototype.goto = function patchedGoto(url, options = {}) {
+  return originalGoto.call(this, url, { timeout: 60000, ...options });
+};
+
 const reactSnap = require('react-snap');
 
 const includePath = path.resolve(__dirname, 'react-snap-include.json');
@@ -42,6 +49,8 @@ reactSnap
     puppeteerExecutablePath: executablePath,
     skipThirdPartyRequests: true,
     waitFor: 1500,
+    crawl: false,
+    concurrency: 1,
     include,
   })
   .catch((err) => {

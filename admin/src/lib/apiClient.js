@@ -52,6 +52,15 @@ export const apiPut = async (path, body) => {
   return parseResponse(response);
 };
 
+export const apiPatch = async (path, body) => {
+  const response = await fetch(`${API_BASE_URL}${path}`, {
+    method: 'PATCH',
+    headers: buildHeaders(),
+    body: JSON.stringify(body || {}),
+  });
+  return parseResponse(response);
+};
+
 export const apiDelete = async (path) => {
   const response = await fetch(`${API_BASE_URL}${path}`, {
     method: 'DELETE',

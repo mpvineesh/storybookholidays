@@ -5,6 +5,7 @@ import {
   Briefcase,
   MapPin,
   Globe,
+  Inbox,
   X,
 } from 'lucide-react';
 import { cn } from '@/lib/cn';
@@ -14,6 +15,7 @@ const navItems = [
   { to: '/packages', label: 'Packages', icon: Briefcase },
   { to: '/destinations', label: 'Destinations', icon: MapPin },
   { to: '/region-content', label: 'Region Content', icon: Globe },
+  { to: '/inquiries', label: 'Inquiries', icon: Inbox },
 ];
 
 const Sidebar = ({ open, onClose }) => (
