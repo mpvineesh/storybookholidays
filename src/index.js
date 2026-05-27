@@ -1,5 +1,5 @@
 import React from 'react';
-import { hydrate, render } from 'react-dom';
+import { createRoot, hydrateRoot } from 'react-dom/client';
 import { HelmetProvider } from 'react-helmet-async';
 import './index.css';
 import App from './App';
@@ -16,9 +16,9 @@ const tree = (
 );
 
 if (rootElement.hasChildNodes()) {
-  hydrate(tree, rootElement);
+  hydrateRoot(rootElement, tree);
 } else {
-  render(tree, rootElement);
+  createRoot(rootElement).render(tree);
 }
 
 reportWebVitals();

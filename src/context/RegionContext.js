@@ -19,15 +19,20 @@ const RegionContext = React.createContext({
 });
 
 export function RegionProvider({ children }) {
-  const [region, setRegionState] = React.useState(getStoredRegion);
-  const [content, setContent] = React.useState(() => defaultContentFor(getStoredRegion()));
+  const [region, setRegionState] = React.useState(DEFAULT_REGION);
+  const [content, setContent] = React.useState(() => defaultContentFor(DEFAULT_REGION));
   const [isLoading, setIsLoading] = React.useState(true);
   const [error, setError] = React.useState('');
 
   React.useEffect(() => {
+    const stored = getStoredRegion();
+    if (stored !== region) {
+      setRegionState(stored);
+    }
     return subscribeToRegionChange((next) => {
       setRegionState(next);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   React.useEffect(() => {

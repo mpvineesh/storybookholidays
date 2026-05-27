@@ -163,7 +163,7 @@ const InquiriesPage = () => {
       <Card>
         <CardBody className="p-0">
           <div className="border-b border-border px-4 py-3 flex items-center gap-3 flex-wrap">
-            <div className="relative flex-1 max-w-md">
+            <div className="relative flex-1 min-w-[220px]">
               <Search
                 size={16}
                 className="absolute left-3 top-1/2 -translate-y-1/2 text-ink-subtle"
@@ -175,33 +175,35 @@ const InquiriesPage = () => {
                 className="pl-9"
               />
             </div>
-            <Select
-              value={regionFilter}
-              onChange={(event) => setRegionFilter(event.target.value)}
-              className="w-auto"
-              aria-label="Filter inquiries by region"
-            >
-              <option value="All">All regions</option>
-              {INQUIRY_REGIONS.map((region) => (
-                <option key={region} value={region}>
-                  {region}
-                </option>
-              ))}
-            </Select>
-            <Select
-              value={statusFilter}
-              onChange={(event) => setStatusFilter(event.target.value)}
-              className="w-auto"
-              aria-label="Filter inquiries by status"
-            >
-              <option value="All">All statuses</option>
-              {INQUIRY_STATUSES.map((status) => (
-                <option key={status} value={status}>
-                  {status.charAt(0).toUpperCase() + status.slice(1)}
-                </option>
-              ))}
-            </Select>
-            <span className="text-sm text-ink-muted">
+            <div className="w-44 shrink-0">
+              <Select
+                value={regionFilter}
+                onChange={(event) => setRegionFilter(event.target.value)}
+                aria-label="Filter inquiries by region"
+              >
+                <option value="All">All regions</option>
+                {INQUIRY_REGIONS.map((region) => (
+                  <option key={region} value={region}>
+                    {region}
+                  </option>
+                ))}
+              </Select>
+            </div>
+            <div className="w-44 shrink-0">
+              <Select
+                value={statusFilter}
+                onChange={(event) => setStatusFilter(event.target.value)}
+                aria-label="Filter inquiries by status"
+              >
+                <option value="All">All statuses</option>
+                {INQUIRY_STATUSES.map((status) => (
+                  <option key={status} value={status}>
+                    {status.charAt(0).toUpperCase() + status.slice(1)}
+                  </option>
+                ))}
+              </Select>
+            </div>
+            <span className="ml-auto shrink-0 text-sm text-ink-muted">
               {isLoading ? 'Loading…' : `${filtered.length} of ${items.length}`}
             </span>
           </div>

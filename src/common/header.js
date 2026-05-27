@@ -80,6 +80,32 @@ function Header(props) {
                   </li>
                 );
               })}
+              <li className="menu-social-row" aria-hidden="false">
+                <a
+                  href="https://www.instagram.com/storybookholidays/"
+                  aria-label="Instagram"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <i className="fa fa-instagram" />
+                </a>
+                <a
+                  href="https://www.facebook.com/ExploreTheUntoldStories"
+                  aria-label="Facebook"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <i className="fa fa-facebook" />
+                </a>
+                <a
+                  href="https://wa.me/919446460533?text=Hello%20Storybook%20Holidays!"
+                  aria-label="WhatsApp"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <i className="fa fa-whatsapp" />
+                </a>
+              </li>
             </ul>
           </nav>
 
@@ -127,7 +153,7 @@ function Header(props) {
             </div>
             <div className="social-links">
               <a
-                href="https://instagram.com/story_book_holidays?igshid=xcyefcxv1e4m"
+                href="https://www.instagram.com/storybookholidays/"
                 className="instagram"
                 aria-label="Instagram"
                 target="_blank"
@@ -136,7 +162,7 @@ function Header(props) {
                 <i className="fa fa-instagram" />
               </a>
               <a
-                href="https://www.facebook.com/"
+                href="https://www.facebook.com/ExploreTheUntoldStories"
                 className="facebook"
                 aria-label="Facebook"
                 target="_blank"

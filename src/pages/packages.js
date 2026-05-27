@@ -28,7 +28,11 @@ function Packages() {
           (pack) => (pack.region || 'Kerala') === region
         );
         setPackages(filtered);
-        setErrorMessage('Showing existing package data because the package API is unavailable.');
+        const isPrerender =
+          typeof navigator !== 'undefined' && navigator.userAgent === 'ReactSnap';
+        if (!isPrerender) {
+          setErrorMessage('Showing existing package data because the package API is unavailable.');
+        }
       }
     };
 

@@ -65,23 +65,50 @@ const contactCards = [
   {
     icon: 'fa-map-marker',
     label: 'Kasaragod Office',
-    value: 'Opp. Sreevalsam Auditorium, Theru Road, Nileshwar, Kasaragod',
-    href: 'https://goo.gl/maps/1vWdC9P62dLof5bD8',
-    external: true,
+    rows: [
+      [
+        {
+          value: 'Opp. Sreevalsam Auditorium, Theru Road, Nileshwar, Kasaragod',
+          href: 'https://goo.gl/maps/1vWdC9P62dLof5bD8',
+          external: true,
+        },
+      ],
+      [
+        { value: '+91 94464 60533', href: 'tel:+919446460533', icon: 'fa-phone' },
+      ],
+    ],
   },
   {
     icon: 'fa-map-marker',
     label: 'Kochi Office',
-    value: '2nd floor, Thahi Complex, Chakkaraparambu Road, Vennala, Kochi',
-    href: 'https://goo.gl/maps/yoGWxrnNHb8XG7Z8A',
-    external: true,
+    rows: [
+      [
+        {
+          value: '2nd floor, Thahi Complex, Chakkaraparambu Road, Vennala, Kochi',
+          href: 'https://goo.gl/maps/yoGWxrnNHb8XG7Z8A',
+          external: true,
+        },
+      ],
+      [
+        { value: '+91 94464 60533', href: 'tel:+919446460533', icon: 'fa-phone' },
+      ],
+    ],
   },
   {
     icon: 'fa-map-marker',
     label: 'Delhi Office',
-    value: 'G25, Plot No 4, Vardhman Market, Sector 2 - Dwarka, New Delhi 110075',
-    href: 'https://www.google.com/maps/search/?api=1&query=G25%2C+Plot+No+4%2C+Vardhman+Market%2C+Sector+2+Dwarka%2C+New+Delhi+110075',
-    external: true,
+    rows: [
+      [
+        {
+          value: 'G25, Plot No 4, Vardhman Market, Sector 2 - Dwarka, New Delhi 110075',
+          href: 'https://www.google.com/maps/search/?api=1&query=G25%2C+Plot+No+4%2C+Vardhman+Market%2C+Sector+2+Dwarka%2C+New+Delhi+110075',
+          external: true,
+        },
+      ],
+      [
+        { value: '+91 85888 97153', href: 'tel:+918588897153', icon: 'fa-phone' },
+      ],
+    ],
   },
   {
     icon: 'fa-phone',
@@ -105,12 +132,12 @@ const contactCards = [
 const socialLinks = [
   {
     label: 'Instagram',
-    href: 'https://instagram.com/story_book_holidays?igshid=xcyefcxv1e4m',
+    href: 'https://www.instagram.com/storybookholidays/',
     icon: 'fa-instagram',
   },
   {
     label: 'Facebook',
-    href: 'https://www.facebook.com/',
+    href: 'https://www.facebook.com/ExploreTheUntoldStories',
     icon: 'fa-facebook',
   },
   {
@@ -258,18 +285,24 @@ function Footer() {
                       <span className="contact-label">{contact.label}</span>
                       {contact.rows.map((row, rowIndex) => (
                         <span className="contact-line-row" key={rowIndex}>
-                          {row.map((line) => (
-                            <a
-                              key={line.href}
-                              href={line.href}
-                              className="contact-line"
-                            >
-                              {line.icon ? (
-                                <i className={`fa ${line.icon} contact-line-icon`} />
-                              ) : null}
-                              <span className="contact-value">{line.value}</span>
-                            </a>
-                          ))}
+                          {row.map((line) => {
+                            const lineProps = line.external
+                              ? { target: '_blank', rel: 'noreferrer' }
+                              : {};
+                            return (
+                              <a
+                                key={line.href}
+                                href={line.href}
+                                className="contact-line"
+                                {...lineProps}
+                              >
+                                {line.icon ? (
+                                  <i className={`fa ${line.icon} contact-line-icon`} />
+                                ) : null}
+                                <span className="contact-value">{line.value}</span>
+                              </a>
+                            );
+                          })}
                         </span>
                       ))}
                     </span>

@@ -260,8 +260,7 @@ function Contact() {
                     Nileshwar, Kasaragod
                   </li>
                   <li>
-                    <i className="fa fa-map-marker"></i>Cochin office: 2nd floor, Thahi complex,
-                    Chakkaraparambu road, Post Vennela, Kochi, Kerala
+                    <i className="fa fa-map-marker"></i>G25, Plot No 4, Vardhman Market, Sector 2 - Dwarka, New Delhi 110075
                   </li>
                   <li>
                     <i className="fa fa-phone"></i> +91 94464 60533

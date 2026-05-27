@@ -37,7 +37,11 @@ function PackageInfo() {
         const fallbackData = await new DatService().getPackageDetails(packageName);
         setFallbackPackage(fallbackData);
         setPackageEntry(null);
-        setErrorMessage('Showing existing package content because the package API is unavailable.');
+        const isPrerender =
+          typeof navigator !== 'undefined' && navigator.userAgent === 'ReactSnap';
+        if (!isPrerender) {
+          setErrorMessage('Showing existing package content because the package API is unavailable.');
+        }
       } finally {
         setIsLoading(false);
       }

@@ -17,8 +17,16 @@ export const getStoredRegion = () => {
   }
 };
 
+const isPrerender = () =>
+  typeof navigator !== 'undefined' && navigator.userAgent === 'ReactSnap';
+
 export const setStoredRegion = (region) => {
   if (typeof window === 'undefined' || !REGIONS.includes(region)) {
+    return;
+  }
+
+  if (isPrerender()) {
+    window.dispatchEvent(new CustomEvent(CHANGE_EVENT, { detail: region }));
     return;
   }
 

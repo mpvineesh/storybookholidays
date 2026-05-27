@@ -3,8 +3,50 @@ import Header from '../common/header';
 import Footer from '../common/footer';
 import Seo from '../common/Seo';
 
-function About() {
+const founderStory = [
+  'As an ardent and passionate travel lover, I, Justin Jose, have always loved the aspects and prospects of tourism. To help people around the world explore and discover this marvelous creation called earth has always fascinated me to the core. This desire and passion has driven me to where I am today.',
+  'After a bachelor’s degree in Electronics from Hyderabad I joined the hospitality sector as a Unit Manager in a guest house — almost unexpectedly. Guests there would light up when I said I hail from Kerala. They asked me about everything from tourist places to festivals, climate and people. Quite often the conversations stretched past closing hours, and most of them ended in a quiet wish: to visit Kerala one day.',
+  'A wonderful couple, Mr. and Mrs. Podas from Germany, who visited India every year, asked if they could come to my hometown Bekal — beaches, forts, slow village life. That trip was the first complete itinerary I designed: hotel, food, transport, beach mornings, fort walks, temples and churches. Their happiness told me this was more than a job. I joined Mar Ivanios College, Trivandrum, for a Post Graduation in Tourism, took up a front-office role at a leading 3-star hotel, and later worked with the Kerala Tourism Information Centre — learning the state, its people and what travelers really look for.',
+  'After my Post Graduation I joined a 5-star luxury resort in Kumarakom as Activity Coordinator, taking guests into interior villages for sunsets and slow afternoons. A stint with an inbound tour operator in Delhi, sending Australian and New Zealand travellers across India, sharpened the craft further. A move to Calicut to source travellers from Dubai, Qatar, Abu Dhabi and Muscat finally lit the spark — to start an agency focused on inbound tourism to God’s own country, Kerala, for travellers from every corner of India and the world.',
+];
 
+const missionVision = [
+  {
+    label: 'Our Mission',
+    title: 'Quality, excellence, and unforgettable encounters.',
+    body:
+      'Travelling with Story Book stands for inspiration — for the often surprising, touching encounters along the way. Guided by the philosophy of “travelling to yourself and others”, we invite you into the most impressive regions of the Indian subcontinent and the most beautiful corners of Kerala. From Ayurveda to hill stations, wildlife to coastal villages, we share the gifts of this land with the rest of the world.',
+  },
+  {
+    label: 'Our Vision',
+    title: 'To make the dream of travel possible for everyone.',
+    body:
+      'Life is a journey, and travel is a dream many quietly hold on to. When you come to us, we add the script to that dream — a thoughtful itinerary, the right people on the ground, and the small details that turn a holiday into a story you keep telling.',
+  },
+];
+
+const whyBookWithUs = [
+  {
+    label: 'Once-in-a-Lifetime',
+    title: 'Experiences, not just bookings.',
+    description:
+      'We don’t just book trips; we curate moments. Our specialty is unique, off-the-beaten-path experiences designed to create memories that last a lifetime.',
+  },
+  {
+    label: 'Tailor-Made',
+    title: 'Itineraries shaped around you.',
+    description:
+      'Travel is personal. We craft bespoke vacations that align with your tastes, pace and interests — so you get the absolute most out of every destination.',
+  },
+  {
+    label: '24/7 Support',
+    title: 'Calm hands, always on call.',
+    description:
+      'Should any travel interruptions occur, our expert team is available around the clock to resolve issues quickly — so your only focus remains the journey.',
+  },
+];
+
+function About() {
   return (
     <React.Fragment>
       <Seo
@@ -12,38 +54,194 @@ function About() {
         description="Story Book Holidays is a Kerala-based curated travel agency founded by Justin Jose. Read our story, mission, and the inspiration behind every journey."
         path="/about"
       />
-      <Header parent="About"/>
-        <main class="content">
-          <div class="fullwidth-block">
-            <div class="container">
-              <div class="row">
-                <div class="col-md-12 wow fadeInLeft" id="our-story">
-                  <h2 class="section-title">Our Story</h2>
-                  <figure>
-                    <img src="assets/images/aboutus.jpg" alt="" height="360" width="100%" />
-                  </figure>
-                  <p>As an ardent and passionate travel lover, I, Justin Jose, have always loved the aspects and prospects of tourism. To help people around the world  to explore and discover this marvelous creation called earth has always fascinated me to the core. This desire and passion has driven me to where I am today.</p>
-                  <p>After a bachelor’s degree in Electronics from Hyderabad I joined the hospitality sector as a UNIT manager in a guest house, which happened unexpectedly. People coming there used to be excited when I said that I hail from Kerala. They used to ask me about many things starting from different tourist places in Kerala to different festivities celebrated there, climate, people etc. Quite often our discussions prolonged so much that we lost track of time. What I observed is that most of these conversations resulted in sparking a desire in them to visit Kerala.</p>
-                  <p>During my tenure at the guest house I happened to meet a wonderful couple, Mr. and Mrs. Podas from Germany who used to visit India every year. During their stay they expressed their desire to visit my hometown in Kerala, i.e. Bekal. Bekal is a wonderful place with beautiful beaches and forts. This is when I realized that there are more people out there, whom I can help with their trips and I started taking interest in Tourism as a genuine career option. Later I joined Mar Ivanious College, Trivandrum, to pursue Post Graduation in Tourism. The HOD of the Tourism department in the college Mr. P J Varghese helped me a lot. He even also helped me with a part time job as a front office executive in one of the leading 3-star hotels in Trivandrum where I used to work after my college hours. That November Mr. and Mrs. Poldas informed me about their plan to visit Kerala. That was the first time I planned and managed the complete itinerary for a trip. Right from booking a hotel room to food, transportation, visit to local attractions such as Bekal beach, fort, village areas, churches, Temples etc. was arranged for them. Their happiness and satisfaction inspired me to bring many others like them to visit Kerala. During II year tenure of my Post Graduation I got an opportunity to work with KERALA TOURISM INFORMATION CENTER (a government entity). There I used to answer all tour related enquiries about destination, accommodation, festivals, time to visit Kerala etc. I got to learn a lot about Kerala Tourism in detail. This stint also helped me to learn about the tourist’s interest and tastes. </p>
-                  <p>After my Post Graduation I joined a 5-star luxury resort in Kumarakom as an Activity Coordinator. I used to take the guests to interior villages of Kumarakom and to watch sunsets, a special attraction there. The guests used to share the details of their visit to different places in Kerala. From them I got to know that their visits were coordinated by different tour operators based in Kerala. After a brief stint there, I joined an inbound Tour operations firm based in Delhi. They brought tourists from Australia and New Zealand to India. I worked there for 2 years. That stay helped me to learn many things of the trade. </p>
-                  <p>My passion for inbound tourism drove me to find an opportunity back in Kerala. Finally, I did get a chance in Calicut where my duty was to source people from the Middle East. Multiple visits to different regions like Dubai, Qatar, Abu Dhabi, Muscat etc. increased my confidence in converting the desire to travel in the people I met into reality. This ignited my passion to start doing all this on my own i.e., to start an Agency that focuses on inbound tourism to God’s own country, Kerala, not just from different parts of India but from across the world, far and wide.</p>
+      <Header parent="About" />
+      <main className="content about-page">
+        <section
+          className="about-hero"
+          style={{ backgroundImage: "url('/assets/images/slide-kumarakam.jpg')" }}
+        >
+          <div className="container">
+            <div className="about-hero-inner">
+              <span className="eyebrow about-hero-eyebrow">About Story Book Holidays</span>
+              <h1 className="about-hero-title">
+                Curated journeys, shaped by a lifetime of loving travel.
+              </h1>
+              <p className="about-hero-lead">
+                A Kerala-rooted travel studio that designs holidays the way you’d
+                want a close friend to plan them — warm, detailed, and quietly luxurious.
+                Share your vision with our travel specialists, and we’ll manage the rest.
+              </p>
+              <div className="about-hero-actions">
+                <a href="/packages" className="button">
+                  Start planning your trip
+                </a>
+                <a
+                  href="https://wa.me/919446460533?text=Hello%20Storybook%20Holidays!"
+                  className="button button-outline"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Talk on WhatsApp
+                </a>
+              </div>
+
+              <div className="about-hero-stats">
+                <div className="about-stat">
+                  <strong>15+</strong>
+                  <span>Years in inbound travel</span>
                 </div>
-                
-                <div class="col-md-12 wow fadeInLeft" id="mission">
-                  <h2 class="section-title">Mission</h2>
-                 
-                  <p>Our mission is to provide Quality and excellence to our customers promptly and exclusively.</p><p>Traveling with StoryBook stands for inspiration, for often surprising, touching encounters. Guided by the philosophy of \"traveling to yourself and others\", StoryBook invites you to get to know the most impressive regions of the Indian subcontinent and the most beautiful destinations in Kerala</p><p>Kerala is renowned for some of its unique cultural and geographical characteristics. The practices and traditions handed down from generation to generation, alongside some of the natural wonders that we have been blessed with, have attracted people to this land for centuries. From the ancient healthcare system of Ayurveda to our picturesque hill stations and diverse wildlife, we provide you with links to access a wide range of our specialities. We believe it is our duty to share these gifts with the rest of the world.</p><p>We are people who are well-versed in the fun and rigors of travelling. Storybook came together to help other people plan and book their dream vacations.</p>
+                <div className="about-stat">
+                  <strong>40+</strong>
+                  <span>Curated experiences</span>
                 </div>
-                <div class="col-md-12 wow fadeInLeft" id="vision">
-                  <h2 class="section-title">Vision</h2>
-                  <p>To help even common man’s dream about travel and exploration to come true. Life is a journey and traveling is a dream for some. When you come to  us, we add scripts to the beauty called travel.</p>
+                <div className="about-stat">
+                  <strong>24/7</strong>
+                  <span>Dedicated trip support</span>
                 </div>
               </div>
             </div>
           </div>
-        </main>
+        </section>
 
-      <Footer/>
+        <section className="fullwidth-block about-story-section" id="our-story">
+          <div className="container">
+            <div className="about-story-grid">
+              <div className="about-story-copy">
+                <p className="section-kicker">Our Story</p>
+                <h2 className="section-title">
+                  From a guest house in Hyderabad to itineraries across Kerala and beyond.
+                </h2>
+                {founderStory.map((paragraph, index) => (
+                  <p key={index}>{paragraph}</p>
+                ))}
+                <p className="about-story-signature">
+                  <span>— Justin Jose</span>
+                  <small>Founder, Story Book Holidays</small>
+                </p>
+              </div>
+              <aside className="about-story-aside">
+                <div className="about-story-card">
+                  <p className="section-kicker">At a glance</p>
+                  <ul className="about-story-list">
+                    <li>
+                      <strong>Based in Kerala</strong>
+                      <span>Designing inbound and outbound holidays since day one.</span>
+                    </li>
+                    <li>
+                      <strong>Founder-led</strong>
+                      <span>Itineraries personally reviewed by Justin and his team.</span>
+                    </li>
+                    <li>
+                      <strong>Network-first</strong>
+                      <span>Trusted ground partners across every region we operate in.</span>
+                    </li>
+                    <li>
+                      <strong>Slow, considered planning</strong>
+                      <span>We map pacing, not just destinations.</span>
+                    </li>
+                  </ul>
+                </div>
+              </aside>
+            </div>
+          </div>
+        </section>
+
+        <section className="fullwidth-block about-mission-section">
+          <div className="container">
+            <div className="section-heading compact">
+              <div>
+                <p className="section-kicker">What guides us</p>
+                <h2 className="section-title">Mission &amp; vision.</h2>
+              </div>
+            </div>
+            <div className="about-mission-grid">
+              {missionVision.map((item) => (
+                <article className="about-mission-card" key={item.label}>
+                  <span className="experience-label">{item.label}</span>
+                  <h3>{item.title}</h3>
+                  <p>{item.body}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="fullwidth-block about-why-section" id="why-book">
+          <div className="container">
+            <div className="section-heading compact">
+              <div>
+                <p className="section-kicker">Why book with us</p>
+                <h2 className="section-title">
+                  The reasons travelers choose Story Book Holidays.
+                </h2>
+              </div>
+            </div>
+            <div className="about-why-grid">
+              {whyBookWithUs.map((item, index) => (
+                <article className="about-why-card" key={item.label}>
+                  <span className="about-why-number">0{index + 1}</span>
+                  <span className="experience-label">{item.label}</span>
+                  <h3>{item.title}</h3>
+                  <p>{item.description}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="fullwidth-block about-services-section">
+          <div className="container">
+            <div className="about-services-grid">
+              <div className="about-services-copy">
+                <p className="section-kicker">Our Services</p>
+                <h2 className="section-title">
+                  From luxury resort stays to fully curated holiday packages.
+                </h2>
+                <p>
+                  We handle every detail of your journey — flights and transfers,
+                  hand-picked stays, on-ground experiences, and the small comforts
+                  in between. Simply share your vision with our travel specialists,
+                  and we’ll manage the rest.
+                </p>
+                <ul className="about-services-list">
+                  <li>Bespoke holiday packages across Kerala, India and the world</li>
+                  <li>Luxury resort and boutique stay curation</li>
+                  <li>Honeymoon, family, group and solo itineraries</li>
+                  <li>Private transport, guides and on-ground coordination</li>
+                </ul>
+                <a href="/packages" className="button">
+                  Explore our packages
+                </a>
+              </div>
+
+              <aside className="about-guarantee-card">
+                <p className="section-kicker">Satisfaction guarantee</p>
+                <h3>Your peace of mind is our priority.</h3>
+                <p>
+                  We are committed to providing a seamless experience from the
+                  moment you book until you return home. Have questions? Reach
+                  out to our team — we’re here to make sure you travel with
+                  confidence for years to come.
+                </p>
+                <div className="about-guarantee-actions">
+                  <a href="/contact" className="button">
+                    Talk to a specialist
+                  </a>
+                  <a
+                    href="https://wa.me/919446460533?text=Hello%20Storybook%20Holidays!"
+                    className="button button-outline"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    WhatsApp us
+                  </a>
+                </div>
+              </aside>
+            </div>
+          </div>
+        </section>
+      </main>
+      <Footer />
     </React.Fragment>
   );
 }

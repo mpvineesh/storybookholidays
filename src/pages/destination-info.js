@@ -40,7 +40,11 @@ function DestinationInfo() {
       } catch (error) {
         if (!isMounted) return;
         setDestination(null);
-        setErrorMessage(error.message || 'Unable to load this destination right now.');
+        const isPrerender =
+          typeof navigator !== 'undefined' && navigator.userAgent === 'ReactSnap';
+        if (!isPrerender) {
+          setErrorMessage(error.message || 'Unable to load this destination right now.');
+        }
       } finally {
         if (isMounted) setIsLoading(false);
       }
