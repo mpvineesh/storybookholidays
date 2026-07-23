@@ -48,3 +48,16 @@ export const getPackageBySlug = async (slug) => {
 
   return parseResponse(response);
 };
+
+export const getBlogs = async (tag) => {
+  const query = tag ? `?tag=${encodeURIComponent(tag)}` : '';
+  const response = await fetch(`${API_BASE_URL}/api/blogs${query}`);
+
+  return parseResponse(response);
+};
+
+export const getBlogBySlug = async (slug) => {
+  const response = await fetch(`${API_BASE_URL}/api/blogs/slug/${slug}`);
+
+  return parseResponse(response);
+};

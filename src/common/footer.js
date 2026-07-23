@@ -34,6 +34,7 @@ const regionCopy = {
 const quickLinks = [
   { label: 'Holiday Packages', href: '/packages' },
   { label: 'Destinations', href: '/destinations' },
+  { label: 'Blog', href: '/blog' },
   { label: 'About Story Book', href: '/about' },
   { label: 'Contact Us', href: '/contact' },
 ];
@@ -84,8 +85,8 @@ const contactCards = [
     rows: [
       [
         {
-          value: '2nd floor, Thahi Complex, Chakkaraparambu Road, Vennala, Kochi',
-          href: 'https://goo.gl/maps/yoGWxrnNHb8XG7Z8A',
+          value: 'First Floor 1B Sabaasha Dreams, Above Okay Mart, Chakkaraparambu, Priyadarshini Road, Vennala, Kochi, Ernakulam, Kerala - 682028',
+          href: 'https://maps.app.goo.gl/865Bo5MqSnSiU1LDA',
           external: true,
         },
       ],

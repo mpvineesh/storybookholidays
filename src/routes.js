@@ -16,6 +16,8 @@ const Packages = lazy(() => import('./pages/packages'));
 const PackageInfo = lazy(() => import('./pages/package-info'));
 const Destinations = lazy(() => import('./pages/destinations'));
 const DestinationInfo = lazy(() => import('./pages/destination-info'));
+const Blog = lazy(() => import('./pages/blog'));
+const BlogInfo = lazy(() => import('./pages/blog-info'));
 const BackWaters = lazy(() => import('./places/backwaters'));
 const Arts = lazy(() => import('./places/arts'));
 const Theyyam = lazy(() => import('./places/theyyam'));
@@ -54,6 +56,8 @@ function AppRoutes() {
           <Route exact path="/destination/:slug" component={DestinationInfo} />
           <Route exact path="/packages" component={Packages} />
           <Route exact path="/package/:slug" component={PackageInfo} />
+          <Route exact path="/blog" component={Blog} />
+          <Route exact path="/blog/:slug" component={BlogInfo} />
           <Route path="/contact" component={ContactUs} />
           <Route exact path="/mission" component={Mission} />
           <Route path="/vision" component={Vision} />

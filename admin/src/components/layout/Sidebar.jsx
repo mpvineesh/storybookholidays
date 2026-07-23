@@ -6,6 +6,7 @@ import {
   MapPin,
   Globe,
   Inbox,
+  Newspaper,
   X,
 } from 'lucide-react';
 import { cn } from '@/lib/cn';
@@ -14,6 +15,7 @@ const navItems = [
   { to: '/', label: 'Dashboard', icon: LayoutDashboard, end: true },
   { to: '/packages', label: 'Packages', icon: Briefcase },
   { to: '/destinations', label: 'Destinations', icon: MapPin },
+  { to: '/blog', label: 'Blog', icon: Newspaper },
   { to: '/region-content', label: 'Region Content', icon: Globe },
   { to: '/inquiries', label: 'Inquiries', icon: Inbox },
 ];

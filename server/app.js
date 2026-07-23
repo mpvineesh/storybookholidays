@@ -3,6 +3,7 @@ const cors = require("cors");
 const path = require("path");
 
 const adminRoutes = require("./routes/adminRoutes");
+const blogRoutes = require("./routes/blogRoutes");
 const destinationRoutes = require("./routes/destinationRoutes");
 const inquiryRoutes = require("./routes/inquiryRoutes");
 const itineraryRoutes = require("./routes/itineraryRoutes");
@@ -37,7 +38,10 @@ app.use(
         return callback(null, true);
       }
 
-      return callback(new Error(`CORS blocked for origin: ${origin}`));
+      const corsError = new Error(`CORS blocked for origin: ${origin}`);
+      corsError.statusCode = 403;
+      corsError.isCorsError = true;
+      return callback(corsError);
     },
   })
 );
@@ -52,6 +56,7 @@ app.get("/api/health", (_req, res) => {
 });
 
 app.use("/api/admin", adminRoutes);
+app.use("/api/blogs", blogRoutes);
 app.use("/api/destinations", destinationRoutes);
 app.use("/api/inquiries", inquiryRoutes);
 app.use("/api/itineraries", itineraryRoutes);
@@ -78,6 +83,13 @@ app.use((error, _req, res, _next) => {
     return res.status(400).json({
       success: false,
       message: "Invalid resource id",
+    });
+  }
+
+  if (error.isCorsError) {
+    return res.status(403).json({
+      success: false,
+      message: "Origin not allowed",
     });
   }
 
