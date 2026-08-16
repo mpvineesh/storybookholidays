@@ -20,6 +20,24 @@
       ],
       "headers": [
         {
+          "source": "/admin/**",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, no-store, must-revalidate"
+            }
+          ]
+        },
+        {
+          "source": "/admin/assets/**",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "public, max-age=31536000, immutable"
+            }
+          ]
+        },
+        {
           "source": "/static/**",
           "headers": [
             {
@@ -65,30 +83,11 @@
         "**/.*",
         "**/node_modules/**"
       ],
-      "rewrites": [
+      "redirects": [
         {
           "source": "**",
-          "destination": "/index.html"
-        }
-      ],
-      "headers": [
-        {
-          "source": "/assets/**",
-          "headers": [
-            {
-              "key": "Cache-Control",
-              "value": "public, max-age=31536000, immutable"
-            }
-          ]
-        },
-        {
-          "source": "/index.html",
-          "headers": [
-            {
-              "key": "Cache-Control",
-              "value": "no-cache, no-store, must-revalidate"
-            }
-          ]
+          "destination": "https://www.storybookholidays.com/admin/",
+          "type": 301
         }
       ]
     }
