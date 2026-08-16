@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { useRegionContent } from '../context/RegionContext';
 
 const navItems = [
@@ -13,7 +13,8 @@ const navItems = [
 
 function Header(props) {
   const location = useLocation();
-  const { content, region, regions, setRegion } = useRegionContent();
+  const history = useHistory();
+  const { content, region, regions, regionConfigs, setRegion } = useRegionContent();
   const tagline = (content.header && content.header.tagline) || 'Curated Kerala journeys with soul';
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const [isRegionMenuOpen, setIsRegionMenuOpen] = React.useState(false);
@@ -22,6 +23,34 @@ function Header(props) {
     setIsMenuOpen(false);
     setIsRegionMenuOpen(false);
   }, [location.pathname]);
+
+  const slugForRegion = React.useCallback(
+    (name) => {
+      const config = regionConfigs.find((entry) => entry.region === name);
+      return (config && config.slug) || name.toLowerCase();
+    },
+    [regionConfigs]
+  );
+
+  // Region home pages ("/kerala", "/india", ...) derive their region from the
+  // URL, so switching regions there must navigate — updating context alone
+  // gets overridden by the route.
+  const isRegionHomePath = React.useMemo(() => {
+    const path = location.pathname.replace(/\/+$/, '') || '/';
+    if (path === '/' || path === '/home') return true;
+    const slug = path.slice(1);
+    return regionConfigs.some(
+      (entry) => ((entry.slug || entry.region.toLowerCase())) === slug
+    );
+  }, [location.pathname, regionConfigs]);
+
+  const handleRegionSelect = (option) => {
+    setRegion(option);
+    setIsRegionMenuOpen(false);
+    if (isRegionHomePath) {
+      history.push(`/${slugForRegion(option)}`);
+    }
+  };
 
   React.useEffect(() => {
     if (!isRegionMenuOpen) return undefined;
@@ -140,10 +169,7 @@ function Header(props) {
                         className={`region-switcher-option ${
                           option === region ? 'is-active' : ''
                         }`}
-                        onClick={() => {
-                          setRegion(option);
-                          setIsRegionMenuOpen(false);
-                        }}
+                        onClick={() => handleRegionSelect(option)}
                       >
                         {option}
                       </button>
