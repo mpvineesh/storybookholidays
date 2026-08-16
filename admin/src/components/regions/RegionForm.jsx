@@ -1,25 +1,24 @@
 import React from 'react';
-import { Upload, Loader2, Image as ImageIcon } from 'lucide-react';
+import { Image as ImageIcon, Loader2, Upload } from 'lucide-react';
+import Alert from '@/components/ui/Alert.jsx';
 import Button from '@/components/ui/Button.jsx';
 import Input from '@/components/ui/Input.jsx';
 import Label from '@/components/ui/Label.jsx';
-import Select from '@/components/ui/Select.jsx';
 import Textarea from '@/components/ui/Textarea.jsx';
-import RichTextEditor from '@/components/ui/RichTextEditor.jsx';
-import Alert from '@/components/ui/Alert.jsx';
-import { DESTINATION_REGIONS } from '@/lib/api/destinationsApi';
-import { listAdminRegions } from '@/lib/api/regionsApi';
 
 const emptyForm = () => ({
   title: '',
+  region: '',
   slug: '',
-  region: 'Kerala',
-  shortDescription: '',
-  contentHtml: '',
+  tagline: '',
+  description: '',
+  imageUrl: '',
+  isActive: true,
+  sortOrder: 0,
 });
 
-const DestinationForm = ({
-  initialDestination,
+const RegionForm = ({
+  initialRegion,
   isSaving,
   errorMessage,
   onSubmit,
@@ -29,48 +28,27 @@ const DestinationForm = ({
   const [imageFile, setImageFile] = React.useState(null);
   const [imagePreviewUrl, setImagePreviewUrl] = React.useState('');
   const [imageBroken, setImageBroken] = React.useState(false);
-  const [regions, setRegions] = React.useState(DESTINATION_REGIONS);
 
   React.useEffect(() => {
-    let cancelled = false;
-
-    listAdminRegions()
-      .then((response) => {
-        if (cancelled) return;
-        const nextRegions = (response.data || [])
-          .map((entry) => entry.region)
-          .filter(Boolean);
-        if (nextRegions.length > 0) {
-          setRegions(nextRegions);
-        }
-      })
-      .catch(() => {
-        setRegions(DESTINATION_REGIONS);
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  React.useEffect(() => {
-    if (initialDestination) {
+    if (initialRegion) {
       setForm({
-        title: initialDestination.title || '',
-        slug: initialDestination.slug || '',
-        region: initialDestination.region || 'Kerala',
-        shortDescription: initialDestination.shortDescription || '',
-        contentHtml: initialDestination.contentHtml || '',
+        title: initialRegion.title || '',
+        region: initialRegion.region || '',
+        slug: initialRegion.slug || '',
+        tagline: initialRegion.tagline || '',
+        description: initialRegion.description || '',
+        isActive: initialRegion.isActive !== false,
+        sortOrder: initialRegion.sortOrder || 0,
       });
+      setImagePreviewUrl(initialRegion.imageUrl || '');
       setImageFile(null);
-      setImagePreviewUrl(initialDestination.imageUrl || '');
     } else {
       setForm(emptyForm());
-      setImageFile(null);
       setImagePreviewUrl('');
+      setImageFile(null);
     }
     setImageBroken(false);
-  }, [initialDestination]);
+  }, [initialRegion]);
 
   React.useEffect(() => {
     if (!imageFile) return undefined;
@@ -80,13 +58,12 @@ const DestinationForm = ({
     return () => URL.revokeObjectURL(url);
   }, [imageFile]);
 
-  React.useEffect(() => {
-    setImageBroken(false);
-  }, [imagePreviewUrl]);
-
   const handleField = (event) => {
-    const { name, value } = event.target;
-    setForm((current) => ({ ...current, [name]: value }));
+    const { name, type, checked, value } = event.target;
+    setForm((current) => ({
+      ...current,
+      [name]: type === 'checkbox' ? checked : value,
+    }));
   };
 
   const handleSubmit = (event) => {
@@ -106,57 +83,73 @@ const DestinationForm = ({
             name="title"
             value={form.title}
             onChange={handleField}
-            placeholder="Munnar"
+            placeholder="Kerala"
             required
           />
         </div>
         <div>
-          <Label htmlFor="slug">Slug</Label>
+          <Label htmlFor="region">Region key</Label>
+          <Input
+            id="region"
+            name="region"
+            value={form.region}
+            onChange={handleField}
+            placeholder="Kerala"
+            required
+          />
+        </div>
+        <div>
+          <Label htmlFor="slug">URL slug</Label>
           <Input
             id="slug"
             name="slug"
             value={form.slug}
             onChange={handleField}
-            placeholder="munnar"
+            placeholder="kerala"
           />
         </div>
         <div>
-          <Label htmlFor="region">Region</Label>
-          <Select
-            id="region"
-            name="region"
-            value={form.region}
+          <Label htmlFor="sortOrder">Sort order</Label>
+          <Input
+            id="sortOrder"
+            name="sortOrder"
+            type="number"
+            value={form.sortOrder}
             onChange={handleField}
-            required
-          >
-            {regions.map((region) => (
-              <option key={region} value={region}>
-                {region}
-              </option>
-            ))}
-          </Select>
+          />
         </div>
       </div>
 
       <div>
-        <Label htmlFor="shortDescription">Short description</Label>
-        <Textarea
-          id="shortDescription"
-          name="shortDescription"
-          value={form.shortDescription}
+        <Label htmlFor="tagline">Tagline</Label>
+        <Input
+          id="tagline"
+          name="tagline"
+          value={form.tagline}
           onChange={handleField}
-          placeholder="Short teaser shown on listings"
-          rows={3}
+          placeholder="God's Own Country"
         />
       </div>
 
       <div>
-        <Label>Cover image</Label>
+        <Label htmlFor="description">Description</Label>
+        <Textarea
+          id="description"
+          name="description"
+          rows={4}
+          value={form.description}
+          onChange={handleField}
+          placeholder="Short card description shown on the landing page."
+        />
+      </div>
+
+      <div>
+        <Label>Image</Label>
         <div className="rounded-lg border border-dashed border-border bg-bg-page p-4">
           {imagePreviewUrl && !imageBroken ? (
             <img
               src={imagePreviewUrl}
-              alt={form.title || 'Destination preview'}
+              alt={form.title || 'Region preview'}
               className="mb-3 h-40 w-full rounded-md object-cover"
               onError={() => setImageBroken(true)}
             />
@@ -168,6 +161,7 @@ const DestinationForm = ({
               </div>
             </div>
           ) : null}
+
           <label className="inline-flex items-center gap-2 cursor-pointer rounded-lg border border-border bg-white px-3 h-9 text-sm text-ink hover:bg-slate-50">
             <Upload size={16} />
             <span>{imageFile ? imageFile.name : 'Choose new image'}</span>
@@ -178,8 +172,8 @@ const DestinationForm = ({
               onChange={(event) => {
                 const file = event.target.files?.[0] || null;
                 setImageFile(file);
-                if (!file && initialDestination?.imageUrl) {
-                  setImagePreviewUrl(initialDestination.imageUrl);
+                if (!file && initialRegion?.imageUrl) {
+                  setImagePreviewUrl(initialRegion.imageUrl);
                 } else if (!file) {
                   setImagePreviewUrl('');
                 }
@@ -192,7 +186,7 @@ const DestinationForm = ({
               className="ml-3 text-sm text-ink-muted hover:text-ink"
               onClick={() => {
                 setImageFile(null);
-                setImagePreviewUrl(initialDestination?.imageUrl || '');
+                setImagePreviewUrl(initialRegion?.imageUrl || '');
               }}
             >
               Reset
@@ -201,16 +195,16 @@ const DestinationForm = ({
         </div>
       </div>
 
-      <div>
-        <Label>Destination content</Label>
-        <RichTextEditor
-          value={form.contentHtml}
-          onChange={(value) =>
-            setForm((current) => ({ ...current, contentHtml: value }))
-          }
-          placeholder="Long-form description, things to do, when to visit, etc."
+      <label className="flex items-center gap-3 rounded-lg border border-border bg-white px-3 py-2 text-sm text-ink">
+        <input
+          type="checkbox"
+          name="isActive"
+          checked={form.isActive}
+          onChange={handleField}
+          className="h-4 w-4 rounded border-border text-brand-600"
         />
-      </div>
+        Show this region on the public landing page
+      </label>
 
       <div className="flex items-center justify-end gap-2 pt-2">
         <Button type="button" variant="secondary" onClick={onCancel} disabled={isSaving}>
@@ -218,15 +212,11 @@ const DestinationForm = ({
         </Button>
         <Button type="submit" disabled={isSaving}>
           {isSaving ? <Loader2 size={16} className="animate-spin" /> : null}
-          {isSaving
-            ? 'Saving…'
-            : initialDestination
-              ? 'Update destination'
-              : 'Create destination'}
+          {isSaving ? 'Saving...' : initialRegion ? 'Update region' : 'Create region'}
         </Button>
       </div>
     </form>
   );
 };
 
-export default DestinationForm;
+export default RegionForm;

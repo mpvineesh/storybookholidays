@@ -66,6 +66,11 @@ function AppRoutes() {
           <Route path="/theyyam" component={Theyyam} />
           <Route path="/ayurveda" component={Ayurveda} />
           <Route path="/arts" component={Arts} />
+          <Route
+            exact
+            path="/:regionSlug"
+            render={(props) => <Home {...props} regionSlug={props.match.params.regionSlug} />}
+          />
         </Switch>
       </Suspense>
     </Router>

@@ -4,6 +4,7 @@ import {
   LayoutDashboard,
   Briefcase,
   MapPin,
+  Map,
   Globe,
   Inbox,
   Newspaper,
@@ -16,6 +17,7 @@ const navItems = [
   { to: '/packages', label: 'Packages', icon: Briefcase },
   { to: '/destinations', label: 'Destinations', icon: MapPin },
   { to: '/blog', label: 'Blog', icon: Newspaper },
+  { to: '/regions', label: 'Regions', icon: Map },
   { to: '/region-content', label: 'Region Content', icon: Globe },
   { to: '/inquiries', label: 'Inquiries', icon: Inbox },
 ];

@@ -30,8 +30,8 @@ const listDestinations = async (req, res, next) => {
     const filter = {};
     const { region } = req.query;
 
-    if (region && Destination.REGIONS.includes(region)) {
-      filter.region = region;
+    if (region) {
+      filter.region = region.trim();
     }
 
     const destinations = await Destination.find(filter).sort({ createdAt: -1 });

@@ -6,5 +6,8 @@ RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^ - [L]
 
+# Send admin console subroutes to the admin app entrypoint.
+RewriteRule ^admin(?:/.*)?$ admin/index.html [L]
+
 # Send all other requests to the React app entrypoint.
 RewriteRule ^ index.html [L]

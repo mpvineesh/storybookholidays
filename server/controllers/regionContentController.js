@@ -6,16 +6,16 @@ const {
   uploadBufferToS3,
 } = require("../utils/objectStorage");
 
-const isValidRegion = (region) => RegionContent.REGIONS.includes(region);
+const hasRegion = (region) => typeof region === "string" && region.trim().length > 0;
 
 const getRegionContent = async (req, res, next) => {
   try {
     const { region } = req.params;
 
-    if (!isValidRegion(region)) {
+    if (!hasRegion(region)) {
       return res.status(400).json({
         success: false,
-        message: `Invalid region. Must be one of: ${RegionContent.REGIONS.join(", ")}`,
+        message: "Region is required",
       });
     }
 
@@ -38,10 +38,10 @@ const upsertRegionContent = async (req, res, next) => {
   try {
     const { region } = req.params;
 
-    if (!isValidRegion(region)) {
+    if (!hasRegion(region)) {
       return res.status(400).json({
         success: false,
-        message: `Invalid region. Must be one of: ${RegionContent.REGIONS.join(", ")}`,
+        message: "Region is required",
       });
     }
 

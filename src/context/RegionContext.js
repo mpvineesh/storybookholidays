@@ -1,5 +1,6 @@
 import React from 'react';
 import { getRegionContent } from '../services/regionContentApi';
+import { getRegions } from '../services/regionsApi';
 import { defaultContentFor } from '../services/regionContentDefaults';
 import {
   DEFAULT_REGION,
@@ -16,11 +17,15 @@ const RegionContext = React.createContext({
   error: '',
   setRegion: () => {},
   regions: REGIONS,
+  regionConfigs: [],
 });
 
 export function RegionProvider({ children }) {
   const [region, setRegionState] = React.useState(DEFAULT_REGION);
   const [content, setContent] = React.useState(() => defaultContentFor(DEFAULT_REGION));
+  const [regionConfigs, setRegionConfigs] = React.useState(() =>
+    REGIONS.map((entry) => ({ region: entry, title: entry, slug: entry.toLowerCase() }))
+  );
   const [isLoading, setIsLoading] = React.useState(true);
   const [error, setError] = React.useState('');
 
@@ -33,6 +38,29 @@ export function RegionProvider({ children }) {
       setRegionState(next);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  React.useEffect(() => {
+    let isMounted = true;
+
+    getRegions()
+      .then((response) => {
+        if (!isMounted) return;
+        const fetchedRegions = (response.data || []).filter((entry) => entry.region);
+        if (fetchedRegions.length > 0) {
+          setRegionConfigs(fetchedRegions);
+        }
+      })
+      .catch(() => {
+        if (!isMounted) return;
+        setRegionConfigs(
+          REGIONS.map((entry) => ({ region: entry, title: entry, slug: entry.toLowerCase() }))
+        );
+      });
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   React.useEffect(() => {
@@ -62,14 +90,22 @@ export function RegionProvider({ children }) {
   }, [region]);
 
   const setRegion = React.useCallback((next) => {
-    if (!REGIONS.includes(next)) return;
+    if (!next) return;
     setStoredRegion(next);
     setRegionState(next);
   }, []);
 
   const value = React.useMemo(
-    () => ({ region, content, isLoading, error, setRegion, regions: REGIONS }),
-    [region, content, isLoading, error, setRegion]
+    () => ({
+      region,
+      content,
+      isLoading,
+      error,
+      setRegion,
+      regions: regionConfigs.map((entry) => entry.region),
+      regionConfigs,
+    }),
+    [region, content, isLoading, error, setRegion, regionConfigs]
   );
 
   return <RegionContext.Provider value={value}>{children}</RegionContext.Provider>;

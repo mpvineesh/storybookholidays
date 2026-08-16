@@ -1,13 +1,17 @@
 const mongoose = require("mongoose");
 
-const DESTINATION_REGIONS = ["Kerala", "India", "World"];
-
-const destinationSchema = new mongoose.Schema(
+const regionSchema = new mongoose.Schema(
   {
     title: {
       type: String,
       required: [true, "Title is required"],
       trim: true,
+    },
+    region: {
+      type: String,
+      required: [true, "Region is required"],
+      trim: true,
+      unique: true,
     },
     slug: {
       type: String,
@@ -16,20 +20,14 @@ const destinationSchema = new mongoose.Schema(
       lowercase: true,
       unique: true,
     },
-    region: {
-      type: String,
-      trim: true,
-      default: "Kerala",
-      required: [true, "Region is required"],
-    },
-    shortDescription: {
+    tagline: {
       type: String,
       trim: true,
       default: "",
     },
-    contentHtml: {
+    description: {
       type: String,
-      required: [true, "Destination content is required"],
+      trim: true,
       default: "",
     },
     imagePath: {
@@ -42,13 +40,20 @@ const destinationSchema = new mongoose.Schema(
       trim: true,
       default: "",
     },
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
+    sortOrder: {
+      type: Number,
+      default: 0,
+    },
   },
   {
     timestamps: true,
   }
 );
 
-const DestinationModel = mongoose.model("Destination", destinationSchema);
-DestinationModel.REGIONS = DESTINATION_REGIONS;
+const Region = mongoose.model("Region", regionSchema);
 
-module.exports = DestinationModel;
+module.exports = Region;

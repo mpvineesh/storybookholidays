@@ -9,10 +9,11 @@ import Spinner from '@/components/ui/Spinner.jsx';
 import { Card, CardBody } from '@/components/ui/Card.jsx';
 import HeroSlideEditor from '@/components/region-content/HeroSlideEditor.jsx';
 import {
-  REGIONS,
+  FALLBACK_REGIONS,
   getRegionContent,
   updateRegionContent,
 } from '@/lib/api/regionContentApi';
+import { listAdminRegions } from '@/lib/api/regionsApi';
 
 const emptyContent = () => ({
   header: { tagline: '' },
@@ -96,6 +97,9 @@ const splitLines = (value) =>
 
 const RegionContentPage = () => {
   const [activeRegion, setActiveRegion] = React.useState('Kerala');
+  const [regions, setRegions] = React.useState(() =>
+    FALLBACK_REGIONS.map((region) => ({ region, title: region }))
+  );
   const [content, setContent] = React.useState(emptyContent);
   const [isLoading, setIsLoading] = React.useState(true);
   const [isSaving, setIsSaving] = React.useState(false);
@@ -114,6 +118,37 @@ const RegionContentPage = () => {
     } finally {
       setIsLoading(false);
     }
+  }, []);
+
+  React.useEffect(() => {
+    let cancelled = false;
+
+    listAdminRegions()
+      .then((response) => {
+        if (cancelled) return;
+        const nextRegions = (response.data || [])
+          .filter((entry) => entry.region)
+          .map((entry) => ({
+            region: entry.region,
+            title: entry.title || entry.region,
+          }));
+
+        if (nextRegions.length > 0) {
+          setRegions(nextRegions);
+          setActiveRegion((current) =>
+            nextRegions.some((entry) => entry.region === current)
+              ? current
+              : nextRegions[0].region
+          );
+        }
+      })
+      .catch(() => {
+        setRegions(FALLBACK_REGIONS.map((region) => ({ region, title: region })));
+      });
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   React.useEffect(() => {
@@ -267,16 +302,16 @@ const RegionContentPage = () => {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          {REGIONS.map((region) => (
+          {regions.map((entry) => (
             <Button
-              key={region}
+              key={entry.region}
               type="button"
-              variant={region === activeRegion ? 'primary' : 'secondary'}
+              variant={entry.region === activeRegion ? 'primary' : 'secondary'}
               size="sm"
-              onClick={() => setActiveRegion(region)}
+              onClick={() => setActiveRegion(entry.region)}
               disabled={isLoading || isSaving}
             >
-              {region}
+              {entry.title}
             </Button>
           ))}
         </div>

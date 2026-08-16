@@ -1,8 +1,9 @@
 import React from 'react';
 import Seo from '../common/Seo';
 import { setStoredRegion } from '../context/regionStorage';
+import { getRegions } from '../services/regionsApi';
 
-const regions = [
+const fallbackRegions = [
   {
     key: 'kerala',
     label: 'Kerala',
@@ -45,6 +46,37 @@ const backgroundSlides = [
 function Landing() {
   const [activeSlide, setActiveSlide] = React.useState(0);
   const [loadedSlides, setLoadedSlides] = React.useState(() => new Set([0]));
+  const [regions, setRegions] = React.useState(fallbackRegions);
+
+  React.useEffect(() => {
+    let isMounted = true;
+
+    getRegions()
+      .then((response) => {
+        if (!isMounted) return;
+        const configuredRegions = (response.data || []).map((entry) => ({
+          key: entry.slug || entry.region,
+          label: entry.title || entry.region,
+          region: entry.region,
+          tagline: entry.tagline || '',
+          description: entry.description || '',
+          image: entry.imageUrl || '/assets/images/kerala-card.jpg',
+          href: `/${entry.slug || String(entry.region || '').toLowerCase()}`,
+          available: entry.isActive !== false,
+        }));
+
+        if (configuredRegions.length > 0) {
+          setRegions(configuredRegions);
+        }
+      })
+      .catch(() => {
+        setRegions(fallbackRegions);
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   React.useEffect(() => {
     if (loadedSlides.size >= backgroundSlides.length) return undefined;
@@ -145,7 +177,7 @@ function Landing() {
               style={{ backgroundImage: `url('${region.image}')` }}
               onClick={() => {
                 if (region.available) {
-                  setStoredRegion(region.label);
+                  setStoredRegion(region.region || region.label);
                 }
               }}
             >

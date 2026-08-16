@@ -45,9 +45,9 @@ const regionContentSchema = new mongoose.Schema(
   {
     region: {
       type: String,
-      enum: REGIONS,
       required: true,
       unique: true,
+      trim: true,
     },
     header: {
       tagline: { type: String, default: "" },

@@ -126,16 +126,25 @@ const normalizeSlide = (slide) => ({
   highlights: slide.highlights || [],
 });
 
-function Home({ region: regionFromRoute }) {
-  const { content, region: activeRegion, setRegion } = useRegionContent();
+function Home({ region: regionFromRoute, regionSlug }) {
+  const {
+    content,
+    region: activeRegion,
+    setRegion,
+    regionConfigs,
+  } = useRegionContent();
+  const regionFromSlug = regionSlug
+    ? regionConfigs.find((entry) => entry.slug === regionSlug)?.region
+    : '';
+  const requestedRegion = regionFromRoute || regionFromSlug;
 
   React.useEffect(() => {
-    if (regionFromRoute && regionFromRoute !== activeRegion) {
-      setRegion(regionFromRoute);
+    if (requestedRegion && requestedRegion !== activeRegion) {
+      setRegion(requestedRegion);
     }
-  }, [regionFromRoute, activeRegion, setRegion]);
+  }, [requestedRegion, activeRegion, setRegion]);
 
-  const region = regionFromRoute || activeRegion;
+  const region = requestedRegion || activeRegion;
 
   const regionDestinationHeading = {
     Kerala: 'Iconic Kerala destinations to anchor your trip.',

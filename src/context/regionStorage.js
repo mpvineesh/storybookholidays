@@ -11,7 +11,7 @@ export const getStoredRegion = () => {
 
   try {
     const value = window.localStorage.getItem(STORAGE_KEY);
-    return REGIONS.includes(value) ? value : DEFAULT_REGION;
+    return value || DEFAULT_REGION;
   } catch (_error) {
     return DEFAULT_REGION;
   }
@@ -21,7 +21,7 @@ const isPrerender = () =>
   typeof navigator !== 'undefined' && navigator.userAgent === 'ReactSnap';
 
 export const setStoredRegion = (region) => {
-  if (typeof window === 'undefined' || !REGIONS.includes(region)) {
+  if (typeof window === 'undefined' || !region) {
     return;
   }
 

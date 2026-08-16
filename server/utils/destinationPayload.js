@@ -1,4 +1,3 @@
-const Destination = require("../models/Destination");
 const { getStoredFileName, getStoredFileUrl } = require("./objectStorage");
 const slugify = require("./slugify");
 
@@ -15,18 +14,10 @@ const mapDestinationResponse = (req, destinationDocument) => {
   };
 };
 
-const normalizeRegion = (value) => {
-  if (!value) {
-    return "Kerala";
-  }
-
-  return Destination.REGIONS.includes(value) ? value : "Kerala";
-};
-
 const parseDestinationInput = (body = {}) => ({
   title: (body.title || "").trim(),
   slug: slugify(body.slug || body.title || ""),
-  region: normalizeRegion(body.region),
+  region: (body.region || "").trim() || "Kerala",
   shortDescription: (body.shortDescription || "").trim(),
   contentHtml: body.contentHtml || "",
 });

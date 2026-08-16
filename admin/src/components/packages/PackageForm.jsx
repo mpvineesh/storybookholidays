@@ -8,6 +8,7 @@ import Textarea from '@/components/ui/Textarea.jsx';
 import RichTextEditor from '@/components/ui/RichTextEditor.jsx';
 import Alert from '@/components/ui/Alert.jsx';
 import { PACKAGE_REGIONS } from '@/lib/api/packagesApi';
+import { listAdminRegions } from '@/lib/api/regionsApi';
 
 const emptyForm = () => ({
   title: '',
@@ -24,6 +25,29 @@ const PackageForm = React.forwardRef(
     const [imageFile, setImageFile] = React.useState(null);
     const [imagePreviewUrl, setImagePreviewUrl] = React.useState('');
     const [imageBroken, setImageBroken] = React.useState(false);
+    const [regions, setRegions] = React.useState(PACKAGE_REGIONS);
+
+    React.useEffect(() => {
+      let cancelled = false;
+
+      listAdminRegions()
+        .then((response) => {
+          if (cancelled) return;
+          const nextRegions = (response.data || [])
+            .map((entry) => entry.region)
+            .filter(Boolean);
+          if (nextRegions.length > 0) {
+            setRegions(nextRegions);
+          }
+        })
+        .catch(() => {
+          setRegions(PACKAGE_REGIONS);
+        });
+
+      return () => {
+        cancelled = true;
+      };
+    }, []);
 
     React.useEffect(() => {
       if (initialPackage) {
@@ -101,7 +125,7 @@ const PackageForm = React.forwardRef(
               onChange={handleField}
               required
             >
-              {PACKAGE_REGIONS.map((region) => (
+              {regions.map((region) => (
                 <option key={region} value={region}>
                   {region}
                 </option>

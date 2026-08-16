@@ -18,10 +18,7 @@ const packageSchema = new mongoose.Schema(
     },
     region: {
       type: String,
-      enum: {
-        values: PACKAGE_REGIONS,
-        message: "Region must be one of: Kerala, India, World",
-      },
+      trim: true,
       default: "Kerala",
       required: [true, "Region is required"],
     },

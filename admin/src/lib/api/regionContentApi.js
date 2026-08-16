@@ -1,6 +1,6 @@
 import { apiGet, apiPostMultipart, apiPut } from '../apiClient';
 
-export const REGIONS = ['Kerala', 'India', 'World'];
+export const FALLBACK_REGIONS = ['Kerala', 'India', 'World'];
 
 export const getRegionContent = (region) =>
   apiGet(`/api/region-content/${region}`);

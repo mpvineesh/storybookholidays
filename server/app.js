@@ -8,6 +8,7 @@ const destinationRoutes = require("./routes/destinationRoutes");
 const inquiryRoutes = require("./routes/inquiryRoutes");
 const itineraryRoutes = require("./routes/itineraryRoutes");
 const packageRoutes = require("./routes/packageRoutes");
+const regionRoutes = require("./routes/regionRoutes");
 const regionContentRoutes = require("./routes/regionContentRoutes");
 
 const app = express();
@@ -61,6 +62,7 @@ app.use("/api/destinations", destinationRoutes);
 app.use("/api/inquiries", inquiryRoutes);
 app.use("/api/itineraries", itineraryRoutes);
 app.use("/api/packages", packageRoutes);
+app.use("/api/regions", regionRoutes);
 app.use("/api/region-content", regionContentRoutes);
 
 app.use((req, res) => {

@@ -1,4 +1,3 @@
-const Package = require("../models/Package");
 const { getStoredFileName, getStoredFileUrl } = require("./objectStorage");
 const slugify = require("./slugify");
 
@@ -15,8 +14,7 @@ const mapPackageResponse = (req, packageDocument) => {
 };
 
 const parsePackageInput = (body = {}) => {
-  const submittedRegion = (body.region || "").trim();
-  const region = Package.REGIONS.includes(submittedRegion) ? submittedRegion : "Kerala";
+  const region = (body.region || "").trim() || "Kerala";
 
   return {
     title: (body.title || "").trim(),
