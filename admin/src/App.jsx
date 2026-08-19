@@ -9,6 +9,7 @@ import DestinationsPage from '@/pages/DestinationsPage.jsx';
 import BlogsPage from '@/pages/BlogsPage.jsx';
 import RegionsPage from '@/pages/RegionsPage.jsx';
 import RegionContentPage from '@/pages/RegionContentPage.jsx';
+import AboutContentPage from '@/pages/AboutContentPage.jsx';
 import InquiriesPage from '@/pages/InquiriesPage.jsx';
 
 const App = () => (
@@ -27,6 +28,7 @@ const App = () => (
       <Route path="/blog" element={<BlogsPage />} />
       <Route path="/regions" element={<RegionsPage />} />
       <Route path="/region-content" element={<RegionContentPage />} />
+      <Route path="/about-content" element={<AboutContentPage />} />
       <Route path="/inquiries" element={<InquiriesPage />} />
     </Route>
     <Route path="*" element={<Navigate to="/" replace />} />

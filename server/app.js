@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const path = require("path");
 
+const aboutContentRoutes = require("./routes/aboutContentRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const blogRoutes = require("./routes/blogRoutes");
 const destinationRoutes = require("./routes/destinationRoutes");
@@ -56,6 +57,7 @@ app.get("/api/health", (_req, res) => {
   });
 });
 
+app.use("/api/about-content", aboutContentRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/blogs", blogRoutes);
 app.use("/api/destinations", destinationRoutes);

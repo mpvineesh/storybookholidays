@@ -8,6 +8,7 @@ import {
   Globe,
   Inbox,
   Newspaper,
+  Info,
   X,
 } from 'lucide-react';
 import { cn } from '@/lib/cn';
@@ -19,6 +20,7 @@ const navItems = [
   { to: '/blog', label: 'Blog', icon: Newspaper },
   { to: '/regions', label: 'Regions', icon: Map },
   { to: '/region-content', label: 'Region Content', icon: Globe },
+  { to: '/about-content', label: 'About Page', icon: Info },
   { to: '/inquiries', label: 'Inquiries', icon: Inbox },
 ];
 
