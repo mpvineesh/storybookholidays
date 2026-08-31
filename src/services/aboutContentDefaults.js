@@ -1,6 +1,6 @@
 export const defaultAboutContent = {
   hero: {
-    eyebrow: 'About Story Book Holidays',
+    eyebrow: 'Our Story',
     title: 'Curated journeys, shaped by a lifetime of loving travel.',
     lead:
       'A Kerala-rooted travel studio that designs holidays the way you’d want a close friend to plan them — warm, detailed, and quietly luxurious. Share your vision with our travel specialists, and we’ll manage the rest.',

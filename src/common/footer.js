@@ -32,11 +32,11 @@ const regionCopy = {
 };
 
 const quickLinks = [
-  { label: 'Holiday Packages', href: '/packages' },
-  { label: 'Destinations', href: '/destinations' },
-  { label: 'Blog', href: '/blog' },
-  { label: 'About Story Book', href: '/about' },
-  { label: 'Contact Us', href: '/contact' },
+  { label: 'Journeys', href: '/packages' },
+  { label: 'Chapters', href: '/destinations' },
+  { label: 'Travel Tales', href: '/blog' },
+  { label: 'Our Story', href: '/about' },
+  { label: "Let's Talk", href: '/contact' },
 ];
 
 const travelThemes = [

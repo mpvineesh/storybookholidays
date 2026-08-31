@@ -76,11 +76,11 @@ function Blog() {
   return (
     <React.Fragment>
       <Seo
-        title="Blog — Travel Stories, Guides & Tips | Story Book Holidays"
+        title="Travel Tales — Stories, Guides & Tips"
         description="Travel stories, destination guides and holiday tips from Story Book Holidays — inspiration for your next journey across Kerala, India and beyond."
         path="/blog"
       />
-      <Header parent="Blog" />
+      <Header parent="Travel Tales" />
       <main className="content blog-page">
         <section className="blog-section">
           <div className="container">

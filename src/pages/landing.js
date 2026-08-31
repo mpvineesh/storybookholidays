@@ -107,7 +107,7 @@ function Landing() {
   return (
     <div className="region-landing">
       <Seo
-        title="Curated Kerala, India & World Holiday Packages"
+        title="The Story Begins — Curated Kerala, India & World Holidays"
         description="Choose your story — explore Kerala backwaters and hill escapes, journeys across India, or international getaways, all curated by Story Book Holidays."
         path="/"
         jsonLd={{
@@ -161,10 +161,10 @@ function Landing() {
       <main className="region-landing-main">
         <div className="region-landing-intro">
           <span className="region-landing-eyebrow">Choose your story</span>
-          <h1>Where would you like to travel?</h1>
+          <h1>The story begins here.</h1>
           <p>
-            Three distinct canvases, one trusted travel team. Pick a region to start planning
-            your next holiday.
+            Where would you like to travel? Three distinct canvases, one trusted travel team.
+            Pick a region to start planning your next holiday.
           </p>
         </div>
 

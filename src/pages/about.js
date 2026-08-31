@@ -30,11 +30,11 @@ function About() {
   return (
     <React.Fragment>
       <Seo
-        title="About Us"
+        title="Our Story"
         description="Story Book Holidays is a Kerala-based curated travel agency founded by Justin Jose. Read our story, mission, and the inspiration behind every journey."
         path="/about"
       />
-      <Header parent="About" />
+      <Header parent="Our Story" />
       <main className="content about-page">
         <section
           className="about-hero"

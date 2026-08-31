@@ -3,12 +3,12 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { useRegionContent } from '../context/RegionContext';
 
 const navItems = [
-  { label: 'Home', href: '/home' },
-  { label: 'About', href: '/about' },
-  { label: 'Packages', href: '/packages' },
-  { label: 'Destinations', href: '/destinations' },
-  { label: 'Blog', href: '/blog' },
-  { label: 'Contact', href: '/contact' },
+  { label: 'The Story Begins', href: '/home' },
+  { label: 'Our Story', href: '/about' },
+  { label: 'Journeys', href: '/packages' },
+  { label: 'Chapters', href: '/destinations' },
+  { label: 'Travel Tales', href: '/blog' },
+  { label: "Let's Talk", href: '/contact' },
 ];
 
 function Header(props) {
@@ -213,14 +213,14 @@ function Header(props) {
               target="_blank"
               rel="noreferrer"
             >
-              Plan My Trip
+              Write My Story
             </a>
           </div>
         </div>
 
         {props.parent ? (
           <nav className="breadcrumbs" aria-label="Breadcrumb">
-            <a href="/home">Home</a>
+            <a href="/home">The Story Begins</a>
             <span>{props.parent}</span>
           </nav>
         ) : null}

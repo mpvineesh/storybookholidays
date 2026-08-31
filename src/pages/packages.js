@@ -46,11 +46,11 @@ function Packages() {
   return (
     <React.Fragment>
       <Seo
-        title="Holiday Packages — Kerala, India & Worldwide"
+        title="Journeys — Holiday Packages Across Kerala, India & Worldwide"
         description="Explore curated Kerala, India and international holiday packages by Story Book Holidays. Backwaters, hill stations, beaches, heritage tours and more."
         path="/packages"
       />
-      <Header parent="Packages" />
+      <Header parent="Journeys" />
       <main className="content packages-page">
         <section className="packages-section">
           <div className="container">

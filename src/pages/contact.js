@@ -78,7 +78,7 @@ function Contact() {
   return (
     <React.Fragment>
       <Seo
-        title="Contact Us"
+        title="Let's Talk"
         description="Contact Story Book Holidays — call +91 94464 60533 or email info@storybookholidays.com to plan your Kerala, India or international holiday."
         path="/contact"
         jsonLd={{
@@ -105,7 +105,7 @@ function Contact() {
           ],
         }}
       />
-      <Header parent="Contact Us" />
+      <Header parent="Let's Talk" />
       <main className="content">
         <div className="fullwidth-block">
           <div className="container">

@@ -178,21 +178,21 @@ function Destinations() {
 
   const seoConfig = {
     Kerala: {
-      title: 'Kerala Destinations — Explore Munnar, Alleppey, Kovalam & More',
+      title: 'Chapters — Kerala: Munnar, Alleppey, Kovalam & More',
       description:
         'Browse curated Kerala destinations — backwaters, hill stations, beaches, heritage towns and offbeat escapes handpicked by Story Book Holidays.',
     },
     India: {
-      title: 'India Destinations — Heritage Cities, Himalayas & Coastal Escapes',
+      title: 'Chapters — India: Heritage Cities, Himalayas & Coastal Escapes',
       description:
         'Discover destinations across India — heritage cities, Himalayan retreats, beach towns and cultural landmarks curated by Story Book Holidays.',
     },
     World: {
-      title: 'International Destinations — Curated Holidays Beyond Borders',
+      title: 'Chapters — International: Curated Holidays Beyond Borders',
       description:
         'Explore international destinations handpicked by Story Book Holidays — island retreats, cultural capitals, and bespoke world journeys.',
     },
-  }[region] || { title: 'Destinations', description: '' };
+  }[region] || { title: 'Chapters', description: '' };
 
   return (
     <React.Fragment>
@@ -201,7 +201,7 @@ function Destinations() {
         description={seoConfig.description}
         path="/destinations"
       />
-      <Header parent="Destinations" />
+      <Header parent="Chapters" />
       <main className="content destinations-page">
        
         <section className="destinations-browser">
