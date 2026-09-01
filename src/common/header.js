@@ -207,14 +207,6 @@ function Header(props) {
                 <i className="fa fa-whatsapp" />
               </a>
             </div>
-            <a
-              href="https://wa.me/919446460533?text=Hello%20Storybook%20Holidays!"
-              className="button header-cta"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Write My Story
-            </a>
           </div>
         </div>
 
