@@ -2,6 +2,13 @@ const Region = require("../models/Region");
 const { DEFAULT_REGIONS } = require("./regionDefaults");
 
 const ensureDefaultRegions = async () => {
+  // Defaults are a first-run bootstrap only. Re-seeding when any region
+  // exists would resurrect regions the admin deliberately deleted.
+  const existingCount = await Region.estimatedDocumentCount();
+  if (existingCount > 0) {
+    return [];
+  }
+
   const results = await Promise.all(
     DEFAULT_REGIONS.map(async (region) => {
       // Match on region OR slug: both carry unique indexes, so a document
