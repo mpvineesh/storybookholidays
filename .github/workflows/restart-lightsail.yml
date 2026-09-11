@@ -1,0 +1,22 @@
+name: Restart AWS Lightsail Server
+
+on:
+  # Allows you to trigger the restart manually from the GitHub UI
+  workflow_dispatch: 
+
+jobs:
+  reboot:
+    runs-on: ubuntu-latest
+    steps:
+      # Step 1: Configure AWS Credentials using GitHub Secrets
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1 # Replace with your Lightsail instance region
+
+      # Step 2: Run the AWS CLI command to reboot
+      - name: Reboot Lightsail Instance
+        run: |
+          aws lightsail reboot-instance --instance-name "YourInstanceName"
