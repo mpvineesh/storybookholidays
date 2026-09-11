@@ -29,19 +29,31 @@ const parseArrivalDate = (value) => {
   return null;
 };
 
-const parseInquiryInput = (body = {}) => ({
-  name: typeof body.name === "string" ? body.name.trim() : "",
-  email: typeof body.email === "string" ? body.email.trim().toLowerCase() : "",
-  phone: typeof body.phone === "string" ? body.phone.trim() : "",
-  arrivalDate: parseArrivalDate(body.arrivalDate),
-  numberOfNights: Number.parseInt(body.numberOfNights, 10),
-  accommodationType:
-    typeof body.accommodationType === "string"
-      ? body.accommodationType.trim()
-      : "",
-  isHoneymoon: parseBoolean(body.isHoneymoon),
-  region: Inquiry.REGIONS.includes(body.region) ? body.region : "Kerala",
-});
+const parseText = (value, maxLength) =>
+  typeof value === "string" ? value.trim().slice(0, maxLength) : "";
+
+const parseInquiryInput = (body = {}) => {
+  const source = Inquiry.SOURCES.includes(body.source) ? body.source : "contact";
+  const parsedNights = Number.parseInt(body.numberOfNights, 10);
+
+  return {
+    name: typeof body.name === "string" ? body.name.trim() : "",
+    email: typeof body.email === "string" ? body.email.trim().toLowerCase() : "",
+    phone: typeof body.phone === "string" ? body.phone.trim() : "",
+    arrivalDate: parseArrivalDate(body.arrivalDate),
+    numberOfNights: Number.isNaN(parsedNights) ? undefined : parsedNights,
+    accommodationType:
+      typeof body.accommodationType === "string"
+        ? body.accommodationType.trim()
+        : "",
+    isHoneymoon: parseBoolean(body.isHoneymoon),
+    region: Inquiry.REGIONS.includes(body.region) ? body.region : "Kerala",
+    source,
+    packageTitle: source === "package" ? parseText(body.packageTitle, 200) : "",
+    packageSlug: source === "package" ? parseText(body.packageSlug, 200) : "",
+    message: parseText(body.message, 2000),
+  };
+};
 
 const createInquiry = async (req, res, next) => {
   try {
@@ -60,10 +72,14 @@ const createInquiry = async (req, res, next) => {
 const listInquiries = async (req, res, next) => {
   try {
     const filter = {};
-    const { region, status, search } = req.query;
+    const { region, status, search, source } = req.query;
 
     if (region && Inquiry.REGIONS.includes(region)) {
       filter.region = region;
+    }
+
+    if (source && Inquiry.SOURCES.includes(source)) {
+      filter.source = source;
     }
 
     if (status && Inquiry.STATUSES.includes(status)) {
@@ -77,6 +93,7 @@ const listInquiries = async (req, res, next) => {
         { name: regex },
         { email: regex },
         { phone: regex },
+        { packageTitle: regex },
       ];
     }
 

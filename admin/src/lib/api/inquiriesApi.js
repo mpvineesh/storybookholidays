@@ -2,11 +2,16 @@ import { apiDelete, apiGet, apiPatch } from '../apiClient';
 
 export const INQUIRY_REGIONS = ['Kerala', 'India', 'World'];
 export const INQUIRY_STATUSES = ['new', 'contacted', 'closed'];
+export const INQUIRY_SOURCES = [
+  { value: 'contact', label: 'Contact page' },
+  { value: 'package', label: 'Package Book Now' },
+];
 
 export const listInquiries = (filters = {}) => {
   const params = new URLSearchParams();
   if (filters.region) params.set('region', filters.region);
   if (filters.status) params.set('status', filters.status);
+  if (filters.source) params.set('source', filters.source);
   if (filters.search) params.set('search', filters.search);
   const query = params.toString();
   return apiGet(`/api/inquiries${query ? `?${query}` : ''}`);

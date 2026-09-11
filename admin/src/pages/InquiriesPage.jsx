@@ -10,6 +10,7 @@ import Alert from '@/components/ui/Alert.jsx';
 import { Card, CardBody } from '@/components/ui/Card.jsx';
 import {
   INQUIRY_REGIONS,
+  INQUIRY_SOURCES,
   INQUIRY_STATUSES,
   deleteInquiry,
   listInquiries,
@@ -48,6 +49,13 @@ const formatArrivalDate = (value) => {
 
 const formatFullName = (entry) => (entry.name || '').trim() || 'Unnamed';
 
+const isPackageInquiry = (entry) => entry.source === 'package';
+
+const describeInquiry = (entry) => {
+  if (isPackageInquiry(entry)) return 'Package booking enquiry';
+  return entry.isHoneymoon ? 'Honeymoon enquiry' : 'Holiday enquiry';
+};
+
 const InquiriesPage = () => {
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
@@ -57,6 +65,7 @@ const InquiriesPage = () => {
   const [search, setSearch] = React.useState('');
   const [regionFilter, setRegionFilter] = React.useState('All');
   const [statusFilter, setStatusFilter] = React.useState('All');
+  const [sourceFilter, setSourceFilter] = React.useState('All');
 
   const [confirmTarget, setConfirmTarget] = React.useState(null);
   const [isDeleting, setIsDeleting] = React.useState(false);
@@ -90,12 +99,13 @@ const InquiriesPage = () => {
     return items.filter((entry) => {
       if (regionFilter !== 'All' && entry.region !== regionFilter) return false;
       if (statusFilter !== 'All' && entry.status !== statusFilter) return false;
+      if (sourceFilter !== 'All' && (entry.source || 'contact') !== sourceFilter) return false;
       if (!query) return true;
-      return [entry.name, entry.email, entry.phone, entry.accommodationType]
+      return [entry.name, entry.email, entry.phone, entry.accommodationType, entry.packageTitle]
         .filter(Boolean)
         .some((value) => String(value).toLowerCase().includes(query));
     });
-  }, [items, search, regionFilter, statusFilter]);
+  }, [items, search, regionFilter, statusFilter, sourceFilter]);
 
   const handleStatusChange = async (entry, nextStatus) => {
     if (entry.status === nextStatus) return;
@@ -147,7 +157,7 @@ const InquiriesPage = () => {
         <div>
           <h2 className="text-xl font-semibold text-ink">Inquiries</h2>
           <p className="text-sm text-ink-muted mt-1">
-            Holiday plan enquiries submitted from the contact page.
+            Enquiries from the contact page and the Book Now form on package pages.
           </p>
         </div>
         <div className="flex items-center gap-2 text-xs text-ink-muted">
@@ -169,7 +179,7 @@ const InquiriesPage = () => {
                 className="absolute left-3 top-1/2 -translate-y-1/2 text-ink-subtle"
               />
               <Input
-                placeholder="Search by name, email, phone…"
+                placeholder="Search by name, email, phone, package…"
                 value={search}
                 onChange={(event) => setSearch(event.target.value)}
                 className="pl-9"
@@ -185,6 +195,20 @@ const InquiriesPage = () => {
                 {INQUIRY_REGIONS.map((region) => (
                   <option key={region} value={region}>
                     {region}
+                  </option>
+                ))}
+              </Select>
+            </div>
+            <div className="w-48 shrink-0">
+              <Select
+                value={sourceFilter}
+                onChange={(event) => setSourceFilter(event.target.value)}
+                aria-label="Filter inquiries by source"
+              >
+                <option value="All">All sources</option>
+                {INQUIRY_SOURCES.map((source) => (
+                  <option key={source.value} value={source.value}>
+                    {source.label}
                   </option>
                 ))}
               </Select>
@@ -231,7 +255,7 @@ const InquiriesPage = () => {
                 ) : filtered.length === 0 ? (
                   <tr>
                     <td colSpan={7} className="px-4 py-10 text-center text-ink-muted">
-                      {search.trim() || regionFilter !== 'All' || statusFilter !== 'All'
+                      {search.trim() || regionFilter !== 'All' || statusFilter !== 'All' || sourceFilter !== 'All'
                         ? 'No inquiries match your filters.'
                         : 'No inquiries yet.'}
                     </td>
@@ -244,7 +268,7 @@ const InquiriesPage = () => {
                           {formatFullName(entry)}
                         </p>
                         <p className="text-xs text-ink-subtle mt-0.5">
-                          {entry.isHoneymoon ? 'Honeymoon enquiry' : 'Holiday enquiry'}
+                          {describeInquiry(entry)}
                         </p>
                       </td>
                       <td className="px-4 py-3 text-ink-muted">
@@ -268,18 +292,51 @@ const InquiriesPage = () => {
                         </div>
                       </td>
                       <td className="px-4 py-3 text-ink-muted">
-                        <p>
-                          <span className="text-ink-subtle">Arrival:</span>{' '}
-                          {formatArrivalDate(entry.arrivalDate)}
-                        </p>
-                        <p className="mt-0.5">
-                          <span className="text-ink-subtle">Nights:</span>{' '}
-                          {entry.numberOfNights ?? '—'}
-                        </p>
-                        {entry.accommodationType ? (
-                          <p className="mt-0.5">
-                            <span className="text-ink-subtle">Stay:</span>{' '}
-                            {entry.accommodationType}
+                        {isPackageInquiry(entry) ? (
+                          <React.Fragment>
+                            <p>
+                              <span className="text-ink-subtle">Package:</span>{' '}
+                              {entry.packageTitle || entry.packageSlug || '—'}
+                            </p>
+                            {entry.packageSlug ? (
+                              <p className="mt-0.5">
+                                <a
+                                  className="text-xs text-brand-700 hover:underline"
+                                  href={`https://storybookholidays.com/package/${entry.packageSlug}`}
+                                  target="_blank"
+                                  rel="noreferrer"
+                                >
+                                  View package page
+                                </a>
+                              </p>
+                            ) : null}
+                          </React.Fragment>
+                        ) : (
+                          <React.Fragment>
+                            <p>
+                              <span className="text-ink-subtle">Arrival:</span>{' '}
+                              {formatArrivalDate(entry.arrivalDate)}
+                            </p>
+                            <p className="mt-0.5">
+                              <span className="text-ink-subtle">Nights:</span>{' '}
+                              {entry.numberOfNights ?? '—'}
+                            </p>
+                            {entry.accommodationType ? (
+                              <p className="mt-0.5">
+                                <span className="text-ink-subtle">Stay:</span>{' '}
+                                {entry.accommodationType}
+                              </p>
+                            ) : null}
+                          </React.Fragment>
+                        )}
+                        {entry.message ? (
+                          <p
+                            className="mt-1.5 max-w-xs whitespace-pre-line text-xs text-ink-subtle"
+                            title={entry.message}
+                          >
+                            {entry.message.length > 160
+                              ? `${entry.message.slice(0, 160)}…`
+                              : entry.message}
                           </p>
                         ) : null}
                       </td>

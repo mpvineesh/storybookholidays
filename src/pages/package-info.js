@@ -2,6 +2,7 @@ import React from 'react';
 import Header from '../common/header';
 import Footer from '../common/footer';
 import Seo from '../common/Seo';
+import BookNowWidget from '../components/BookNowWidget';
 import { useParams } from 'react-router-dom';
 
 import DatService from '../services/dataService';
@@ -60,6 +61,7 @@ function PackageInfo() {
     stripHtml(packageEntry?.contentHtml || '').slice(0, 200) ||
     'Curated holiday package by Story Book Holidays.';
   const seoImage = packageEntry?.imageUrl || undefined;
+  const bookablePackage = packageEntry || fallbackPackage;
 
   return (
   <React.Fragment>
@@ -141,6 +143,13 @@ function PackageInfo() {
           </div>
         </div>
       </main>
+      {bookablePackage ? (
+        <BookNowWidget
+          packageTitle={bookablePackage.title}
+          packageSlug={packageName || ''}
+          region={packageEntry?.region}
+        />
+      ) : null}
       	<Footer/>
     </React.Fragment>
   );

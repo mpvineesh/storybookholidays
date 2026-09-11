@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const INQUIRY_REGIONS = ["Kerala", "India", "World"];
 const INQUIRY_STATUSES = ["new", "contacted", "closed"];
+const INQUIRY_SOURCES = ["contact", "package"];
 const ACCOMMODATION_TYPES = [
   "Budget",
   "Standard",
@@ -40,7 +41,13 @@ const inquirySchema = new mongoose.Schema(
     },
     numberOfNights: {
       type: Number,
-      required: [true, "Number of nights is required"],
+      // Package "Book Now" enquiries are a lighter form and do not ask for nights.
+      required: [
+        function requireNights() {
+          return this.source !== "package";
+        },
+        "Number of nights is required",
+      ],
       min: [1, "Number of nights must be at least 1"],
       max: [99, "Number of nights must be at most 99"],
     },
@@ -65,6 +72,32 @@ const inquirySchema = new mongoose.Schema(
       },
       default: "Kerala",
     },
+    source: {
+      type: String,
+      enum: {
+        values: INQUIRY_SOURCES,
+        message: "Source must be one of: contact, package",
+      },
+      default: "contact",
+    },
+    packageTitle: {
+      type: String,
+      trim: true,
+      default: "",
+      maxlength: [200, "Package title is too long"],
+    },
+    packageSlug: {
+      type: String,
+      trim: true,
+      default: "",
+      maxlength: [200, "Package slug is too long"],
+    },
+    message: {
+      type: String,
+      trim: true,
+      default: "",
+      maxlength: [2000, "Message is too long"],
+    },
     status: {
       type: String,
       enum: {
@@ -88,6 +121,7 @@ const inquirySchema = new mongoose.Schema(
 const InquiryModel = mongoose.model("Inquiry", inquirySchema);
 InquiryModel.REGIONS = INQUIRY_REGIONS;
 InquiryModel.STATUSES = INQUIRY_STATUSES;
+InquiryModel.SOURCES = INQUIRY_SOURCES;
 InquiryModel.ACCOMMODATION_TYPES = ACCOMMODATION_TYPES;
 
 module.exports = InquiryModel;
