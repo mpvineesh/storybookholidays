@@ -1,5 +1,8 @@
 const RegionContent = require("../models/RegionContent");
-const { buildDefaultsFor } = require("../utils/regionContentDefaults");
+const {
+  buildDefaultsFor,
+  buildFooterDefaults,
+} = require("../utils/regionContentDefaults");
 const {
   getStoredFileUrl,
   removeStoredFile,
@@ -23,6 +26,11 @@ const getRegionContent = async (req, res, next) => {
 
     if (!document) {
       document = await RegionContent.create(buildDefaultsFor(region));
+    } else if (!document.footer?.brand?.heading) {
+      // Documents saved before the footer became editable have no footer
+      // content yet. Seed it once so the admin form starts from the live copy.
+      document.footer = buildFooterDefaults(region);
+      await document.save();
     }
 
     return res.status(200).json({

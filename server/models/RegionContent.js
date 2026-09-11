@@ -41,6 +41,14 @@ const statSchema = new mongoose.Schema(
   { _id: false }
 );
 
+const footerLinkSchema = new mongoose.Schema(
+  {
+    label: { type: String, default: "" },
+    href: { type: String, default: "" },
+  },
+  { _id: false }
+);
+
 const regionContentSchema = new mongoose.Schema(
   {
     region: {
@@ -77,6 +85,38 @@ const regionContentSchema = new mongoose.Schema(
       themes: { type: [experienceThemeSchema], default: [] },
     },
     stats: { type: [statSchema], default: [] },
+    footer: {
+      cta: {
+        title: { type: String, default: "" },
+        note: { type: String, default: "" },
+      },
+      brand: {
+        label: { type: String, default: "" },
+        heading: { type: String, default: "" },
+        description: { type: String, default: "" },
+      },
+      explore: {
+        label: { type: String, default: "" },
+        heading: { type: String, default: "" },
+        links: { type: [footerLinkSchema], default: [] },
+      },
+      themes: {
+        label: { type: String, default: "" },
+        heading: { type: String, default: "" },
+        links: { type: [footerLinkSchema], default: [] },
+      },
+      service: {
+        label: { type: String, default: "" },
+        heading: { type: String, default: "" },
+        description: { type: String, default: "" },
+        phone: { type: String, default: "" },
+        email: { type: String, default: "" },
+        supportPoints: { type: [String], default: [] },
+      },
+      bottom: {
+        title: { type: String, default: "" },
+      },
+    },
   },
   { timestamps: true }
 );

@@ -1,3 +1,65 @@
+// Footer copy per region. Mirrors src/services/footerDefaults.js on the frontend.
+const buildFooterDefaults = (region) => {
+  const isWorld = region === "World";
+  const journeyLabel = isWorld ? "Global journeys" : `${region} journeys`;
+  const scope = isWorld ? "destinations" : region;
+  const article = region === "India" ? "an India" : `a ${region}`;
+
+  return {
+    cta: {
+      title: isWorld
+        ? "Let’s design an international holiday that feels personal from day one."
+        : `Let’s design ${article} holiday that feels personal from day one.`,
+      note: isWorld
+        ? "Share your pace, favorite experiences, and travel dates. We will shape a global route that feels thoughtful from the first call."
+        : `Share your pace, favorite experiences, and travel dates. We will shape a route across ${region} that feels thoughtful from the first call.`,
+    },
+    brand: {
+      label: "Story Book Holidays",
+      heading: `${journeyLabel} with warmth, pacing, and local insight.`,
+      description:
+        "We create travel stories that balance scenic highlights with comfort, cultural texture, and practical support all along the route.",
+    },
+    explore: {
+      label: "Explore",
+      heading: "Start with the essentials.",
+      links: [
+        { label: "Journeys", href: "/packages" },
+        { label: "Chapters", href: "/destinations" },
+        { label: "Travel Tales", href: "/blog" },
+        { label: "Our Story", href: "/about" },
+        { label: "Let's Talk", href: "/contact" },
+      ],
+    },
+    themes: {
+      label: "Travel Themes",
+      heading:
+        region === "Kerala"
+          ? "Choose the Kerala mood you want most."
+          : "Choose the travel mood you want most.",
+      links: [],
+    },
+    service: {
+      label: "Customer Service",
+      heading: "Real people, direct answers, and steady support.",
+      description:
+        "Quality service stays at the center of every itinerary, from your first enquiry to the final airport transfer home.",
+      phone: "+91 94464 60533",
+      email: "info@storybookholidays.com",
+      supportPoints: [
+        "WhatsApp-first planning",
+        "Private family trips",
+        `Support across ${scope}`,
+      ],
+    },
+    bottom: {
+      title: isWorld
+        ? "Explore untold stories from around the world."
+        : `Explore the untold stories of ${region}.`,
+    },
+  };
+};
+
 const KERALA_DEFAULTS = {
   region: "Kerala",
   header: {
@@ -115,6 +177,7 @@ const KERALA_DEFAULTS = {
     { value: "2", label: "Office locations in Kerala" },
     { value: "365", label: "Days to start your next story" },
   ],
+  footer: buildFooterDefaults("Kerala"),
 };
 
 const buildDefaultsFor = (region) => {
@@ -136,9 +199,11 @@ const buildDefaultsFor = (region) => {
       items: [],
     },
     stats: [],
+    footer: buildFooterDefaults(region),
   };
 };
 
 module.exports = {
   buildDefaultsFor,
+  buildFooterDefaults,
 };

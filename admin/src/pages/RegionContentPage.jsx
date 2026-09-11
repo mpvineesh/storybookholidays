@@ -8,12 +8,39 @@ import Alert from '@/components/ui/Alert.jsx';
 import Spinner from '@/components/ui/Spinner.jsx';
 import { Card, CardBody } from '@/components/ui/Card.jsx';
 import HeroSlideEditor from '@/components/region-content/HeroSlideEditor.jsx';
+import FooterLinksEditor from '@/components/region-content/FooterLinksEditor.jsx';
 import {
   FALLBACK_REGIONS,
   getRegionContent,
   updateRegionContent,
 } from '@/lib/api/regionContentApi';
 import { listAdminRegions } from '@/lib/api/regionsApi';
+
+const emptyFooter = () => ({
+  cta: { title: '', note: '' },
+  brand: { label: '', heading: '', description: '' },
+  explore: { label: '', heading: '', links: [] },
+  themes: { label: '', heading: '', links: [] },
+  service: { label: '', heading: '', description: '', phone: '', email: '', supportPoints: [] },
+  bottom: { title: '' },
+});
+
+const mergeFooter = (incoming) => {
+  const base = emptyFooter();
+  const source = incoming || {};
+  return {
+    cta: { ...base.cta, ...(source.cta || {}) },
+    brand: { ...base.brand, ...(source.brand || {}) },
+    explore: { ...base.explore, ...(source.explore || {}), links: source.explore?.links || [] },
+    themes: { ...base.themes, ...(source.themes || {}), links: source.themes?.links || [] },
+    service: {
+      ...base.service,
+      ...(source.service || {}),
+      supportPoints: source.service?.supportPoints || [],
+    },
+    bottom: { ...base.bottom, ...(source.bottom || {}) },
+  };
+};
 
 const emptyContent = () => ({
   header: { tagline: '' },
@@ -29,6 +56,7 @@ const emptyContent = () => ({
   packagesSection: { kicker: '', title: '' },
   experience: { kicker: '', title: '', themes: [] },
   stats: [],
+  footer: emptyFooter(),
 });
 
 const emptySlide = () => ({
@@ -80,6 +108,7 @@ const mergeWithDefaults = (incoming) => {
       themes: incoming?.experience?.themes || [],
     },
     stats: incoming?.stats || [],
+    footer: mergeFooter(incoming?.footer),
   };
 };
 
@@ -290,6 +319,7 @@ const RegionContentPage = () => {
   };
 
   const heroBadgesText = (content.hero?.badges || []).join(', ');
+  const footerSupportPointsText = (content.footer?.service?.supportPoints || []).join('\n');
   const planningPointsText = (content.planning?.points || []).join('\n');
 
   return (
@@ -298,7 +328,7 @@ const RegionContentPage = () => {
         <div>
           <h2 className="text-xl font-semibold text-ink">Region Content</h2>
           <p className="text-sm text-ink-muted mt-1">
-            Configure landing-page content for each region.
+            Configure landing-page and footer content for each region.
           </p>
         </div>
         <div className="flex items-center gap-2">
@@ -755,6 +785,199 @@ const RegionContentPage = () => {
                   ))}
                 </div>
               )}
+            </CardBody>
+          </Card>
+
+          <Card>
+            <CardBody className="space-y-5">
+              <div>
+                <h3 className="text-base font-semibold text-ink">Footer</h3>
+                <p className="text-xs text-ink-muted mt-0.5">
+                  Footer call-to-action and the four footer panels shown on every {activeRegion} page.
+                </p>
+              </div>
+
+              <div className="space-y-3">
+                <h4 className="text-sm font-semibold text-ink">Call to action</h4>
+                <div>
+                  <Label>Title</Label>
+                  <Input
+                    value={content.footer?.cta?.title || ''}
+                    onChange={(event) => updateField('footer.cta.title', event.target.value)}
+                    placeholder="Let’s design a Kerala holiday that feels personal from day one."
+                  />
+                </div>
+                <div>
+                  <Label>Note</Label>
+                  <Textarea
+                    rows={2}
+                    value={content.footer?.cta?.note || ''}
+                    onChange={(event) => updateField('footer.cta.note', event.target.value)}
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-3 border-t border-border pt-4">
+                <h4 className="text-sm font-semibold text-ink">Brand panel</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div>
+                    <Label>Label</Label>
+                    <Input
+                      value={content.footer?.brand?.label || ''}
+                      onChange={(event) => updateField('footer.brand.label', event.target.value)}
+                      placeholder="Story Book Holidays"
+                    />
+                  </div>
+                  <div>
+                    <Label>Heading</Label>
+                    <Input
+                      value={content.footer?.brand?.heading || ''}
+                      onChange={(event) => updateField('footer.brand.heading', event.target.value)}
+                      placeholder="Kerala journeys with warmth, pacing, and local insight."
+                    />
+                  </div>
+                </div>
+                <div>
+                  <Label>Description</Label>
+                  <Textarea
+                    rows={2}
+                    value={content.footer?.brand?.description || ''}
+                    onChange={(event) => updateField('footer.brand.description', event.target.value)}
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-3 border-t border-border pt-4">
+                <h4 className="text-sm font-semibold text-ink">Explore panel</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div>
+                    <Label>Label</Label>
+                    <Input
+                      value={content.footer?.explore?.label || ''}
+                      onChange={(event) => updateField('footer.explore.label', event.target.value)}
+                      placeholder="Explore"
+                    />
+                  </div>
+                  <div>
+                    <Label>Heading</Label>
+                    <Input
+                      value={content.footer?.explore?.heading || ''}
+                      onChange={(event) => updateField('footer.explore.heading', event.target.value)}
+                      placeholder="Start with the essentials."
+                    />
+                  </div>
+                </div>
+                <FooterLinksEditor
+                  title="Explore links"
+                  links={content.footer?.explore?.links || []}
+                  onChange={(links) => updateField('footer.explore.links', links)}
+                />
+              </div>
+
+              <div className="space-y-3 border-t border-border pt-4">
+                <div>
+                  <h4 className="text-sm font-semibold text-ink">Travel Themes panel</h4>
+                  <p className="text-xs text-ink-muted mt-0.5">
+                    Optional. The panel is hidden on the site while it has no links.
+                  </p>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div>
+                    <Label>Label</Label>
+                    <Input
+                      value={content.footer?.themes?.label || ''}
+                      onChange={(event) => updateField('footer.themes.label', event.target.value)}
+                      placeholder="Travel Themes"
+                    />
+                  </div>
+                  <div>
+                    <Label>Heading</Label>
+                    <Input
+                      value={content.footer?.themes?.heading || ''}
+                      onChange={(event) => updateField('footer.themes.heading', event.target.value)}
+                      placeholder="Choose the Kerala mood you want most."
+                    />
+                  </div>
+                </div>
+                <FooterLinksEditor
+                  title="Theme links"
+                  links={content.footer?.themes?.links || []}
+                  onChange={(links) => updateField('footer.themes.links', links)}
+                  emptyText="No theme links — this panel is currently hidden on the site."
+                />
+              </div>
+
+              <div className="space-y-3 border-t border-border pt-4">
+                <h4 className="text-sm font-semibold text-ink">Customer Service panel</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div>
+                    <Label>Label</Label>
+                    <Input
+                      value={content.footer?.service?.label || ''}
+                      onChange={(event) => updateField('footer.service.label', event.target.value)}
+                      placeholder="Customer Service"
+                    />
+                  </div>
+                  <div>
+                    <Label>Heading</Label>
+                    <Input
+                      value={content.footer?.service?.heading || ''}
+                      onChange={(event) => updateField('footer.service.heading', event.target.value)}
+                      placeholder="Real people, direct answers, and steady support."
+                    />
+                  </div>
+                </div>
+                <div>
+                  <Label>Description</Label>
+                  <Textarea
+                    rows={2}
+                    value={content.footer?.service?.description || ''}
+                    onChange={(event) => updateField('footer.service.description', event.target.value)}
+                  />
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div>
+                    <Label>Phone</Label>
+                    <Input
+                      value={content.footer?.service?.phone || ''}
+                      onChange={(event) => updateField('footer.service.phone', event.target.value)}
+                      placeholder="+91 94464 60533"
+                    />
+                  </div>
+                  <div>
+                    <Label>Email</Label>
+                    <Input
+                      type="email"
+                      value={content.footer?.service?.email || ''}
+                      onChange={(event) => updateField('footer.service.email', event.target.value)}
+                      placeholder="info@storybookholidays.com"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <Label>Support points (one per line)</Label>
+                  <Textarea
+                    rows={3}
+                    value={footerSupportPointsText}
+                    onChange={(event) =>
+                      updateField('footer.service.supportPoints', splitLines(event.target.value))
+                    }
+                    placeholder={'WhatsApp-first planning\nPrivate family trips\nSupport across Kerala'}
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-3 border-t border-border pt-4">
+                <h4 className="text-sm font-semibold text-ink">Bottom strip</h4>
+                <div>
+                  <Label>Title</Label>
+                  <Input
+                    value={content.footer?.bottom?.title || ''}
+                    onChange={(event) => updateField('footer.bottom.title', event.target.value)}
+                    placeholder="Explore the untold stories of Kerala."
+                  />
+                </div>
+              </div>
             </CardBody>
           </Card>
 
