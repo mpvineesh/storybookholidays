@@ -68,9 +68,9 @@ const TeamMembersPage = () => {
         if (cancelled) return;
         const team = response.data?.team || {};
         setHeading({
-          kicker: team.kicker ?? DEFAULT_HEADING.kicker,
-          title: team.title ?? DEFAULT_HEADING.title,
-          description: team.description ?? DEFAULT_HEADING.description,
+          kicker: team.kicker || DEFAULT_HEADING.kicker,
+          title: team.title || DEFAULT_HEADING.title,
+          description: team.description || DEFAULT_HEADING.description,
         });
       })
       .catch(() => {

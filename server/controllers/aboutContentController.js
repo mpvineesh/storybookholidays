@@ -9,6 +9,11 @@ const getAboutContent = async (_req, res, next) => {
 
     if (!document) {
       document = await AboutContent.create(buildAboutDefaults());
+    } else if (!document.team || !document.team.title) {
+      // Documents created before the team block existed come back with
+      // empty strings from the schema defaults; seed the real defaults once.
+      document.team = buildAboutDefaults().team;
+      await document.save();
     }
 
     return res.status(200).json({

@@ -119,6 +119,14 @@ const mergeSection = (fallback, incoming, arrayKeys = []) => {
   return merged;
 };
 
+// Like mergeSection, but blank strings count as missing.
+const mergeTextSection = (fallback, incoming) =>
+  Object.keys(fallback).reduce((merged, key) => {
+    const value = incoming?.[key];
+    merged[key] = typeof value === 'string' && value.trim() ? value : fallback[key];
+    return merged;
+  }, {});
+
 export const mergeAboutContent = (incoming) => ({
   hero: mergeSection(defaultAboutContent.hero, incoming?.hero, ['stats']),
   story: mergeSection(defaultAboutContent.story, incoming?.story, ['paragraphs', 'glance']),
@@ -126,5 +134,5 @@ export const mergeAboutContent = (incoming) => ({
   whyBook: mergeSection(defaultAboutContent.whyBook, incoming?.whyBook, ['cards']),
   services: mergeSection(defaultAboutContent.services, incoming?.services, ['items']),
   guarantee: mergeSection(defaultAboutContent.guarantee, incoming?.guarantee),
-  team: mergeSection(defaultAboutContent.team, incoming?.team),
+  team: mergeTextSection(defaultAboutContent.team, incoming?.team),
 });

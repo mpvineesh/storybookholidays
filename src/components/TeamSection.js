@@ -39,7 +39,12 @@ function TeamSection({ heading }) {
     return null;
   }
 
-  const copy = { ...defaultAboutContent.team, ...(heading || fetchedHeading || {}) };
+  const source = heading || fetchedHeading || {};
+  const copy = Object.keys(defaultAboutContent.team).reduce((merged, key) => {
+    const value = source[key];
+    merged[key] = typeof value === 'string' && value.trim() ? value : defaultAboutContent.team[key];
+    return merged;
+  }, {});
 
   return (
     <section className="fullwidth-block team-section" id="team">
