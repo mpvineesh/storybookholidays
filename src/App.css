@@ -3073,6 +3073,66 @@ li.current-menu-item a {
   transform: translateY(-2px);
 }
 
+.landing-google-card {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 26px;
+  padding: 12px 20px 12px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.95);
+  color: #1f1f1f;
+  text-decoration: none;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.landing-google-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.3);
+}
+
+.landing-google-score {
+  display: grid;
+  place-items: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 3px solid #e3e3e3;
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: #1f1f1f;
+}
+
+.landing-google-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.landing-google-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.landing-google-review {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  color: #333333;
+}
+
+.landing-google-stars {
+  color: #e2a63d;
+  letter-spacing: 1px;
+  font-size: 0.9rem;
+}
+
 .landing-connect-cards {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -3131,18 +3191,26 @@ li.current-menu-item a {
 
 .landing-bhutan-card {
   align-items: flex-start;
-  background: rgba(255, 255, 255, 0.94);
-  color: var(--color-ink);
-  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  transition: transform 0.35s ease, box-shadow 0.35s ease, background 0.35s ease;
 }
 
 .landing-bhutan-card:hover {
   transform: translateY(-4px);
+  background: rgba(255, 255, 255, 0.16);
   box-shadow: 0 24px 50px rgba(0, 0, 0, 0.3);
 }
 
-.landing-bhutan-card img {
-  width: 96px;
+.landing-bhutan-logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 14px;
+  border-radius: 14px;
+  background: #ffffff;
+}
+
+.landing-bhutan-logo img {
+  width: 150px;
   height: auto;
 }
 
@@ -3150,24 +3218,23 @@ li.current-menu-item a {
   font-size: 0.72rem;
   text-transform: uppercase;
   letter-spacing: 0.16em;
-  color: var(--color-ink-soft);
+  color: rgba(255, 255, 255, 0.72);
+  margin-top: 6px;
 }
 
 .landing-bhutan-card h3 {
   margin: 0;
-  color: var(--color-ink);
+  color: #ffffff;
   font-size: 1.3rem;
 }
 
 .landing-bhutan-card p {
   margin: 0;
-  color: var(--color-ink-soft);
+  color: rgba(255, 255, 255, 0.85);
   font-size: 0.95rem;
 }
 
 .landing-bhutan-card .region-card-action {
-  color: var(--color-accent-deep);
-  border-bottom-color: rgba(13, 93, 115, 0.4);
   margin-top: 6px;
 }
 
