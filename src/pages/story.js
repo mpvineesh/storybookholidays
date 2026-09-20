@@ -2,6 +2,7 @@ import React from 'react';
 import Header from '../common/header';
 import Footer from '../common/footer';
 import Seo from '../common/Seo';
+import TeamSection from '../components/TeamSection';
 
 function Story() {
   return (
@@ -32,7 +33,8 @@ function Story() {
 
 				</div>
 
-				
+
+				<TeamSection />
 			</main>
       <Footer/>
     </React.Fragment>

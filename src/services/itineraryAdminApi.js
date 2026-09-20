@@ -61,3 +61,16 @@ export const getBlogBySlug = async (slug) => {
 
   return parseResponse(response);
 };
+
+export const getTestimonials = async (region) => {
+  const query = region ? `?region=${encodeURIComponent(region)}` : '';
+  const response = await fetch(`${API_BASE_URL}/api/testimonials${query}`);
+
+  return parseResponse(response);
+};
+
+export const getTeamMembers = async () => {
+  const response = await fetch(`${API_BASE_URL}/api/team-members`);
+
+  return parseResponse(response);
+};

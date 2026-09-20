@@ -102,6 +102,12 @@ export const defaultAboutContent = {
     body:
       'We are committed to providing a seamless experience from the moment you book until you return home. Have questions? Reach out to our team — we’re here to make sure you travel with confidence for years to come.',
   },
+  team: {
+    kicker: 'Meet the team',
+    title: 'The people behind your journey.',
+    description:
+      'With years of combined experience in travel, hospitality and destination management, our team is committed to delivering exceptional journeys across Kerala and beyond.',
+  },
 };
 
 const mergeSection = (fallback, incoming, arrayKeys = []) => {
@@ -120,4 +126,5 @@ export const mergeAboutContent = (incoming) => ({
   whyBook: mergeSection(defaultAboutContent.whyBook, incoming?.whyBook, ['cards']),
   services: mergeSection(defaultAboutContent.services, incoming?.services, ['items']),
   guarantee: mergeSection(defaultAboutContent.guarantee, incoming?.guarantee),
+  team: mergeSection(defaultAboutContent.team, incoming?.team),
 });

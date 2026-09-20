@@ -2,6 +2,7 @@ import React from 'react';
 import Header from '../common/header';
 import Footer from '../common/footer';
 import Seo from '../common/Seo';
+import TeamSection from '../components/TeamSection';
 import { getAboutContent } from '../services/aboutContentApi';
 import { defaultAboutContent, mergeAboutContent } from '../services/aboutContentDefaults';
 
@@ -25,7 +26,7 @@ function About() {
     };
   }, []);
 
-  const { hero, story, mission, whyBook, services, guarantee } = content;
+  const { hero, story, mission, whyBook, services, guarantee, team } = content;
 
   return (
     <React.Fragment>
@@ -101,6 +102,8 @@ function About() {
             </div>
           </div>
         </section>
+
+        <TeamSection heading={team} />
 
         <section className="fullwidth-block about-mission-section">
           <div className="container">

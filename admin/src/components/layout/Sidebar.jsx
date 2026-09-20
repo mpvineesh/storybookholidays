@@ -9,6 +9,8 @@ import {
   Inbox,
   Newspaper,
   Info,
+  MessageSquareQuote,
+  Users,
   X,
 } from 'lucide-react';
 import { cn } from '@/lib/cn';
@@ -21,6 +23,8 @@ const navItems = [
   { to: '/regions', label: 'Regions', icon: Map },
   { to: '/region-content', label: 'Region Content', icon: Globe },
   { to: '/about-content', label: 'About Page', icon: Info },
+  { to: '/testimonials', label: 'Testimonials', icon: MessageSquareQuote },
+  { to: '/team', label: 'Team', icon: Users },
   { to: '/inquiries', label: 'Inquiries', icon: Inbox },
 ];
 

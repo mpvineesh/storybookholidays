@@ -5,7 +5,9 @@ import DatService from '../services/dataService';
 import {
   getPackages as getPackagesFromApi,
   getDestinations as getDestinationsFromApi,
+  getTestimonials as getTestimonialsFromApi,
 } from '../services/itineraryAdminApi';
+import { DEFAULT_TESTIMONIALS } from '../services/testimonialDefaults';
 import { useRegionContent } from '../context/RegionContext';
 import Seo from '../common/Seo';
 
@@ -87,37 +89,6 @@ const buildExperienceThemes = (region) => [
   },
 ];
 
-const testimonials = [
-  {
-    image: '/assets/images/anand.jpeg',
-    quote:
-      'They delivered the service word by word as they told me. I will definitely travel with Story Book Holidays again.',
-    name: 'Anand',
-    role: 'Family Traveler',
-  },
-  {
-    image: '/assets/images/testimonial1.jpeg',
-    quote:
-      'The hotel selection was excellent and the vehicle was maintained beautifully. Our family trip felt easy and memorable throughout.',
-    name: 'Eraz',
-    role: 'Holiday Traveler',
-  },
-  {
-    image: '/assets/images/gregory.jpeg',
-    quote:
-      'The whole trip turned out to be a pleasant experience and quite economical. The accommodation choices were especially impressive.',
-    name: 'Gregory Vian',
-    role: 'Traveler from Australia',
-  },
-  {
-    image: '/assets/images/vinay.jpeg',
-    quote:
-      'We enjoyed our tour in Kerala with Story Book Holidays, especially the coordination and support in every city.',
-    name: 'Vinay A Singh',
-    role: 'Group Traveler',
-  },
-];
-
 const normalizeSlide = (slide) => ({
   title: slide.title || '',
   subtitle: slide.subtitle || '',
@@ -162,6 +133,7 @@ function Home({ region: regionFromRoute, regionSlug }) {
 
   const [packages, setPackages] = React.useState([]);
   const [apiDestinations, setApiDestinations] = React.useState([]);
+  const [testimonials, setTestimonials] = React.useState(DEFAULT_TESTIMONIALS);
   const [activeHeroSlide, setActiveHeroSlide] = React.useState(0);
   const [loadedHeroSlides, setLoadedHeroSlides] = React.useState(() => new Set([0]));
 
@@ -198,8 +170,22 @@ function Home({ region: regionFromRoute, regionSlug }) {
       }
     };
 
+    const fetchTestimonials = async () => {
+      try {
+        const response = await getTestimonialsFromApi(region);
+        if (isMounted) {
+          setTestimonials(response.data || []);
+        }
+      } catch (error) {
+        if (isMounted) {
+          setTestimonials(DEFAULT_TESTIMONIALS);
+        }
+      }
+    };
+
     fetchData();
     fetchDestinations();
+    fetchTestimonials();
 
     return () => {
       isMounted = false;
@@ -508,38 +494,52 @@ function Home({ region: regionFromRoute, regionSlug }) {
           </div>
         </section>
 
-        <section className="fullwidth-block testimonial-section">
-          <div className="container">
-            <div className="section-heading compact">
-              <div>
-                <p className="section-kicker">Traveler reviews</p>
-                <h2 className="section-title">Guests remember the smoothness as much as the scenery.</h2>
+        {testimonials.length > 0 ? (
+          <section className="fullwidth-block testimonial-section">
+            <div className="container">
+              <div className="section-heading compact">
+                <div>
+                  <p className="section-kicker">Traveler reviews</p>
+                  <h2 className="section-title">Guests remember the smoothness as much as the scenery.</h2>
+                </div>
+              </div>
+
+              <div className="testimonial-grid">
+                {testimonials.map((testimonial) => {
+                  const photo = testimonial.imageUrl || testimonial.image || '';
+                  return (
+                    <div
+                      className="testimonial"
+                      key={testimonial._id || testimonial.name}
+                    >
+                      <figure className={`avatar ${photo ? '' : 'avatar-placeholder'}`}>
+                        {photo ? (
+                          <img
+                            src={photo}
+                            alt={testimonial.name}
+                            loading="lazy"
+                            decoding="async"
+                            width="88"
+                            height="88"
+                          />
+                        ) : (
+                          <span aria-hidden="true">
+                            {(testimonial.name || '?').trim().charAt(0).toUpperCase()}
+                          </span>
+                        )}
+                      </figure>
+                      <blockquote className="testimonial-body">
+                        <p>{testimonial.quote}</p>
+                        <cite>{testimonial.name}</cite>
+                        {testimonial.role ? <span>{testimonial.role}</span> : null}
+                      </blockquote>
+                    </div>
+                  );
+                })}
               </div>
             </div>
-
-            <div className="testimonial-grid">
-              {testimonials.map((testimonial) => (
-                <div className="testimonial" key={testimonial.name}>
-                  <figure className="avatar">
-                    <img
-                      src={testimonial.image}
-                      alt={testimonial.name}
-                      loading="lazy"
-                      decoding="async"
-                      width="88"
-                      height="88"
-                    />
-                  </figure>
-                  <blockquote className="testimonial-body">
-                    <p>{testimonial.quote}</p>
-                    <cite>{testimonial.name}</cite>
-                    <span>{testimonial.role}</span>
-                  </blockquote>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+          </section>
+        ) : null}
       </main>
       <Footer />
     </React.Fragment>

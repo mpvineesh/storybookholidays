@@ -11,6 +11,8 @@ const itineraryRoutes = require("./routes/itineraryRoutes");
 const packageRoutes = require("./routes/packageRoutes");
 const regionRoutes = require("./routes/regionRoutes");
 const regionContentRoutes = require("./routes/regionContentRoutes");
+const testimonialRoutes = require("./routes/testimonialRoutes");
+const teamMemberRoutes = require("./routes/teamMemberRoutes");
 
 const app = express();
 
@@ -66,6 +68,8 @@ app.use("/api/itineraries", itineraryRoutes);
 app.use("/api/packages", packageRoutes);
 app.use("/api/regions", regionRoutes);
 app.use("/api/region-content", regionContentRoutes);
+app.use("/api/testimonials", testimonialRoutes);
+app.use("/api/team-members", teamMemberRoutes);
 
 app.use((req, res) => {
   res.status(404).json({

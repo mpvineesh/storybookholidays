@@ -79,6 +79,11 @@ const aboutContentSchema = new mongoose.Schema(
       title: { type: String, default: "" },
       body: { type: String, default: "" },
     },
+    team: {
+      kicker: { type: String, default: "" },
+      title: { type: String, default: "" },
+      description: { type: String, default: "" },
+    },
   },
   { timestamps: true }
 );

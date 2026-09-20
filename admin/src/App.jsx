@@ -11,6 +11,8 @@ import RegionsPage from '@/pages/RegionsPage.jsx';
 import RegionContentPage from '@/pages/RegionContentPage.jsx';
 import AboutContentPage from '@/pages/AboutContentPage.jsx';
 import InquiriesPage from '@/pages/InquiriesPage.jsx';
+import TestimonialsPage from '@/pages/TestimonialsPage.jsx';
+import TeamMembersPage from '@/pages/TeamMembersPage.jsx';
 
 const App = () => (
   <Routes>
@@ -29,6 +31,8 @@ const App = () => (
       <Route path="/regions" element={<RegionsPage />} />
       <Route path="/region-content" element={<RegionContentPage />} />
       <Route path="/about-content" element={<AboutContentPage />} />
+      <Route path="/testimonials" element={<TestimonialsPage />} />
+      <Route path="/team" element={<TeamMembersPage />} />
       <Route path="/inquiries" element={<InquiriesPage />} />
     </Route>
     <Route path="*" element={<Navigate to="/" replace />} />
