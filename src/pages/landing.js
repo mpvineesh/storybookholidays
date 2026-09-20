@@ -215,14 +215,13 @@ function Landing() {
             <span>Curated journeys with soul</span>
           </div>
         </a>
-        <a
-          href="https://wa.me/919446460533?text=Hello%20Storybook%20Holidays!"
+        <button
+          type="button"
           className="button region-landing-cta"
-          target="_blank"
-          rel="noreferrer"
+          onClick={() => setIsContactOpen(true)}
         >
-          Plan on WhatsApp
-        </a>
+          Plan your journey
+        </button>
       </header>
 
       <main className="region-landing-main">

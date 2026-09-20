@@ -2828,10 +2828,13 @@ li.current-menu-item a {
 .region-landing-cta {
   background: rgba(255, 255, 255, 0.95);
   color: var(--color-ink);
+  border: 0;
   border-radius: 999px;
   padding: 12px 22px;
+  font: inherit;
   font-weight: 600;
   text-decoration: none;
+  cursor: pointer;
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
 }
 
