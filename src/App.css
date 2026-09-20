@@ -3073,33 +3073,39 @@ li.current-menu-item a {
   transform: translateY(-2px);
 }
 
+.landing-connect-social-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 18px;
+}
+
 .landing-google-card {
   display: inline-flex;
   align-items: center;
-  gap: 16px;
-  margin-top: 26px;
-  padding: 12px 20px 12px 12px;
+  gap: 10px;
+  padding: 6px 14px 6px 6px;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.95);
   color: #1f1f1f;
   text-decoration: none;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .landing-google-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.28);
 }
 
 .landing-google-score {
   display: grid;
   place-items: center;
-  width: 60px;
-  height: 60px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  border: 3px solid #e3e3e3;
-  font-size: 1.45rem;
+  border: 2px solid #e3e3e3;
+  font-size: 1rem;
   font-weight: 800;
   color: #1f1f1f;
 }
@@ -3107,30 +3113,36 @@ li.current-menu-item a {
 .landing-google-body {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 0;
+  line-height: 1.2;
 }
 
 .landing-google-brand {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  font-size: 1.2rem;
+  gap: 5px;
+  font-size: 0.95rem;
   font-weight: 700;
   letter-spacing: -0.01em;
+}
+
+.landing-google-brand svg {
+  width: 16px;
+  height: 16px;
 }
 
 .landing-google-review {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  font-size: 0.82rem;
+  gap: 5px;
+  font-size: 0.7rem;
   color: #333333;
 }
 
 .landing-google-stars {
   color: #e2a63d;
   letter-spacing: 1px;
-  font-size: 0.9rem;
+  font-size: 0.75rem;
 }
 
 .landing-connect-cards {
@@ -3232,10 +3244,6 @@ li.current-menu-item a {
   margin: 0;
   color: rgba(255, 255, 255, 0.85);
   font-size: 0.95rem;
-}
-
-.landing-bhutan-card .region-card-action {
-  margin-top: 6px;
 }
 
 .contact-modal {
