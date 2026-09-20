@@ -1,91 +1,92 @@
-import React from "react";
-import Seo from "../common/Seo";
-import { setStoredRegion } from "../context/regionStorage";
-import { getRegions } from "../services/regionsApi";
-import ContactModal from "../components/ContactModal";
+import React from 'react';
+import Seo from '../common/Seo';
+import { setStoredRegion } from '../context/regionStorage';
+import { getRegions } from '../services/regionsApi';
+import ContactModal from '../components/ContactModal';
 
 const fallbackRegions = [
   {
-    key: "kerala",
-    label: "Kerala",
+    key: 'kerala',
+    label: 'Kerala',
     tagline: "God's Own Country",
     description:
-      "Backwaters, tea hills, beaches, Ayurveda, and timeless culture — our signature curated journeys across Kerala.",
-    image: "/assets/images/kerala-card.jpg",
-    href: "/kerala",
+      'Backwaters, tea hills, beaches, Ayurveda, and timeless culture — our signature curated journeys across Kerala.',
+    image: '/assets/images/kerala-card.jpg',
+    href: '/kerala',
     available: true,
   },
   {
-    key: "india",
-    label: "India",
-    tagline: "Incredible India",
+    key: 'india',
+    label: 'India',
+    tagline: 'Incredible India',
     description:
-      "From the Himalayas to the heritage cities and coastal getaways — pan-India journeys crafted with care.",
-    image: "/assets/images/india-card.jpg",
-    href: "/india",
+      'From the Himalayas to the heritage cities and coastal getaways — pan-India journeys crafted with care.',
+    image: '/assets/images/india-card.jpg',
+    href: '/india',
     available: true,
   },
   {
-    key: "world",
-    label: "World",
-    tagline: "Beyond Borders",
+    key: 'world',
+    label: 'World',
+    tagline: 'Beyond Borders',
     description:
-      "Handpicked international escapes — from island retreats to cultural capitals, designed around you.",
-    image: "/assets/images/world-card.jpg",
-    href: "/world",
+      'Handpicked international escapes — from island retreats to cultural capitals, designed around you.',
+    image: '/assets/images/world-card.jpg',
+    href: '/world',
     available: true,
   },
 ];
 
 const offices = [
   {
-    key: "kerala",
-    label: "Kerala Office",
+    key: 'kerala',
+    label: 'Kerala Office',
     address:
-      "Opp. Sreevalsam Auditorium, Theru Road, Nileshwar, Kasaragod, Kerala",
-    mapHref: "https://goo.gl/maps/1vWdC9P62dLof5bD8",
-    phone: "+91 94464 60533",
-    phoneHref: "tel:+919446460533",
+      'Opp. Sreevalsam Auditorium, Theru Road, Nileshwar, Kasaragod, Kerala',
+    mapHref: 'https://goo.gl/maps/1vWdC9P62dLof5bD8',
+    phones: [{ label: '+91 94464 60533', href: 'tel:+919446460533' }],
   },
   {
-    key: "delhi",
-    label: "Delhi Office",
+    key: 'delhi',
+    label: 'Delhi Office',
     address:
-      "G25, Plot No 4, Vardhman Market, Sector 2 - Dwarka, New Delhi 110075",
+      'E-518, 1st Floor, Kocchar Plaza, Block E, Sector 7, Near Ramphal Chowk, Dwarka, New Delhi – 110075',
     mapHref:
-      "https://www.google.com/maps/search/?api=1&query=G25%2C+Plot+No+4%2C+Vardhman+Market%2C+Sector+2+Dwarka%2C+New+Delhi+110075",
-    phone: "+91 85888 97153",
-    phoneHref: "tel:+918588897153",
+      'https://www.google.com/maps/search/?api=1&query=E-518%2C+Kocchar+Plaza%2C+Block+E%2C+Sector+7%2C+Ramphal+Chowk%2C+Dwarka%2C+New+Delhi+110075',
+    phones: [
+      { label: '+91 70116 28153', href: 'tel:+917011628153' },
+      { label: '+91 98993 32931', href: 'tel:+919899332931' },
+    ],
   },
 ];
 
 const socialLinks = [
   {
-    label: "Instagram",
-    href: "https://www.instagram.com/storybookholidays/",
-    icon: "fa-instagram",
+    label: 'Instagram',
+    href: 'https://www.instagram.com/storybookholidays/',
+    icon: 'fa-instagram',
   },
   {
-    label: "Facebook",
-    href: "https://www.facebook.com/ExploreTheUntoldStories",
-    icon: "fa-facebook",
+    label: 'Facebook',
+    href: 'https://www.facebook.com/ExploreTheUntoldStories',
+    icon: 'fa-facebook',
   },
   {
-    label: "WhatsApp",
-    href: "https://wa.me/919446460533?text=Hello%20Storybook%20Holidays!",
-    icon: "fa-whatsapp",
+    label: 'WhatsApp',
+    href: 'https://wa.me/919446460533?text=Hello%20Storybook%20Holidays!',
+    icon: 'fa-whatsapp',
   },
 ];
 
-const BHUTAN_ESCAPES_URL = "https://bhutanescapes.com/";
-const GOOGLE_REVIEW_URL = "https://share.google/AexWgj2zvsrfYtVGB";
-const GOOGLE_RATING = "4.9";
+const BHUTAN_ESCAPES_URL = 'https://bhutanescapes.com/';
+const GOOGLE_REVIEW_URL = 'https://share.google/AexWgj2zvsrfYtVGB';
+const GOOGLE_RATING = '4.9';
 
 const backgroundSlides = [
-  "/assets/images/slide-athirappally.jpg",
-  "/assets/images/slide7.jpg",
-  "/assets/images/slide-kumarakam.jpg",
-  "/assets/images/slide4.jpg",
+  '/assets/images/slide-athirappally.jpg',
+  '/assets/images/slide7.jpg',
+  '/assets/images/slide-kumarakam.jpg',
+  '/assets/images/slide4.jpg',
 ];
 
 function Landing() {
@@ -105,10 +106,10 @@ function Landing() {
           key: entry.slug || entry.region,
           label: entry.title || entry.region,
           region: entry.region,
-          tagline: entry.tagline || "",
-          description: entry.description || "",
-          image: entry.imageUrl || "/assets/images/kerala-card.jpg",
-          href: `/${entry.slug || String(entry.region || "").toLowerCase()}`,
+          tagline: entry.tagline || '',
+          description: entry.description || '',
+          image: entry.imageUrl || '/assets/images/kerala-card.jpg',
+          href: `/${entry.slug || String(entry.region || '').toLowerCase()}`,
           available: entry.isActive !== false,
         }));
 
@@ -158,45 +159,45 @@ function Landing() {
         description="Choose your story — explore Kerala backwaters and hill escapes, journeys across India, or international getaways, all curated by Story Book Holidays."
         path="/"
         jsonLd={{
-          "@context": "https://schema.org",
-          "@type": "TravelAgency",
-          name: "Story Book Holidays",
-          url: "https://storybookholidays.com",
-          logo: "https://storybookholidays.com/favicon.png",
+          '@context': 'https://schema.org',
+          '@type': 'TravelAgency',
+          name: 'Story Book Holidays',
+          url: 'https://storybookholidays.com',
+          logo: 'https://storybookholidays.com/favicon.png',
           image:
-            "https://storybookholidays.com/assets/images/slide-athirappally.jpg",
-          telephone: "+91-94464-60533",
-          email: "info@storybookholidays.com",
+            'https://storybookholidays.com/assets/images/slide-athirappally.jpg',
+          telephone: '+91-94464-60533',
+          email: 'info@storybookholidays.com',
           address: [
             {
-              "@type": "PostalAddress",
-              streetAddress: "Opp. Sreevalsam Auditorium, Theru Road",
-              addressLocality: "Nileshwar",
-              addressRegion: "Kasaragod, Kerala",
-              addressCountry: "IN",
+              '@type': 'PostalAddress',
+              streetAddress: 'Opp. Sreevalsam Auditorium, Theru Road',
+              addressLocality: 'Nileshwar',
+              addressRegion: 'Kasaragod, Kerala',
+              addressCountry: 'IN',
             },
             {
-              "@type": "PostalAddress",
+              '@type': 'PostalAddress',
               streetAddress:
-                "G25, Plot No 4, Vardhman Market, Sector 2 - Dwarka",
-              addressLocality: "New Delhi",
-              postalCode: "110075",
-              addressRegion: "Delhi",
-              addressCountry: "IN",
+                'E-518, 1st Floor, Kocchar Plaza, Block E, Sector 7, Near Ramphal Chowk, Dwarka',
+              addressLocality: 'New Delhi',
+              postalCode: '110075',
+              addressRegion: 'Delhi',
+              addressCountry: 'IN',
             },
           ],
           sameAs: [
-            "https://www.instagram.com/storybookholidays/",
-            "https://www.facebook.com/ExploreTheUntoldStories",
+            'https://www.instagram.com/storybookholidays/',
+            'https://www.facebook.com/ExploreTheUntoldStories',
           ],
-          areaServed: ["Kerala", "India", "Worldwide"],
+          areaServed: ['Kerala', 'India', 'Worldwide'],
         }}
       />
       <div className="region-landing-bg" aria-hidden="true">
         {backgroundSlides.map((image, index) => (
           <div
             key={image}
-            className={`region-landing-slide ${index === activeSlide ? "is-active" : ""}`}
+            className={`region-landing-slide ${index === activeSlide ? 'is-active' : ''}`}
             style={
               loadedSlides.has(index)
                 ? { backgroundImage: `url('${image}')` }
@@ -239,7 +240,7 @@ function Landing() {
             <a
               key={region.key}
               href={region.href}
-              className={`region-card ${region.available ? "" : "is-soon"}`}
+              className={`region-card ${region.available ? '' : 'is-soon'}`}
               style={{ backgroundImage: `url('${region.image}')` }}
               onClick={() => {
                 if (region.available) {
@@ -255,7 +256,7 @@ function Landing() {
                 <span className="region-card-action">
                   {region.available
                     ? `Explore ${region.label} →`
-                    : "Coming Soon"}
+                    : 'Coming Soon'}
                 </span>
               </div>
               {!region.available && (
@@ -365,10 +366,16 @@ function Landing() {
                 <a href={office.mapHref} target="_blank" rel="noreferrer">
                   {office.address}
                 </a>
-                <a href={office.phoneHref} className="landing-office-phone">
-                  <i className="fa fa-phone" aria-hidden="true" />
-                  {office.phone}
-                </a>
+                {office.phones.map((phone) => (
+                  <a
+                    href={phone.href}
+                    className="landing-office-phone"
+                    key={phone.href}
+                  >
+                    <i className="fa fa-phone" aria-hidden="true" />
+                    {phone.label}
+                  </a>
+                ))}
               </article>
             ))}
 

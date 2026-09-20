@@ -63,10 +63,13 @@ function Contact() {
                     Nileshwar, Kasaragod
                   </li>
                   <li>
-                    <i className="fa fa-map-marker"></i>G25, Plot No 4, Vardhman Market, Sector 2 - Dwarka, New Delhi 110075
+                    <i className="fa fa-map-marker"></i>E-518, 1st Floor, Kocchar Plaza, Block E, Sector 7, Near Ramphal Chowk, Dwarka, New Delhi – 110075
                   </li>
                   <li>
                     <i className="fa fa-phone"></i> +91 94464 60533
+                  </li>
+                  <li>
+                    <i className="fa fa-phone"></i> +91 70116 28153 / +91 98993 32931
                   </li>
                   <li>
                     <i className="fa fa-envelope"></i>info@storybookholidays.com

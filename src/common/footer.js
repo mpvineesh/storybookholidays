@@ -57,13 +57,14 @@ const contactCards = [
     rows: [
       [
         {
-          value: 'G25, Plot No 4, Vardhman Market, Sector 2 - Dwarka, New Delhi 110075',
-          href: 'https://www.google.com/maps/search/?api=1&query=G25%2C+Plot+No+4%2C+Vardhman+Market%2C+Sector+2+Dwarka%2C+New+Delhi+110075',
+          value: 'E-518, 1st Floor, Kocchar Plaza, Block E, Sector 7, Near Ramphal Chowk, Dwarka, New Delhi – 110075',
+          href: 'https://www.google.com/maps/search/?api=1&query=E-518%2C+Kocchar+Plaza%2C+Block+E%2C+Sector+7%2C+Ramphal+Chowk%2C+Dwarka%2C+New+Delhi+110075',
           external: true,
         },
       ],
       [
-        { value: '+91 85888 97153', href: 'tel:+918588897153', icon: 'fa-phone' },
+        { value: '+91 70116 28153', href: 'tel:+917011628153', icon: 'fa-phone' },
+        { value: '+91 98993 32931', href: 'tel:+919899332931', icon: 'fa-phone' },
       ],
     ],
   },
@@ -73,7 +74,8 @@ const contactCards = [
     rows: [
       [
         { value: '+91 94464 60533', href: 'tel:+919446460533', icon: 'fa-phone' },
-        { value: '+91 85888 97153', href: 'tel:+918588897153', icon: 'fa-phone' },
+        { value: '+91 70116 28153', href: 'tel:+917011628153', icon: 'fa-phone' },
+        { value: '+91 98993 32931', href: 'tel:+919899332931', icon: 'fa-phone' },
       ],
       [
         {
