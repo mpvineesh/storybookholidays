@@ -3184,6 +3184,13 @@ li.current-menu-item a {
   color: #ffffff;
 }
 
+.landing-office-address {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.5;
+  font-size: 0.95rem;
+}
+
 .landing-office-card > a {
   color: rgba(255, 255, 255, 0.85);
   text-decoration: none;

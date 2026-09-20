@@ -43,7 +43,6 @@ const offices = [
     label: 'Kerala Office',
     address:
       'Opp. Sreevalsam Auditorium, Theru Road, Nileshwar, Kasaragod, Kerala',
-    mapHref: 'https://goo.gl/maps/1vWdC9P62dLof5bD8',
     phones: [{ label: '+91 94464 60533', href: 'tel:+919446460533' }],
   },
   {
@@ -51,8 +50,6 @@ const offices = [
     label: 'Delhi Office',
     address:
       'E-518, 1st Floor, Kocchar Plaza, Block E, Sector 7, Near Ramphal Chowk, Dwarka, New Delhi – 110075',
-    mapHref:
-      'https://www.google.com/maps/search/?api=1&query=E-518%2C+Kocchar+Plaza%2C+Block+E%2C+Sector+7%2C+Ramphal+Chowk%2C+Dwarka%2C+New+Delhi+110075',
     phones: [
       { label: '+91 70116 28153', href: 'tel:+917011628153' },
       { label: '+91 98993 32931', href: 'tel:+919899332931' },
@@ -363,9 +360,7 @@ function Landing() {
                   <i className="fa fa-map-marker" aria-hidden="true" />
                 </span>
                 <h3>{office.label}</h3>
-                <a href={office.mapHref} target="_blank" rel="noreferrer">
-                  {office.address}
-                </a>
+                <p className="landing-office-address">{office.address}</p>
                 {office.phones.map((phone) => (
                   <a
                     href={phone.href}
