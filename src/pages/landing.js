@@ -2,6 +2,7 @@ import React from 'react';
 import Seo from '../common/Seo';
 import { setStoredRegion } from '../context/regionStorage';
 import { getRegions } from '../services/regionsApi';
+import ContactModal from '../components/ContactModal';
 
 const fallbackRegions = [
   {
@@ -36,6 +37,46 @@ const fallbackRegions = [
   },
 ];
 
+const offices = [
+  {
+    key: 'kerala',
+    label: 'Kerala Office',
+    address: 'Opp. Sreevalsam Auditorium, Theru Road, Nileshwar, Kasaragod, Kerala',
+    mapHref: 'https://goo.gl/maps/1vWdC9P62dLof5bD8',
+    phone: '+91 94464 60533',
+    phoneHref: 'tel:+919446460533',
+  },
+  {
+    key: 'delhi',
+    label: 'Delhi Office',
+    address: 'G25, Plot No 4, Vardhman Market, Sector 2 - Dwarka, New Delhi 110075',
+    mapHref:
+      'https://www.google.com/maps/search/?api=1&query=G25%2C+Plot+No+4%2C+Vardhman+Market%2C+Sector+2+Dwarka%2C+New+Delhi+110075',
+    phone: '+91 85888 97153',
+    phoneHref: 'tel:+918588897153',
+  },
+];
+
+const socialLinks = [
+  {
+    label: 'Instagram',
+    href: 'https://www.instagram.com/storybookholidays/',
+    icon: 'fa-instagram',
+  },
+  {
+    label: 'Facebook',
+    href: 'https://www.facebook.com/ExploreTheUntoldStories',
+    icon: 'fa-facebook',
+  },
+  {
+    label: 'WhatsApp',
+    href: 'https://wa.me/919446460533?text=Hello%20Storybook%20Holidays!',
+    icon: 'fa-whatsapp',
+  },
+];
+
+const BHUTAN_ESCAPES_URL = 'https://bhutanescapes.com/';
+
 const backgroundSlides = [
   '/assets/images/slide-athirappally.jpg',
   '/assets/images/slide7.jpg',
@@ -47,6 +88,8 @@ function Landing() {
   const [activeSlide, setActiveSlide] = React.useState(0);
   const [loadedSlides, setLoadedSlides] = React.useState(() => new Set([0]));
   const [regions, setRegions] = React.useState(fallbackRegions);
+  const [isContactOpen, setIsContactOpen] = React.useState(false);
+  const closeContact = React.useCallback(() => setIsContactOpen(false), []);
 
   React.useEffect(() => {
     let isMounted = true;
@@ -119,13 +162,27 @@ function Landing() {
           image: 'https://storybookholidays.com/assets/images/slide-athirappally.jpg',
           telephone: '+91-94464-60533',
           email: 'info@storybookholidays.com',
-          address: {
-            '@type': 'PostalAddress',
-            streetAddress: 'Opp. Sreevalsam Auditorium, Theru Road',
-            addressLocality: 'Nileshwar',
-            addressRegion: 'Kasaragod, Kerala',
-            addressCountry: 'IN',
-          },
+          address: [
+            {
+              '@type': 'PostalAddress',
+              streetAddress: 'Opp. Sreevalsam Auditorium, Theru Road',
+              addressLocality: 'Nileshwar',
+              addressRegion: 'Kasaragod, Kerala',
+              addressCountry: 'IN',
+            },
+            {
+              '@type': 'PostalAddress',
+              streetAddress: 'G25, Plot No 4, Vardhman Market, Sector 2 - Dwarka',
+              addressLocality: 'New Delhi',
+              postalCode: '110075',
+              addressRegion: 'Delhi',
+              addressCountry: 'IN',
+            },
+          ],
+          sameAs: [
+            'https://www.instagram.com/storybookholidays/',
+            'https://www.facebook.com/ExploreTheUntoldStories',
+          ],
           areaServed: ['Kerala', 'India', 'Worldwide'],
         }}
       />
@@ -194,7 +251,83 @@ function Landing() {
             </a>
           ))}
         </div>
+
+        <section className="landing-connect" aria-labelledby="landing-connect-title">
+          <div className="landing-connect-intro">
+            <span className="region-landing-eyebrow">Plan with confidence</span>
+            <h2 id="landing-connect-title">Explore the untold stories of India.</h2>
+            <p>
+              From backwaters to hill stations, we make the route, stays, and support feel
+              seamless.
+            </p>
+            <div className="landing-connect-actions">
+              <button
+                type="button"
+                className="button landing-connect-button"
+                onClick={() => setIsContactOpen(true)}
+              >
+                Let’s Talk
+              </button>
+              <a href="mailto:info@storybookholidays.com" className="landing-connect-email">
+                <i className="fa fa-envelope" aria-hidden="true" />
+                info@storybookholidays.com
+              </a>
+            </div>
+            <div className="landing-social-links">
+              {socialLinks.map((link) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  aria-label={link.label}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <i className={`fa ${link.icon}`} aria-hidden="true" />
+                </a>
+              ))}
+            </div>
+          </div>
+
+          <div className="landing-connect-cards">
+            {offices.map((office) => (
+              <article className="landing-office-card" key={office.key}>
+                <span className="landing-office-icon">
+                  <i className="fa fa-map-marker" aria-hidden="true" />
+                </span>
+                <h3>{office.label}</h3>
+                <a href={office.mapHref} target="_blank" rel="noreferrer">
+                  {office.address}
+                </a>
+                <a href={office.phoneHref} className="landing-office-phone">
+                  <i className="fa fa-phone" aria-hidden="true" />
+                  {office.phone}
+                </a>
+              </article>
+            ))}
+
+            <a
+              className="landing-office-card landing-bhutan-card"
+              href={BHUTAN_ESCAPES_URL}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <img
+                src="/assets/images/bhutan-escapes-logo.png"
+                alt="Bhutan Escapes"
+                width="120"
+                height="131"
+                loading="lazy"
+              />
+              <span className="landing-bhutan-kicker">A new venture from Story Book Holidays</span>
+              <h3>Bhutan Escapes</h3>
+              <p>Exclusively for Bhutan journeys.</p>
+              <span className="region-card-action">Visit bhutanescapes.com →</span>
+            </a>
+          </div>
+        </section>
       </main>
+
+      <ContactModal open={isContactOpen} onClose={closeContact} />
 
       <footer className="region-landing-footer">
         <small>© {new Date().getFullYear()} Story Book Holidays. All rights reserved.</small>

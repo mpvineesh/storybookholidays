@@ -5,6 +5,7 @@ export const INQUIRY_STATUSES = ['new', 'contacted', 'closed'];
 export const INQUIRY_SOURCES = [
   { value: 'contact', label: 'Contact page' },
   { value: 'package', label: 'Package Book Now' },
+  { value: 'landing', label: 'Landing page popup' },
 ];
 
 export const listInquiries = (filters = {}) => {

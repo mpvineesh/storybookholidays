@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const INQUIRY_REGIONS = ["Kerala", "India", "World"];
 const INQUIRY_STATUSES = ["new", "contacted", "closed"];
-const INQUIRY_SOURCES = ["contact", "package"];
+const INQUIRY_SOURCES = ["contact", "package", "landing"];
 const ACCOMMODATION_TYPES = [
   "Budget",
   "Standard",
@@ -76,7 +76,7 @@ const inquirySchema = new mongoose.Schema(
       type: String,
       enum: {
         values: INQUIRY_SOURCES,
-        message: "Source must be one of: contact, package",
+        message: "Source must be one of: contact, package, landing",
       },
       default: "contact",
     },
