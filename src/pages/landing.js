@@ -79,12 +79,10 @@ const BHUTAN_ESCAPES_URL = 'https://bhutanescapes.com/';
 const GOOGLE_REVIEW_URL = 'https://share.google/AexWgj2zvsrfYtVGB';
 const GOOGLE_RATING = '4.9';
 
-const backgroundSlides = [
-  '/assets/images/slide-athirappally.jpg',
-  '/assets/images/slide7.jpg',
-  '/assets/images/slide-kumarakam.jpg',
-  '/assets/images/slide4.jpg',
-];
+const backgroundSlides = Array.from(
+  { length: 10 },
+  (_, index) => `/assets/images/bg/${index + 1}.jpeg`
+);
 
 function Landing() {
   const [activeSlide, setActiveSlide] = React.useState(0);
