@@ -4215,3 +4215,94 @@ li.current-menu-item a {
     border-radius: 18px;
   }
 }
+
+/* Hotels & Resorts — coming soon */
+.hotels-coming-soon {
+  position: relative;
+  padding: 96px 0;
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+}
+
+.hotels-coming-soon-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(18, 49, 60, 0.9), rgba(15, 139, 141, 0.7));
+}
+
+.hotels-coming-soon .container {
+  position: relative;
+  z-index: 1;
+}
+
+.hotels-coming-soon-card {
+  max-width: 680px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.hotels-coming-soon-eyebrow {
+  display: inline-block;
+  margin-bottom: 14px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.hotels-coming-soon h2 {
+  margin: 0 0 16px;
+  color: #fff;
+  font-size: 2.4rem;
+  line-height: 1.15;
+}
+
+.hotels-coming-soon p {
+  margin: 0 auto 28px;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.hotels-coming-soon-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+
+.hotels-coming-soon-actions .button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 12px 24px;
+  border-radius: 999px;
+  background: #fff;
+  color: #12313c;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.hotels-coming-soon-actions .button-outline {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  color: #fff;
+}
+
+.hotels-coming-soon-actions .button-outline:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+@media (max-width: 767px) {
+  .hotels-coming-soon {
+    padding: 64px 0;
+  }
+
+  .hotels-coming-soon h2 {
+    font-size: 1.8rem;
+  }
+}

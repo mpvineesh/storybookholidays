@@ -2,11 +2,15 @@ import React from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useRegionContent } from '../context/RegionContext';
 
+// The header region switcher is hidden for now; flip this to re-enable it.
+const SHOW_REGION_SWITCHER = false;
+
 const navItems = [
   { label: 'The Story Begins', href: '/home' },
   { label: 'Our Story', href: '/about' },
   { label: 'Journeys', href: '/packages' },
   { label: 'Chapters', href: '/destinations' },
+  { label: 'Curated Stays', href: '/hotels' },
   { label: 'Travel Tales', href: '/blog' },
   { label: "Let's Talk", href: '/contact' },
 ];
@@ -140,6 +144,7 @@ function Header(props) {
           </nav>
 
           <div className="header-actions">
+            {SHOW_REGION_SWITCHER ? (
             <div className="region-switcher" ref={regionMenuRef}>
               <button
                 type="button"
@@ -178,6 +183,7 @@ function Header(props) {
                 </ul>
               ) : null}
             </div>
+            ) : null}
             <div className="social-links">
               <a
                 href="https://www.instagram.com/storybookholidays/"

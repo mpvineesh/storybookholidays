@@ -75,6 +75,28 @@ Returns all itineraries.
 
 Returns a single itinerary by MongoDB document id.
 
+### `GET /api/hotels`
+
+Returns visible hotels and resorts. Supports `?region=` and `?type=` filters
+(types: Hotel, Resort, Homestay, Houseboat, Villa). Sorted by `sortOrder`, then newest first.
+
+### `GET /api/hotels/slug/:slug`
+
+Returns a single hotel or resort by slug.
+
+### `GET /api/hotels/admin/all` (admin)
+
+Returns every property, including hidden ones, for the admin panel.
+
+### `POST /api/hotels` / `PUT /api/hotels/:id` / `DELETE /api/hotels/:id` (admin)
+
+Multipart form with text fields (`name`, `slug`, `type`, `region`, `location`, `address`,
+`starRating`, `shortDescription`, `contentHtml`, `amenities` as a JSON array, `priceFrom`,
+`priceNote`, `contactPhone`, `contactEmail`, `website`, `mapUrl`, `isActive`, `sortOrder`),
+one `image` file for the cover, and up to 12 `gallery` files. On update, `keepGallery`
+(JSON array of stored image paths) lists the existing gallery images to retain; any omitted
+gallery image is deleted from storage.
+
 ### `GET /api/packages`
 
 Returns all saved packages from MongoDB.

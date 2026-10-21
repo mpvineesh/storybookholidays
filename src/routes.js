@@ -16,6 +16,7 @@ const Packages = lazy(() => import('./pages/packages'));
 const PackageInfo = lazy(() => import('./pages/package-info'));
 const Destinations = lazy(() => import('./pages/destinations'));
 const DestinationInfo = lazy(() => import('./pages/destination-info'));
+const Hotels = lazy(() => import('./pages/hotels'));
 const Blog = lazy(() => import('./pages/blog'));
 const BlogInfo = lazy(() => import('./pages/blog-info'));
 const BackWaters = lazy(() => import('./places/backwaters'));
@@ -54,6 +55,7 @@ function AppRoutes() {
           <Route path="/about" component={AboutUs} />
           <Route exact path="/destinations" component={Destinations} />
           <Route exact path="/destination/:slug" component={DestinationInfo} />
+          <Route exact path="/hotels" component={Hotels} />
           <Route exact path="/packages" component={Packages} />
           <Route exact path="/package/:slug" component={PackageInfo} />
           <Route exact path="/blog" component={Blog} />
