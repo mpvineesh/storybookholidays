@@ -90,11 +90,27 @@ const main = async () => {
     console.warn(`[seo] could not fetch packages from ${API_BASE_URL}: ${err.message}`);
   }
 
+  let hotelSlugs = [];
+  try {
+    const response = await fetchJson(`${API_BASE_URL}/api/hotels`);
+    hotelSlugs = (response.data || [])
+      .map((entry) => entry.slug)
+      .filter(Boolean);
+    console.log(`[seo] fetched ${hotelSlugs.length} hotel slugs`);
+  } catch (err) {
+    console.warn(`[seo] could not fetch hotels from ${API_BASE_URL}: ${err.message}`);
+  }
+
   const entries = [
     ...STATIC_ROUTES,
     ...packageSlugs.map((slug) => ({
       path: `/package/${slug}`,
       priority: 0.8,
+      changefreq: 'weekly',
+    })),
+    ...hotelSlugs.map((slug) => ({
+      path: `/hotel/${slug}`,
+      priority: 0.7,
       changefreq: 'weekly',
     })),
   ];

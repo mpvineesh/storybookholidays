@@ -74,3 +74,16 @@ export const getTeamMembers = async () => {
 
   return parseResponse(response);
 };
+
+export const getHotels = async (region) => {
+  const query = region ? `?region=${encodeURIComponent(region)}` : '';
+  const response = await fetch(`${API_BASE_URL}/api/hotels${query}`);
+
+  return parseResponse(response);
+};
+
+export const getHotelBySlug = async (slug) => {
+  const response = await fetch(`${API_BASE_URL}/api/hotels/slug/${slug}`);
+
+  return parseResponse(response);
+};
